@@ -1,0 +1,9 @@
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootswatch/dist/superhero/variables";
+@import "../node_modules/bootstrap/scss/mixins/breakpoints";
+@import "../node_modules/bootstrap/scss/bootstrap";
+@import "../node_modules/bootswatch/dist/superhero/bootswatch";
+
+hr {
+    background: $secondary;
+}
