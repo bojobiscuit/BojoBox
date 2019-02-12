@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-secondary mb-2 p-0">
+<nav class="navbar navbar-expand-sm navbar-dark bg-secondary mb-3 p-0">
   <ul class="navbar-nav text-center mr-auto mr-sm-0">
     <li class="nav-item dropdown" *ngIf="viewTeams">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">All Teams </a>
+      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedTeam}} </a>
       <div class="dropdown-menu dropdown-height">
         <a class="dropdown-item" href="#">All Teams</a>
         <div class="dropdown-divider"></div>
@@ -10,7 +10,7 @@
       </div>
     </li>
     <li class="nav-item dropdown" *ngIf="viewEras">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">All Eras </a>
+      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedEra}} </a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="#">All Eras</a>
         <div class="dropdown-divider"></div>
@@ -20,7 +20,7 @@
       </div>
     </li>
     <li class="nav-item dropdown" *ngIf="viewSeasons">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">All Seasons </a>
+      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedSeason}} </a>
       <div class="dropdown-menu dropdown-height">
         <a class="dropdown-item" href="#">All Seasons</a>
         <div class="dropdown-divider"></div>
@@ -47,14 +47,14 @@
   </ul>
   <ul class="navbar-nav text-center ml-auto ml-sm-0">
     <li class="nav-item dropdown" *ngIf="viewPlayerTypes">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">Skaters </a>
+      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedPlayerType}} </a>
       <div class="dropdown-menu dropdown-menu-right ">
         <a class="dropdown-item" href="#">Skaters</a>
         <a class="dropdown-item" href="#">Goalies</a>
       </div>
     </li>
     <li class="nav-item dropdown" *ngIf="viewLeagues">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">SMHJL </a>
+      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedLeague}} </a>
       <div class="dropdown-menu dropdown-menu-right ">
         <ng-container *ngIf="displayType == 'player'">
           <a class="dropdown-item" href="#">All</a>
@@ -65,7 +65,7 @@
       </div>
     </li>
     <li class="nav-item dropdown" *ngIf="viewSeasonTypes">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">Reg. Season </a>
+      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedSeasonType}} </a>
       <div class="dropdown-menu dropdown-menu-right">
         <a class="dropdown-item" href="#">Regular Season</a>
         <a class="dropdown-item" href="#">Playoffs</a>

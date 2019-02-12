@@ -1,5 +1,5 @@
 @import "../node_modules/bootstrap/scss/functions";
-@import "../node_modules/bootswatch/dist/superhero/variables";
+@import "./variables.scss";
 @import "../node_modules/bootstrap/scss/mixins/breakpoints";
 @import "../node_modules/bootstrap/scss/bootstrap";
 @import "../node_modules/bootswatch/dist/superhero/bootswatch";
@@ -7,3 +7,25 @@
 hr {
     background: $secondary;
 }
+
+.bg-primaryDark {
+    background: $primaryDark;
+}
+
+.btn-primaryDark {
+    color: #fff;
+    background-color: $primaryDark;
+    border-color: $primaryDark;
+  }
+  
+  .btn-primaryDark:hover {
+    color: #fff;
+    background-color: $primary;
+    border-color: $primary;
+  }
+  
+  .btn-primaryDark:focus, .btn-primary.focus {
+    -webkit-box-shadow: 0 0 0 0.2rem $primaryDarkHalf;
+            box-shadow: 0 0 0 0.2rem $primaryDarkHalf;
+  }
+  

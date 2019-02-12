@@ -1,11 +1,11 @@
-@import "../../../../node_modules/bootswatch/dist/superhero/variables";
+@import "../../../variables.scss";
 
 a {
     color: white;
 }
 
 .dropdown-menu {
-    background: $primary;
+    background: $primaryDark;
     position: absolute;
     text-align: center;
 }

@@ -9,76 +9,25 @@
           <th *ngIf="viewTeam">Team</th>
           <th *ngIf="viewYears">Years</th>
           <th *ngIf="viewTeams">Teams</th>
-          <th>GP</th>
           <ng-container *ngIf="viewSkater">
-            <th>G</th>
-            <th class="selectedColumn">A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
+            <th *ngFor="let header of skaterHeaders;let i = index" [class.selectedColumn]="checkIndex(i)">{{header}}
+            </th>
           </ng-container>
           <ng-container *ngIf="viewGoalie">
-            <th>G</th>
-            <th class="selectedColumn">A</th>
+            <th *ngFor="let header of goalieHeaders;let i = index" [class.selectedColumn]="checkIndex(i)">{{header}}
+            </th>
           </ng-container>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let row of skaterData">
+        <tr *ngFor="let row of rows">
           <td *ngIf="viewName" class="fixedColumn text-left">{{row.name}}</td>
           <td *ngIf="viewRank">{{row.rank}}</td>
           <td *ngIf="viewSeason" [class.fixedColumnSeason]="isPlayer">{{row.season}}</td>
-          <td *ngIf="viewTeam"><img src="assets/img/{{row.team}}.png" /></td>
+          <td *ngIf="viewTeam"><img src="assets/img/{{row.team.name}}.png" /></td>
           <td *ngIf="viewYears">12</td>
           <td *ngIf="viewTeams">2</td>
-          <td>{{row.gp}}</td>
-          <ng-container *ngIf="viewSkater">
-            <td>{{row.g}}</td>
-            <td class="selectedColumn">{{row.a}}</td>
-            <td>{{row.gp}}</td>
-            <td>{{row.g}}</td>
-            <td>{{row.a}}</td>
-            <td>{{row.gp}}</td>
-            <td>{{row.g}}</td>
-            <td>{{row.a}}</td>
-            <td>{{row.gp}}</td>
-            <td>{{row.g}}</td>
-            <td>{{row.a}}</td>
-            <td>{{row.gp}}</td>
-            <td>{{row.g}}</td>
-            <td>{{row.a}}</td>
-            <td>{{row.gp}}</td>
-            <td>{{row.g}}</td>
-            <td>{{row.a}}</td>
-            <td>{{row.gp}}</td>
-            <td>{{row.g}}</td>
-            <td>{{row.a}}</td>
-            <td>{{row.gp}}</td>
-            <td>{{row.g}}</td>
-            <td>{{row.a}}</td>
-          </ng-container>
-          <ng-container *ngIf="viewGoalie">
-            <td>{{row.g}}</td>
-            <td class="selectedColumn">{{row.a}}</td>
-          </ng-container>
+          <td *ngFor="let stat of row.stats;let i = index" [class.selectedColumn]="checkIndex(i)">{{stat}}</td>
         </tr>
       </tbody>
       <tfoot *ngIf="viewTotals">
@@ -89,35 +38,8 @@
           <th *ngIf="viewTeam">3</th>
           <th *ngIf="viewYears"></th>
           <th *ngIf="viewTeams"></th>
-          <th>GP</th>
           <ng-container *ngIf="viewSkater">
-            <th>G</th>
-            <th class="selectedColumn">A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-            <th>GP</th>
-            <th>G</th>
-            <th>A</th>
-          </ng-container>
-          <ng-container *ngIf="viewGoalie">
-            <th>G</th>
-            <th class="selectedColumn">A</th>
+            <th *ngFor="let total of totals;let i = index" [class.selectedColumn]="checkIndex(i)">{{total}}</th>
           </ng-container>
         </tr>
       </tfoot>

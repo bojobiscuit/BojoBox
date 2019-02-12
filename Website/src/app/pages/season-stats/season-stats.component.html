@@ -1,3 +1,7 @@
-<h4>Season Stats</h4>
-<player-table-nav displayType="season"></player-table-nav>
-<player-table displayType="season" playerType="skater"></player-table>
+<ng-container *ngIf="statTable">
+    <h4>Season Stats</h4>
+    <player-table-nav displayType="season" [statParams]="statTable.statParameters"></player-table-nav>
+    <player-table displayType="season" [playerTypeId]="statTable.statParameters.playerType"
+        [rows]="statTable.playerRows" [selectedColumnIndex]="statTable.statParameters.selectedColumnIndex">
+    </player-table>
+</ng-container>

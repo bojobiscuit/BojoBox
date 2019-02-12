@@ -1,18 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SkaterRow } from 'src/app/dtos/skater-row';
-
-export const SKATERDATA: SkaterRow[] = [
-  { name: 'Bojo Biscuit', rank: 1, team: 'WKP', season: 25, gp: 50, g: 10, a: 35 },
-  { name: 'Jasper Clayton', rank: 2, team: 'NEW', season: 37, gp: 50, g: 12, a: 30 },
-  { name: 'Alonzo Garbonzo', rank: 3, team: 'MIN', season: 28, gp: 50, g: 15, a: 25 },
-  { name: 'Bojo Biscuit', rank: 1, team: 'WKP', season: 25, gp: 50, g: 10, a: 35 },
-  { name: 'Jasper Clayton', rank: 2, team: 'NEW', season: 37, gp: 50, g: 12, a: 30 },
-  { name: 'Alonzo Garbonzo', rank: 3, team: 'MIN', season: 28, gp: 50, g: 15, a: 25 },
-  { name: 'Bojo Biscuit', rank: 1, team: 'WKP', season: 25, gp: 50, g: 10, a: 35 },
-  { name: 'Jasper Clayton', rank: 2, team: 'NEW', season: 37, gp: 50, g: 12, a: 30 },
-  { name: 'Alonzo Garbonzo', rank: 3, team: 'MIN', season: 28, gp: 50, g: 15, a: 25 },
-  { name: 'Bojo Biscuit', rank: 1, team: 'WKP', season: 25, gp: 50, g: 10, a: 35 },
-];
+import { PlayerTableRow } from 'src/app/dtos/player-table-row';
 
 @Component({
   selector: 'player-table',
@@ -21,9 +8,11 @@ export const SKATERDATA: SkaterRow[] = [
 })
 export class PlayerTableComponent implements OnInit {
 
-  skaterData = SKATERDATA;
   @Input() displayType: string;
-  @Input() playerType: string;
+  @Input() playerTypeId: number;
+  @Input() rows: PlayerTableRow[];
+  @Input() totals: number[];
+  @Input() selectedColumnIndex: number = -1;
 
   viewName: boolean = false;
   viewRank: boolean = false;
@@ -41,9 +30,18 @@ export class PlayerTableComponent implements OnInit {
 
   pages: number = 5;
 
+  skaterHeaders = ['GP', 'G', 'A'];
+  goalieHeaders = ['GP', 'W', 'L'];
+
   constructor() { }
 
   ngOnInit() {
+    this.setViews();
+  }
+
+  private setViews() {
+    if (this.totals)
+      this.viewTotals = true;
 
     switch (this.displayType) {
       case "season": {
@@ -65,34 +63,36 @@ export class PlayerTableComponent implements OnInit {
       case "player": {
         this.viewTeam = true;
         this.viewSeason = true;
-        this.viewTotals = true;
         this.isPlayer = true;
         this.pages = 1;
         break;
       }
     }
 
-    switch(this.playerType) {
-      case "skater": {
-        this.viewSkater = true;
-        this.viewGoalie = false;
-        break;
-      }
-      case "goalie": {
+    switch (this.playerTypeId) {
+      case 2: {
         this.viewSkater = false;
         this.viewGoalie = true;
+        break;
+      }
+      case 1: 
+      default: {
+        this.viewSkater = true;
+        this.viewGoalie = false;
         break;
       }
     }
   }
 
   getInnerClass() {
-    if (this.displayType == 'player') {
-      return 'inner fixedMarginSeason';
-    }
-    else {
-      return 'inner fixedMargin';
-    }
+    var classes = "inner ";
+    classes += (this.isPlayer) ? 'fixedMarginSeason' : 'fixedMargin';
+    return classes;
+  }
+
+  checkIndex(i: number) {
+    console.log("hit: " + i + " - " + this.selectedColumnIndex);
+    return i == this.selectedColumnIndex;
   }
 
 }
