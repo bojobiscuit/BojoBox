@@ -25,15 +25,19 @@ export class PlayerTableComponent implements OnInit {
   @Input() displayType: string;
   @Input() playerType: string;
 
-  viewName: boolean;
-  viewRank: boolean;
-  viewTeam: boolean;
-  viewSeason: boolean;
-  viewYears: boolean;
-  viewTeams: boolean;
-  viewTotals: boolean;
-  viewSkater: boolean;
-  viewGoalie: boolean;
+  viewName: boolean = false;
+  viewRank: boolean = false;
+  viewTeam: boolean = false;
+  viewSeason: boolean = false;
+  viewYears: boolean = false;
+  viewTeams: boolean = false;
+  viewTotals: boolean = false;
+  viewSkater: boolean = false;
+  viewGoalie: boolean = false;
+
+  isPlayer: boolean = false;
+  isCareer: boolean = false;
+  isSeason: boolean = false;
 
   pages: number = 5;
 
@@ -47,29 +51,22 @@ export class PlayerTableComponent implements OnInit {
         this.viewRank = true;
         this.viewTeam = true;
         this.viewSeason = true;
-        this.viewTotals = false;
-        this.viewYears = false;
-        this.viewTeams = false;
+        this.isSeason = true;
         break;
       }
       case "career": {
         this.viewName = true;
         this.viewRank = true;
-        this.viewTeam = false;
-        this.viewSeason = false;
-        this.viewTotals = false;
         this.viewYears = true;
         this.viewTeams = true;
+        this.isCareer = true;
         break;
       }
       case "player": {
-        this.viewName = false;
-        this.viewRank = false;
         this.viewTeam = true;
         this.viewSeason = true;
         this.viewTotals = true;
-        this.viewYears = false;
-        this.viewTeams = false;
+        this.isPlayer = true;
         this.pages = 1;
         break;
       }
@@ -86,6 +83,15 @@ export class PlayerTableComponent implements OnInit {
         this.viewGoalie = true;
         break;
       }
+    }
+  }
+
+  getInnerClass() {
+    if (this.displayType == 'player') {
+      return 'inner fixedMarginSeason';
+    }
+    else {
+      return 'inner fixedMargin';
     }
   }
 

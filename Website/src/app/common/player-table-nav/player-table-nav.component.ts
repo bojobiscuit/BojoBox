@@ -8,12 +8,12 @@ import { Component, OnInit, Input } from '@angular/core';
 export class PlayerTableNavComponent implements OnInit {
 
   @Input() displayType: string;
-  viewEras: boolean;
-  viewSeasons: boolean;
-  viewTeams: boolean;
-  viewLeagues: boolean;
-  viewPlayerTypes: boolean;
-  viewSeasonTypes: boolean;
+  viewEras: boolean = false;
+  viewSeasons: boolean = false;
+  viewTeams: boolean = false;
+  viewLeagues: boolean = false;
+  viewPlayerTypes: boolean = false;
+  viewSeasonTypes: boolean = false;
 
   constructor() { }
 
@@ -29,20 +29,15 @@ export class PlayerTableNavComponent implements OnInit {
         break;
       }
       case "career": {
-        this.viewEras = true;
-        this.viewSeasons = false;
-        this.viewTeams = false;
+        this.viewTeams = true;
         this.viewLeagues = true;
         this.viewPlayerTypes = true;
         this.viewSeasonTypes = true;
         break;
       }
       case "player": {
-        this.viewEras = false;
-        this.viewSeasons = false;
         this.viewTeams = true;
         this.viewLeagues = true;
-        this.viewPlayerTypes = false;
         this.viewSeasonTypes = true;
         break;
       }

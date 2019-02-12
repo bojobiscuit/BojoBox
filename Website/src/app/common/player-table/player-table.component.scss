@@ -10,19 +10,56 @@
     overflow-y: visible;
 }
 
-.fixedMargin {
-    margin-left: 230px;
-}
-
 .fixedColumn {
     position: absolute;
     left: 0;
-    width: 230px;
     padding-left: 10px;
     padding-right: 10px;
     text-align: left;
     background-color: $secondary;
     border-bottom: 5px solid $primary;
+}
+
+.fixedColumnSeason {
+    @extend .fixedColumn;
+    width: 100px;
+    text-align: center;
+}
+
+@media (max-width: 575px) {
+    .fixedMargin {
+        margin-left: 110px
+    }
+    .fixedMarginSeason {
+        margin-left: 70px;
+    }
+    .fixedColumn {
+        width: 110px;
+    }
+    .fixedColumnSeason {
+        width: 70px;
+    }
+}
+
+@media (min-width: 576px) {
+    .fixedMargin {
+        margin-left: 230px;
+    }
+    .fixedMarginSeason {
+        margin-left: 100px;
+    }
+    .fixedColumn {
+        width: 230px;
+    }
+    .fixedColumnSeason {
+        width: 100px;
+    }
+}
+
+
+
+tfoot th.fixedColumnSeason {
+    border: 0px;
 }
 
 .rayTable {

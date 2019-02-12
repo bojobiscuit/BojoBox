@@ -1,8 +1,16 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-secondary mb-4 p-0">
-  <ul class="navbar-nav text-center mx-auto mx-lg-0">
-      <!-- mr-auto mr-md-0 -->
+<nav class="navbar navbar-expand-sm navbar-dark bg-secondary mb-2 p-0">
+  <ul class="navbar-nav text-center mr-auto mr-sm-0">
+    <li class="nav-item dropdown" *ngIf="viewTeams">
+      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">All Teams </a>
+      <div class="dropdown-menu dropdown-height">
+        <a class="dropdown-item" href="#">All Teams</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="#">West Kendall Platoon</a>
+        <a class="dropdown-item" href="#">New England Wolfpack</a>
+      </div>
+    </li>
     <li class="nav-item dropdown" *ngIf="viewEras">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">All Time </a>
+      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">All Eras </a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="#">All Eras</a>
         <div class="dropdown-divider"></div>
@@ -13,34 +21,41 @@
     </li>
     <li class="nav-item dropdown" *ngIf="viewSeasons">
       <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">All Seasons </a>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu dropdown-height">
         <a class="dropdown-item" href="#">All Seasons</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="#">45</a>
         <a class="dropdown-item" href="#">44</a>
         <a class="dropdown-item" href="#">43</a>
+        <a class="dropdown-item" href="#">45</a>
+        <a class="dropdown-item" href="#">44</a>
+        <a class="dropdown-item" href="#">43</a>
+        <a class="dropdown-item" href="#">45</a>
+        <a class="dropdown-item" href="#">44</a>
+        <a class="dropdown-item" href="#">43</a>
+        <a class="dropdown-item" href="#">45</a>
+        <a class="dropdown-item" href="#">44</a>
+        <a class="dropdown-item" href="#">43</a>
+        <a class="dropdown-item" href="#">45</a>
+        <a class="dropdown-item" href="#">44</a>
+        <a class="dropdown-item" href="#">43</a>
+        <a class="dropdown-item" href="#">45</a>
+        <a class="dropdown-item" href="#">44</a>
+        <a class="dropdown-item" href="#">43</a>
       </div>
     </li>
-    <li class="nav-item dropdown" *ngIf="viewTeams">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">All Teams </a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">All Teams</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">West Kendall Platoon</a>
-        <a class="dropdown-item" href="#">New England Wolfpack</a>
-      </div>
-    </li>
-
+  </ul>
+  <ul class="navbar-nav text-center ml-auto ml-sm-0">
     <li class="nav-item dropdown" *ngIf="viewPlayerTypes">
       <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">Skaters </a>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu dropdown-menu-right ">
         <a class="dropdown-item" href="#">Skaters</a>
         <a class="dropdown-item" href="#">Goalies</a>
       </div>
     </li>
     <li class="nav-item dropdown" *ngIf="viewLeagues">
       <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">SMHJL </a>
-      <div class="dropdown-menu">
+      <div class="dropdown-menu dropdown-menu-right ">
         <ng-container *ngIf="displayType == 'player'">
           <a class="dropdown-item" href="#">All</a>
           <div class="dropdown-divider"></div>
@@ -50,9 +65,9 @@
       </div>
     </li>
     <li class="nav-item dropdown" *ngIf="viewSeasonTypes">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">Regular </a>
-      <div class="dropdown-menu dropdown-menu-right dropdown-menu-md-left">
-      <a class="dropdown-item" href="#">Regular Season</a>
+      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">Reg. Season </a>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="dropdown-item" href="#">Regular Season</a>
         <a class="dropdown-item" href="#">Playoffs</a>
       </div>
     </li>

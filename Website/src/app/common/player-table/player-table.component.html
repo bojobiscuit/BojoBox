@@ -1,12 +1,12 @@
 <div class="outer mb-2">
-  <div class="inner" [class.fixedMargin]="viewName">
+  <div [className]="getInnerClass()">
     <table class="table table-hover rayTable text-center">
       <thead>
         <tr>
           <th *ngIf="viewName" class="fixedColumn text-left">Name</th>
           <th *ngIf="viewRank">Rank</th>
+          <th *ngIf="viewSeason" [class.fixedColumnSeason]="isPlayer">Season</th>
           <th *ngIf="viewTeam">Team</th>
-          <th *ngIf="viewSeason">Season</th>
           <th *ngIf="viewYears">Years</th>
           <th *ngIf="viewTeams">Teams</th>
           <th>GP</th>
@@ -45,8 +45,8 @@
         <tr *ngFor="let row of skaterData">
           <td *ngIf="viewName" class="fixedColumn text-left">{{row.name}}</td>
           <td *ngIf="viewRank">{{row.rank}}</td>
+          <td *ngIf="viewSeason" [class.fixedColumnSeason]="isPlayer">{{row.season}}</td>
           <td *ngIf="viewTeam"><img src="assets/img/{{row.team}}.png" /></td>
-          <td *ngIf="viewSeason">{{row.season}}</td>
           <td *ngIf="viewYears">12</td>
           <td *ngIf="viewTeams">2</td>
           <td>{{row.gp}}</td>
@@ -85,8 +85,8 @@
         <tr>
           <th *ngIf="viewName" class="fixedColumn"></th>
           <th *ngIf="viewRank"></th>
+          <th *ngIf="viewSeason" [class.fixedColumnSeason]="isPlayer">20</th>
           <th *ngIf="viewTeam">3</th>
-          <th *ngIf="viewSeason">20</th>
           <th *ngIf="viewYears"></th>
           <th *ngIf="viewTeams"></th>
           <th>GP</th>
