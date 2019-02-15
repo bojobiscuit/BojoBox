@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using BojoBox.EntityFramework.Entities;
+using System.Collections.Generic;
 
-namespace BojoBox.EntityFramework.Entities
+namespace BojoBox.Service.Dtos
 {
-    public class SkaterSeason
+    public class SkaterSeasonDto
     {
         public int Id { get; set; }
         public int SkaterId { get; set; }
@@ -47,19 +48,12 @@ namespace BojoBox.EntityFramework.Entities
         public int FightsDraw { get; set; }
         public int FaceoffWins { get; set; }
 
-        public Skater Skater { get; set; }
-        public Team Team { get; set; }
-        public SkaterSeason SubtotalFor { get; set; }
-        public IEnumerable<SkaterSeason> SubTotals { get; set; }
+        public SkaterDto Skater { get; set; }
+        public TeamDto Team { get; set; }
+        public SkaterSeasonDto SubtotalFor { get; set; }
+        public IEnumerable<SkaterSeasonDto> SubTotals { get; set; }
+
+        public static SkaterSeasonDto Create(SkaterSeason source) =>
+            AutoMapper.Mapper.Map<SkaterSeasonDto>(source);
     }
 }
-
-// Without Team
-// Season: Where not subtotal
-// Career: Where not subtotal and grouped by skater
-// Player: Where not subtotal and skater matches
-
-// By Team
-// Season: Where team matches
-// Career: Where team matches and grouped by skater
-// Player: Where team matches and skater matches

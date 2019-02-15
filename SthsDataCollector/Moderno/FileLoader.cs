@@ -26,8 +26,8 @@ namespace BojoBox.SthsDataCollector.Moderno
                 "{1} - Pro Team Scoring {0}.html";
 
             var folderName = (isLegacy) ?
-                @"SeasonFiles\" : 
-                @"LegacyFiles\";
+                @"LegacyFiles\" :
+                @"SeasonFiles\";
 
             string seasonNumberText = (season.SeasonNumber < 10 ? "0" : "") + season.SeasonNumber.ToString();
             string fileName = string.Format(nameFormat, seasonNumberText, season.LeagueAcronym);

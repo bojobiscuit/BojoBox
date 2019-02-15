@@ -21,10 +21,9 @@ namespace BojoBox.SthsDataCollector.Moderno
             foreach (var teamSection in teamSections)
             {
                 TeamInfo team = GetTeam(teamSection);
-                season.Teams.Add(team);
 
-                var zipped = teamSection.skaterGroup.sectionA.Zip(teamSection.skaterGroup.sectionB, (a, b) => new { a, b });
-                foreach (var row in zipped)
+                var pairedSkaterRows = teamSection.skaterGroup.sectionA.Zip(teamSection.skaterGroup.sectionB, (a, b) => new { a, b });
+                foreach (var row in pairedSkaterRows)
                     AddSkaterRows(team, row.a, row.b);
 
                 foreach (var row in teamSection.goalieRows)
@@ -34,49 +33,99 @@ namespace BojoBox.SthsDataCollector.Moderno
             return season;
         }
 
-        private void AddGoalieRows(TeamInfo team, HtmlNode row)
+        private TeamInfo GetTeam(TeamSection teamSection)
         {
-            var playerRow = new GoalieRow() { TeamAcronym = team.Acronym };
-            var rowValues = row.Descendants("td").Select(a => a.InnerText).ToList();
-
-            playerRow.Name = GetName(rowValues);
-            playerRow.Stats = GetStats(rowValues, goalieSkipColumns);
-
-            season.GoalieRows.Add(playerRow);
-        }
-
-        private void AddSkaterRows(TeamInfo team, HtmlNode rowA, HtmlNode rowB)
-        {
-            var playerRow = new SkaterRow() { TeamAcronym = team.Acronym };
-            var rowValuesA = rowA.Descendants("td").Select(a => a.InnerText).ToList();
-            var rowValuesB = rowB.Descendants("td").Select(b => b.InnerText).ToList();
-
-            playerRow.Name = GetName(rowValuesA);
-            playerRow.IsForward = rowValuesA.ElementAt(1).Trim().ToUpperInvariant() == "X";
-            playerRow.IsDefense = rowValuesA.ElementAt(2).Trim().ToUpperInvariant() == "X";
-
-            playerRow.Stats = new List<int>();
-            playerRow.Stats.AddRange(GetStats(rowValuesA, skaterSkipColumnsA));
-            playerRow.Stats.AddRange(GetStats(rowValuesB, skaterSkipColumnsB));
-
-            //TODO: subtotals
-
-            season.SkaterRows.Add(playerRow);
-        }
-
-        private static string GetName(IEnumerable<string> rowValuesA)
-        {
-            // TODO: Get Rid of a, c, r, and teams
-            return rowValuesA.ElementAt(0).Trim();
-        }
-
-        private static TeamInfo GetTeam(TeamSection teamSection)
-        {
-            return new TeamInfo()
+            var team = new TeamInfo()
             {
                 Name = teamSection.teamHeader.InnerText,
                 Acronym = GetTeamAcronym(teamSection),
             };
+            season.Teams.Add(team);
+            return team;
+        }
+
+        private void AddGoalieRows(TeamInfo team, HtmlNode row)
+        {
+            var rowValues = row.Descendants("td").Select(a => a.InnerText).ToList();
+            var nameValue = rowValues.ElementAt(0);
+            var nameAcronyms = nameValue.GetAcronymns();
+            var goalieRow = new GoalieRow()
+            {
+                Name = GetName(nameValue),
+                TeamAcronym = Helper.GetTeamAcronym(nameAcronyms),
+            };
+
+            if (goalieRow.TeamAcronym == null)
+                goalieRow.TeamAcronym = team.Acronym;
+
+            if (nameAcronyms.Contains("TOT"))
+                goalieRow.TeamAcronym = null;
+
+            if (previousName == goalieRow.Name)
+                goalieRow.IsSubTotal = true;
+
+            goalieRow.IsSubTotal = (goalieRow.TeamAcronym != null) && (goalieRow.TeamAcronym != team.Acronym);
+            goalieRow.Stats = GetStats(rowValues, goalieSkipColumns);
+            goalieRow.Stats.Add(GetPenaltyShotsSaved(rowValues, goalieRow.Stats.ElementAt(12)));
+
+            season.GoalieRows.Add(goalieRow);
+        }
+
+        private void AddSkaterRows(TeamInfo team, HtmlNode rowA, HtmlNode rowB)
+        {
+            var rowValuesA = rowA.Descendants("td").Select(a => a.InnerText).ToList();
+            var rowValuesB = rowB.Descendants("td").Select(b => b.InnerText).ToList();
+            var nameValue = rowValuesA.ElementAt(0);
+            var nameAcronyms = nameValue.GetAcronymns();
+            var skaterRow = new SkaterRow()
+            {
+                Name = GetName(nameValue),
+                TeamAcronym = Helper.GetTeamAcronym(nameAcronyms),
+                IsForward = rowValuesA.ElementAt(1).Trim().ToUpperInvariant() == "X",
+                IsDefense = rowValuesA.ElementAt(2).Trim().ToUpperInvariant() == "X",
+            };
+
+            if (skaterRow.TeamAcronym == null)
+                skaterRow.TeamAcronym = team.Acronym;
+
+            if (nameAcronyms.Contains("TOT"))
+                skaterRow.TeamAcronym = null;
+
+            if (previousName == skaterRow.Name)
+                skaterRow.IsSubTotal = true;
+
+            skaterRow.Stats.AddRange(GetStats(rowValuesA, skaterSkipColumnsA));
+            skaterRow.Stats.AddRange(GetStats(rowValuesB, skaterSkipColumnsB));
+            skaterRow.Stats.Add(GetFaceoffsWon(rowValuesB, skaterRow.Stats.ElementAt(26)));
+
+            previousName = skaterRow.Name;
+            season.SkaterRows.Add(skaterRow);
+        }
+
+
+        private static string GetName(string nameValue)
+        {
+            var name = nameValue;
+            name = name.RemoveAcronyms();
+            name = name.Replace("_", "");
+            name = name.Trim();
+            return name;
+        }
+
+        private static int GetPenaltyShotsSaved(List<string> rowValues, int penaltyShotsTotal)
+        {
+            var shotsValue = rowValues.ElementAt(15).Replace("%", "");
+            var shotsDouble = double.Parse(shotsValue);
+            var shotsStopped = (int)Math.Round(shotsDouble * penaltyShotsTotal);
+            return shotsStopped;
+        }
+
+        private static int GetFaceoffsWon(List<string> rowValuesB, int faceoffTotal)
+        {
+            var faceoffValue = rowValuesB.ElementAt(5).Replace("%", "");
+            var faceoffDouble = double.Parse(faceoffValue);
+            var faceoffsWon = Helper.GetPercentageAmount(faceoffDouble, faceoffTotal);
+            return faceoffsWon;
         }
 
         private static List<TeamSection> GetTeamSections(HtmlNode doc)
@@ -134,11 +183,12 @@ namespace BojoBox.SthsDataCollector.Moderno
                 .Select(a => a.Descendants("tr"));
         }
 
-        private SeasonData season;
+        private readonly SeasonData season;
+        private string previousName = "";
 
         int[] skaterSkipColumnsA = { 0, 1, 2, 15, 18 };
-        int[] skaterSkipColumnsB = { 0, 1, 2, 5, 11, 21, 22, 23 };
-        int[] goalieSkipColumns = { 0, 5, 6, 15 };
+        int[] skaterSkipColumnsB = { 0, 1, 2, 5, 7, 8, 11, 17, 18, 19, 20, 21, 22, 23 };
+        int[] goalieSkipColumns = { 0, 5, 6, 12, 15, 19, 20, 21 };
 
         private class TeamSection
         {

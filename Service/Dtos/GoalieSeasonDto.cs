@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using BojoBox.EntityFramework.Entities;
+using System.Collections.Generic;
 
-namespace BojoBox.EntityFramework.Entities
+namespace BojoBox.Service.Dtos
 {
-    public class GoalieSeason
+    public class GoalieSeasonDto
     {
         public int Id { get; set; }
-        public int GoalieId { get; set; }
+        public int SkaterId { get; set; }
         public int? TeamId { get; set; }
         public int? SubtotalForId { get; set; }
 
@@ -27,9 +28,12 @@ namespace BojoBox.EntityFramework.Entities
         public int Backups { get; set; }
         public int PenaltyShotSaves { get; set; }
 
-        public Goalie Goalie { get; set; }
-        public Team Team { get; set; }
-        public GoalieSeason SubtotalFor { get; set; }
-        public IEnumerable<GoalieSeason> SubTotals { get; set; }
+        public GoalieDto Goalie { get; set; }
+        public TeamDto Team { get; set; }
+        public GoalieSeasonDto SubtotalFor { get; set; }
+        public IEnumerable<GoalieSeasonDto> SubTotals { get; set; }
+
+        public static GoalieSeasonDto Create(GoalieSeason source) => 
+            AutoMapper.Mapper.Map<GoalieSeasonDto>(source);
     }
 }
