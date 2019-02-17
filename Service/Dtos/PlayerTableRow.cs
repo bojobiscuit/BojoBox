@@ -6,7 +6,7 @@ namespace BojoBox.Service.Dtos
     public class PlayerTableRow
     {
         public int? Rank { get; set; }
-        public SkaterDto Skater { get; set; }
+        public PlayerDto Player { get; set; }
         public TeamDto Team { get; set; }
         public int? Season { get; set; }
         public int? TeamCount { get; set; }

@@ -19,16 +19,16 @@ export class PlayerDataService {
     ];
     table.statParameters = statParams;
     table.playerRows = [
-      { skater: { id: 1, name: 'Bojo Biscuit', acronym: "Biscuit"}, rank: 1, team: { id: 1, name: "WKP", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 25, stats: [50, 10, 35] },
-      { skater: { id: 1, name: 'Jasper Clayton', acronym: "Biscuit"}, rank: 2, team: { id: 1, name: "NEW", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 37, stats: [50, 12, 30] },
-      { skater: { id: 1, name: 'Alonzo Garbonzo', acronym: "Biscuit"}, rank: 3, team: { id: 1, name: "MIN", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 28, stats: [50, 8, 28] },
-      { skater: { id: 1, name: 'Bojo Biscuit', acronym: "Biscuit"}, rank: 1, team: { id: 1, name: "WKP", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 25, stats: [50, 10, 35] },
-      { skater: { id: 1, name: 'Jasper Clayton', acronym: "Biscuit"}, rank: 2, team: { id: 1, name: "NEW", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 37, stats: [50, 12, 30] },
-      { skater: { id: 1, name: 'Alonzo Garbonzo', acronym: "Biscuit"}, rank: 3, team: { id: 1, name: "MIN", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 28, stats: [50, 8, 28] },
-      { skater: { id: 1, name: 'Bojo Biscuit', acronym: "Biscuit"}, rank: 1, team: { id: 1, name: "WKP", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 25, stats: [50, 10, 35] },
-      { skater: { id: 1, name: 'Jasper Clayton', acronym: "Biscuit"}, rank: 2, team: { id: 1, name: "NEW", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 37, stats: [50, 12, 30] },
-      { skater: { id: 1, name: 'Alonzo Garbonzo', acronym: "Biscuit"}, rank: 3, team: { id: 1, name: "MIN", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 28, stats: [50, 8, 28] },
-      { skater: { id: 1, name: 'Bojo Biscuit', acronym: "Biscuit"}, rank: 1, team: { id: 1, name: "WKP", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 25, stats: [50, 10, 35] },
+      { player: { id: 1, name: 'Bojo Biscuit', acronym: "Biscuit"}, rank: 1, team: { id: 1, name: "WKP", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 25, stats: [50, 10, 35] },
+      { player: { id: 1, name: 'Jasper Clayton', acronym: "Biscuit"}, rank: 2, team: { id: 1, name: "NEW", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 37, stats: [50, 12, 30] },
+      { player: { id: 1, name: 'Alonzo Garbonzo', acronym: "Biscuit"}, rank: 3, team: { id: 1, name: "MIN", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 28, stats: [50, 8, 28] },
+      { player: { id: 1, name: 'Bojo Biscuit', acronym: "Biscuit"}, rank: 1, team: { id: 1, name: "WKP", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 25, stats: [50, 10, 35] },
+      { player: { id: 1, name: 'Jasper Clayton', acronym: "Biscuit"}, rank: 2, team: { id: 1, name: "NEW", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 37, stats: [50, 12, 30] },
+      { player: { id: 1, name: 'Alonzo Garbonzo', acronym: "Biscuit"}, rank: 3, team: { id: 1, name: "MIN", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 28, stats: [50, 8, 28] },
+      { player: { id: 1, name: 'Bojo Biscuit', acronym: "Biscuit"}, rank: 1, team: { id: 1, name: "WKP", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 25, stats: [50, 10, 35] },
+      { player: { id: 1, name: 'Jasper Clayton', acronym: "Biscuit"}, rank: 2, team: { id: 1, name: "NEW", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 37, stats: [50, 12, 30] },
+      { player: { id: 1, name: 'Alonzo Garbonzo', acronym: "Biscuit"}, rank: 3, team: { id: 1, name: "MIN", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 28, stats: [50, 8, 28] },
+      { player: { id: 1, name: 'Bojo Biscuit', acronym: "Biscuit"}, rank: 1, team: { id: 1, name: "WKP", acronym: "WKP" }, seasonCount: 13, teamCount: 2, season: 25, stats: [50, 10, 35] },
     ];
     table.playerTotals = [150, 30, 93];
 

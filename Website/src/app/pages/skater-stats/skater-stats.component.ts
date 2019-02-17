@@ -2,15 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StatParameters } from 'src/app/dtos/stat-parameters';
 import { StatTable } from 'src/app/dtos/stat-table';
-import { PlayerDataService } from 'src/app/services/player-data-service';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-player-stats',
-  templateUrl: './player-stats.component.html',
-  styleUrls: ['./player-stats.component.scss']
+  templateUrl: './skater-stats.component.html',
+  styleUrls: ['./skater-stats.component.scss']
 })
-export class PlayerStatsComponent implements OnInit {
+export class SkaterStatsComponent implements OnInit {
 
   statTable: StatTable;
 

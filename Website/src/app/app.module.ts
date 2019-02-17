@@ -7,8 +7,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { SeasonStatsComponent } from './pages/season-stats/season-stats.component';
+import { SeasonGoalieStatsComponent } from './pages/season-goalie-stats/season-goalie-stats.component';
 import { CareerStatsComponent } from './pages/career-stats/career-stats.component';
-import { PlayerStatsComponent } from './pages/player-stats/player-stats.component';
+import { CareerGoalieStatsComponent } from './pages/career-goalie-stats/career-goalie-stats.component';
+import { SkaterStatsComponent } from './pages/skater-stats/skater-stats.component';
+import { GoalieStatsComponent } from './pages/goalie-stats/goalie-stats.component';
 import { NavbarComponent } from './common/navbar/navbar.component';
 import { PlayerTableComponent } from './common/player-table/player-table.component';
 import { PlayerTableNavComponent } from './common/player-table-nav/player-table-nav.component';
@@ -20,8 +23,11 @@ import { FooterComponent } from './common/footer/footer.component';
     AppComponent,
     HomeComponent,
     SeasonStatsComponent,
+    SeasonGoalieStatsComponent,
     CareerStatsComponent,
-    PlayerStatsComponent,
+    CareerGoalieStatsComponent,
+    SkaterStatsComponent,
+    GoalieStatsComponent,
     NavbarComponent,
     PlayerTableComponent,
     PlayerTableNavComponent,

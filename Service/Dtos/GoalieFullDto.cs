@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace BojoBox.Service.Dtos
 {
-    public class GoalieFullDto : GoalieDto
+    public class GoalieFullDto : PlayerDto
     {
         public IEnumerable<GoalieSeasonDto> Seasons { get; set; }
 

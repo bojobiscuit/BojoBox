@@ -2,7 +2,7 @@ import { BasicData } from './basic-data';
 
 export class PlayerTableRow {
     rank: number;
-    skater: BasicData;
+    player: BasicData;
     team: BasicData;
     season: number;
     teamCount: number;

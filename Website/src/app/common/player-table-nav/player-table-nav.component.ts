@@ -99,6 +99,13 @@ export class PlayerTableNavComponent implements OnInit {
     }
   }
 
+  switchPlayerType(newType: string) {
+    var routeDirection = newType;
+    if (this.displayType != "player")
+      routeDirection = this.displayType + "/" + routeDirection;
+    this.router.navigate([routeDirection]);
+  }
+
   getLink(name: string, arg: number) {
     var linkParams = this.statParams;
 
@@ -129,6 +136,7 @@ export class PlayerTableNavComponent implements OnInit {
     let navigationExtras: NavigationExtras = {
       queryParams: queryParmsNew
     };
+
 
     var routeDirection = this.router.url;
     if (routeDirection.indexOf("?") > 0)

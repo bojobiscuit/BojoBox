@@ -12,26 +12,47 @@ namespace BojoBox.Api.Controllers
         [HttpGet("test")]
         public JsonResult TestGet([FromQuery] StatParametersDto statParametersDto)
         {
-            //return GetSeason(statParametersDto);
+            //return GetSkaterSeason(statParametersDto);
             //return GetSkater(825, statParametersDto);
-            return GetCareer(statParametersDto);
+            //return GetSkaterCareer(statParametersDto);
+            //return GetGoalieSeason(statParametersDto);
+            //return GetGoalieCareer(statParametersDto);
+            return GetGoalie(129, statParametersDto);
         }
 
         // GET api/season
-        [HttpGet("season")]
-        public JsonResult GetSeason([FromQuery] StatParametersDto statParametersDto)
+        [HttpGet("season/skater")]
+        public JsonResult GetSkaterSeason([FromQuery] StatParametersDto statParametersDto)
         {
             WebsiteService service = new WebsiteService();
-            var dto = service.GetSeasonTable(statParametersDto);
+            var dto = service.GetSeasonSkaterTable(statParametersDto);
+            return new JsonResult(dto);
+        }
+
+        // GET api/season
+        [HttpGet("season/goalie")]
+        public JsonResult GetGoalieSeason([FromQuery] StatParametersDto statParametersDto)
+        {
+            WebsiteService service = new WebsiteService();
+            var dto = service.GetSeasonGoalieTable(statParametersDto);
             return new JsonResult(dto);
         }
 
         // GET api/career
-        [HttpGet("career")]
-        public JsonResult GetCareer([FromQuery] StatParametersDto statParametersDto)
+        [HttpGet("career/skater")]
+        public JsonResult GetSkaterCareer([FromQuery] StatParametersDto statParametersDto)
         {
             WebsiteService service = new WebsiteService();
-            var dto = service.GetCareerTable(statParametersDto);
+            var dto = service.GetCareerSkaterTable(statParametersDto);
+            return new JsonResult(dto);
+        }
+
+        // GET api/career
+        [HttpGet("career/goalie")]
+        public JsonResult GetGoalieCareer([FromQuery] StatParametersDto statParametersDto)
+        {
+            WebsiteService service = new WebsiteService();
+            var dto = service.GetCareerGoalieTable(statParametersDto);
             return new JsonResult(dto);
         }
 
@@ -40,7 +61,7 @@ namespace BojoBox.Api.Controllers
         public JsonResult GetSkater(int id, [FromQuery] StatParametersDto statParametersDto)
         {
             WebsiteService service = new WebsiteService();
-            var dto = service.GetSkaterTable(id, statParametersDto);
+            var dto = service.GetPlayerSkaterTable(id, statParametersDto);
             return new JsonResult(dto);
         }
 
@@ -48,10 +69,9 @@ namespace BojoBox.Api.Controllers
         [HttpGet("goalie/{id}")]
         public JsonResult GetGoalie(int id, [FromQuery] StatParametersDto statParametersDto)
         {
-            //WebsiteService service = new WebsiteService();
-            //var dto = service.GetSkaterTable(id, statParametersDto);
-            //return new JsonResult(dto);
-            return null;
+            WebsiteService service = new WebsiteService();
+            var dto = service.GetPlayerGoalieTable(id, statParametersDto);
+            return new JsonResult(dto);
         }
     }
 }

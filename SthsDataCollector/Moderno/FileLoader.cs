@@ -16,10 +16,6 @@ namespace BojoBox.SthsDataCollector.Moderno
 
         public HtmlDocument DownloadFile(string urlTemplate, bool isLegacy)
         {
-            //http://simulationhockey.com/games/shl/S44/Season/SHL-ProTeamScoring.html
-            //http://simulationhockey.com/games/shl/S31/Playoff/SHL-PLF-ProTeamScoring.html
-            //http://simulationhockey.com/games/{leagueLow}/S{seasonNumber}/{seasonType}/{leagueUp}-{playoffAcro}ProTeamScoring.html
-
             HtmlDocument htmlDocument;
 
             var nameFormat = (season.IsPlayoffs) ?
@@ -42,8 +38,12 @@ namespace BojoBox.SthsDataCollector.Moderno
                 url = url.Replace("{leagueLow}", season.LeagueAcronym.ToLowerInvariant());
                 url = url.Replace("{leagueUp}", season.LeagueAcronym.ToUpperInvariant());
                 url = url.Replace("{seasonNumber}", season.SeasonNumber.ToString());
-                url = url.Replace("{seasonType}", season.IsPlayoffs ? "Playoff" : "Season");
                 url = url.Replace("{playoffAcro}", season.IsPlayoffs ? "PLF-" : "");
+
+                if (season.LeagueAcronym.ToLowerInvariant() == "smjhl")
+                    url = url.Replace("{seasonType}", season.IsPlayoffs ? "Playoffs" : "Season");
+                else
+                    url = url.Replace("{seasonType}", season.IsPlayoffs ? "Playoff" : "Season");
 
                 htmlDocument = new HtmlWeb().Load(url);
                 htmlDocument.Save(filePath);

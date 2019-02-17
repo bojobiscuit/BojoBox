@@ -5,7 +5,7 @@ namespace BojoBox.Service.Dtos
 {
     public class GoalieSeasonFullDto : GoalieSeasonDto
     {
-        public GoalieDto Goalie { get; set; }
+        public PlayerDto Goalie { get; set; }
         public LeagueDto League { get; set; }
         public TeamDto Team { get; set; }
         public GoalieSeasonDto SubtotalFor { get; set; }

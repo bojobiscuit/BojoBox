@@ -20,17 +20,38 @@ export class ApiService {
     return this.http.get<StatTable>(url);
   }
 
+  getGoaliePlayerTable(id: number, statParameters: StatParameters): Observable<StatTable> {
+    // TODO: Parameters
+    console.log('getGoaliePlayerTable: ' + id);
+    const url = `${this.apiUrl}/goalie/${id}${statParameters.getQuery()}`;
+    return this.http.get<StatTable>(url);
+  }
+
   getSkaterSeasonTable(statParameters: StatParameters): Observable<StatTable> {
     // TODO: Parameters
     console.log('getSkaterSeasonTable');
-    const url = `${this.apiUrl}/season${statParameters.getQuery()}`;
+    const url = `${this.apiUrl}/season/skater/${statParameters.getQuery()}`;
+    return this.http.get<StatTable>(url);
+  }
+
+  getGoalieSeasonTable(statParameters: StatParameters): Observable<StatTable> {
+    // TODO: Parameters
+    console.log('getGoalieSeasonTable');
+    const url = `${this.apiUrl}/season/goalie/${statParameters.getQuery()}`;
     return this.http.get<StatTable>(url);
   }
 
   getSkaterCareerTable(statParameters: StatParameters): Observable<StatTable> {
     // TODO: Parameters
     console.log('getSkaterCareerTable');
-    const url = `${this.apiUrl}/career${statParameters.getQuery()}`;
+    const url = `${this.apiUrl}/career/skater/${statParameters.getQuery()}`;
+    return this.http.get<StatTable>(url);
+  }
+
+  getGoalieCareerTable(statParameters: StatParameters): Observable<StatTable> {
+    // TODO: Parameters
+    console.log('getGoalieCareerTable');
+    const url = `${this.apiUrl}/career/goalie/${statParameters.getQuery()}`;
     return this.http.get<StatTable>(url);
   }
 

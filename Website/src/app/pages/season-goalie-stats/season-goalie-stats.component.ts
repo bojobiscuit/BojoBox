@@ -2,19 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { StatParameters } from 'src/app/dtos/stat-parameters';
 import { StatTable } from 'src/app/dtos/stat-table';
-import { PlayerDataService } from 'src/app/services/player-data-service';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-season-stats',
-  templateUrl: './season-stats.component.html',
-  styleUrls: ['./season-stats.component.scss']
+  selector: 'app-season-goalie-stats',
+  templateUrl: './season-goalie-stats.component.html',
+  styleUrls: ['./season-goalie-stats.component.scss']
 })
-export class SeasonStatsComponent implements OnInit {
+export class SeasonGoalieStatsComponent implements OnInit {
   
   statTable: StatTable;
 
-  constructor(private route: ActivatedRoute, private dataService: PlayerDataService, private apiService: ApiService) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit() {
     this.GetQueryParams();
@@ -29,7 +28,7 @@ export class SeasonStatsComponent implements OnInit {
   }
 
   private GetSkaterTable(statParameters: StatParameters) {
-    this.apiService.getSkaterSeasonTable(statParameters).subscribe((table) => {
+    this.apiService.getGoalieSeasonTable(statParameters).subscribe((table) => {
       this.statTable = table;
     });
   }

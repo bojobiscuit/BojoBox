@@ -64,10 +64,10 @@ namespace BojoBox.SthsDataCollector.Moderno
             if (previousName == goalieRow.Name)
                 goalieRow.IsSubTotal = true;
 
-            goalieRow.IsSubTotal = (goalieRow.TeamAcronym != null) && (goalieRow.TeamAcronym != team.Acronym);
             goalieRow.Stats = GetStats(rowValues, goalieSkipColumns);
             goalieRow.Stats.Add(GetPenaltyShotsSaved(rowValues, goalieRow.Stats.ElementAt(12)));
 
+            previousName = goalieRow.Name;
             season.GoalieRows.Add(goalieRow);
         }
 

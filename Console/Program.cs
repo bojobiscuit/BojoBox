@@ -8,15 +8,19 @@ namespace BojoBox.DatabaseConsole
     {
         static void Main(string[] args)
         {
-            //http://simulationhockey.com/games/shl/S44/Season/SHL-ProTeamScoring.html
-            // http://simulationhockey.com/games/shl/S31/Playoff/SHL-PLF-ProTeamScoring.html
+            //http://simulationhockey.com/games/shl/S28/Season/SHL-ProTeamScoring.html
+            //http://simulationhockey.com/games/shl/S31/Playoff/SHL-PLF-ProTeamScoring.html
+            //http://simulationhockey.com/games/smjhl/S43/Season/SMJHL-ProTeamScoring.html
+            //http://simulationhockey.com/games/smjhl/S43/Playoffs/SMJHL-PLF-ProTeamScoring.html
             string urlTemplate = "http://simulationhockey.com/games/{leagueLow}/S{seasonNumber}/{seasonType}/{leagueUp}-{playoffAcro}ProTeamScoring.html";
 
             string leagueAcronym = "SHL";
+            //string leagueAcronym = "SMJHL";
+            //bool isPlayoffs = true;
             bool isPlayoffs = false;
 
             List<int> seasonNumbers = new List<int>();
-            for (int i = 31; i <= 44; i++)
+            for (int i = 28; i <= 45; i++)
                 seasonNumbers.Add(i);
 
             foreach (int season in seasonNumbers)
