@@ -27,14 +27,10 @@ namespace BojoBox.Service
                     .Include(a => a.Skater)
                     .Include(a => a.Team)
                     .Include(a => a.League)
-                    .Include(a => a.SubTotals).ThenInclude(a => a.Team)
                     .Where(a => a.SkaterId == skater.Id);
 
-                switch(cleanParameters.SeasonType)
-                {
-                    case 1: skaterQuery = skaterQuery.Where(a => !a.isPlayoffs); break;
-                    case 2: skaterQuery = skaterQuery.Where(a => a.isPlayoffs); break;
-                }
+                bool isPlayoffs = CheckIfPlayoffs(cleanParameters.SeasonType.Value);
+                skaterQuery = skaterQuery.Where(a => a.isPlayoffs == isPlayoffs);
 
                 if (cleanParameters.League > 0)
                 {
@@ -43,15 +39,19 @@ namespace BojoBox.Service
 
                 int teamCount = skaterQuery.Where(a => a.Team != null).Select(a => a.Team.Id).Distinct().Count();
 
+                statTableDto.Teams = skaterQuery.Select(a => a.Team).Where(a => a != null).DistinctBy(a => a.Id).Select(a => TeamDto.Create(a)).ToList();
+
                 if (cleanParameters.Team > 0)
                 {
                     skaterQuery = skaterQuery.Where(a => a.TeamId == cleanParameters.Team);
                 }
+                else
+                {
+                    skaterQuery = skaterQuery.Where(a => a.SubtotalForId == null);
+                }
 
                 List<SkaterSeasonFullDto> skaterSeasonDtos = skaterQuery.Select(a => SkaterSeasonFullDto.Create(a)).ToList();
 
-                statTableDto.Teams = skaterSeasonDtos.Select(a => a.Team).Where(a => a != null).DistinctBy(a => a.Id).ToList();
-                skaterSeasonDtos.RemoveAll(a => a.SubtotalForId != null);
 
                 int i = 1;
                 List<PlayerTableRow> rows = new List<PlayerTableRow>();
@@ -287,12 +287,6 @@ namespace BojoBox.Service
                 throw new Exception("season type not valid");
             return isPlayoffs;
         }
-
-        private bool isPlayoffs(int playoffId)
-        {
-            return playoffId == 2;
-        }
-
 
         private SkaterDto GetSkater(int skaterId)
         {

@@ -53,8 +53,7 @@ export class PlayerTableNavComponent implements OnInit {
   }
 
   getSelectedSeasonTypeOutput(): string {
-    switch (this.statParams.seasonType)
-    {
+    switch (this.statParams.seasonType) {
       case 1: return "Reg. Season";
       case 2: return "Playoffs";
     }
@@ -62,8 +61,7 @@ export class PlayerTableNavComponent implements OnInit {
   }
 
   getSelectedLeagueOutput(): string {
-    switch (this.statParams.league)
-    {
+    switch (this.statParams.league) {
       case 1: return "SHL";
       case 2: return "SMJHL";
       case 3: return "IIHL";
@@ -72,8 +70,7 @@ export class PlayerTableNavComponent implements OnInit {
   }
 
   getSelectedPlayerTypeOutput(): string {
-    switch (this.playerType)
-    {
+    switch (this.playerType) {
       case "skater": return "Skaters";
       case "goalie": return "Goalies";
     }
@@ -81,15 +78,13 @@ export class PlayerTableNavComponent implements OnInit {
   }
 
   getSelectedEra(): string {
-    switch (this.statParams.era)
-    {
+    switch (this.statParams.era) {
       case 0: return "All Time";
       case 1: return "Modern";
       case 2: return "Inflation";
       case 3: return "Legacy";
     }
-    if(this.statParams.era == 0 && this.statParams.season > 0)
-    {
+    if (this.statParams.era == 0 && this.statParams.season > 0) {
       return "s" + this.statParams.season;
     }
 
@@ -107,39 +102,39 @@ export class PlayerTableNavComponent implements OnInit {
   getLink(name: string, arg: number) {
     var linkParams = this.statParams;
 
-    switch(name) {
+    switch (name) {
       case "team": linkParams.team = arg; break;
       case "league": linkParams.league = arg; break;
       case "seasonType": linkParams.seasonType = arg; break;
       case "seasonType": linkParams.seasonType = arg; break;
       case "era": {
-        linkParams.era = arg; 
+        linkParams.era = arg;
         linkParams.season = 0;
         break;
       }
       case "season": {
-        linkParams.season = arg; 
+        linkParams.season = arg;
         linkParams.era = 0;
         break;
       }
     }
 
-    var queryParmsNew = { };
-    if(linkParams.team > 0) queryParmsNew['team'] = linkParams.team;
-    if(linkParams.season > 0) queryParmsNew['season'] = linkParams.season;
-    if(linkParams.era > 0) queryParmsNew['era'] = linkParams.era;
-    if(linkParams.league > 1) queryParmsNew['league'] = linkParams.league;
-    if(linkParams.seasonType > 1) queryParmsNew['seasonType'] = linkParams.seasonType;
+    var queryParmsNew = {};
+    if (linkParams.team > 0) queryParmsNew['team'] = linkParams.team;
+    if (linkParams.season > 0) queryParmsNew['season'] = linkParams.season;
+    if (linkParams.era > 0) queryParmsNew['era'] = linkParams.era;
+    if (linkParams.league > 1) queryParmsNew['league'] = linkParams.league;
+    if (linkParams.seasonType > 1) queryParmsNew['seasonType'] = linkParams.seasonType;
 
     let navigationExtras: NavigationExtras = {
       queryParams: queryParmsNew
     };
-    
-    var routerDirection = this.displayType;
-    if(this.displayType == "player")
-      routerDirection = this.playerType;
-      
-    this.router.navigate(['/' + routerDirection], navigationExtras);
+
+    var routeDirection = this.router.url;
+    if (routeDirection.indexOf("?") > 0)
+      routeDirection = routeDirection.substr(0, this.router.url.indexOf("?"));
+    console.log(routeDirection);
+    this.router.navigate([routeDirection], navigationExtras);
   }
 
 }
