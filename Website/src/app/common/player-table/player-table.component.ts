@@ -9,9 +9,10 @@ import { PlayerTableRow } from 'src/app/dtos/player-table-row';
 export class PlayerTableComponent implements OnInit {
 
   @Input() displayType: string;
-  @Input() playerTypeId: number;
+  @Input() playerType: string;
   @Input() rows: PlayerTableRow[];
   @Input() totals: number[];
+  @Input() isTeam: boolean;
   @Input() selectedColumnIndex: number = -1;
 
   viewName: boolean = false;
@@ -19,7 +20,6 @@ export class PlayerTableComponent implements OnInit {
   viewTeam: boolean = false;
   viewSeason: boolean = false;
   viewYears: boolean = false;
-  viewTeams: boolean = false;
   viewTotals: boolean = false;
   viewSkater: boolean = false;
   viewGoalie: boolean = false;
@@ -30,12 +30,13 @@ export class PlayerTableComponent implements OnInit {
 
   pages: number = 5;
 
-  skaterHeaders = ['GP', 'G', 'A'];
+  skaterHeaders = ["GP", "G", "A", "P", "+/-", "PIM", "PM5", "HIT", "HTT", "SHT", "OSB", "OSM", "SB", "MP", "PPG", "PPA", "PPP", "PPS", "PPM", "PKG", "PKA", "PKP", "PKS", "PKM", "GW", "GT", "FOW", "FOT", "EG", "HT", "PSG", "PSS", "FW", "FL", "FT"];
   goalieHeaders = ['GP', 'W', 'L'];
 
   constructor() { }
 
   ngOnInit() {
+    console.log("updating table");
     this.setViews();
   }
 
@@ -56,32 +57,35 @@ export class PlayerTableComponent implements OnInit {
         this.viewName = true;
         this.viewRank = true;
         this.viewYears = true;
-        this.viewTeams = true;
         this.isCareer = true;
         break;
       }
       case "player": {
         this.viewTeam = true;
         this.viewSeason = true;
+        this.viewTotals = true;
         this.isPlayer = true;
         this.pages = 1;
         break;
       }
     }
 
-    switch (this.playerTypeId) {
-      case 2: {
+    switch (this.playerType) {
+      case "goalie": {
         this.viewSkater = false;
         this.viewGoalie = true;
         break;
       }
-      case 1: 
-      default: {
+      case "skater": {
         this.viewSkater = true;
         this.viewGoalie = false;
         break;
       }
     }
+  }
+
+  canViewTeamCount(): boolean {
+    return this.displayType == "career" && !this.isTeam;
   }
 
   getInnerClass() {
@@ -91,7 +95,6 @@ export class PlayerTableComponent implements OnInit {
   }
 
   checkIndex(i: number) {
-    console.log("hit: " + i + " - " + this.selectedColumnIndex);
     return i == this.selectedColumnIndex;
   }
 

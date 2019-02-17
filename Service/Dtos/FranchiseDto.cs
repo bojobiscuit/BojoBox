@@ -9,10 +9,6 @@ namespace BojoBox.Service.Dtos
         public int LeagueId { get; set; }
         public int CurrentTeamId { get; set; }
 
-        public LeagueDto League { get; set; }
-        public TeamDto CurrentTeam { get; set; }
-        public IEnumerable<TeamDto> Teams { get; set; }
-
         public static FranchiseDto Create(Franchise source) => 
             AutoMapper.Mapper.Map<FranchiseDto>(source);
     }

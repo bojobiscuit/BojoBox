@@ -7,6 +7,7 @@ namespace BojoBox.Service.Dtos
     {
         public int Id { get; set; }
         public int SkaterId { get; set; }
+        public int LeagueId { get; set; }
         public int? TeamId { get; set; }
         public int? SubtotalForId { get; set; }
 
@@ -48,10 +49,7 @@ namespace BojoBox.Service.Dtos
         public int FightsDraw { get; set; }
         public int FaceoffWins { get; set; }
 
-        public SkaterDto Skater { get; set; }
-        public TeamDto Team { get; set; }
-        public SkaterSeasonDto SubtotalFor { get; set; }
-        public IEnumerable<SkaterSeasonDto> SubTotals { get; set; }
+        public IEnumerable<SkaterSeasonFullDto> SubTotals { get; set; }
 
         public static SkaterSeasonDto Create(SkaterSeason source) =>
             AutoMapper.Mapper.Map<SkaterSeasonDto>(source);

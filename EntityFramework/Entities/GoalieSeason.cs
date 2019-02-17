@@ -6,6 +6,7 @@ namespace BojoBox.EntityFramework.Entities
     {
         public int Id { get; set; }
         public int GoalieId { get; set; }
+        public int LeagueId { get; set; }
         public int? TeamId { get; set; }
         public int? SubtotalForId { get; set; }
 
@@ -28,6 +29,7 @@ namespace BojoBox.EntityFramework.Entities
         public int PenaltyShotSaves { get; set; }
 
         public Goalie Goalie { get; set; }
+        public League League { get; set; }
         public Team Team { get; set; }
         public GoalieSeason SubtotalFor { get; set; }
         public IEnumerable<GoalieSeason> SubTotals { get; set; }

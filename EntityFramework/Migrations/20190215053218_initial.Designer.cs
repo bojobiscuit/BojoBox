@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BojoBox.EntityFramework.Migrations
 {
     [DbContext(typeof(BojoBoxContext))]
-    [Migration("20190214051041_initial2")]
-    partial class initial2
+    [Migration("20190215053218_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,8 +53,6 @@ namespace BojoBox.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LeagueId");
-
                     b.ToTable("Goalies");
                 });
 
@@ -64,13 +62,39 @@ namespace BojoBox.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Assists");
+
+                    b.Property<int>("Backups");
+
+                    b.Property<int>("EmptyGoalAgainst");
+
                     b.Property<int>("GamesPlayed");
 
                     b.Property<int>("GoalieId");
 
+                    b.Property<int>("GoalsAgainst");
+
+                    b.Property<int>("LeagueId");
+
                     b.Property<int>("Losses");
 
+                    b.Property<int>("Minutes");
+
+                    b.Property<int>("OvertimeLosses");
+
+                    b.Property<int>("PenaltyMinutes");
+
+                    b.Property<int>("PenaltyShotAttempts");
+
+                    b.Property<int>("PenaltyShotSaves");
+
                     b.Property<int>("Season");
+
+                    b.Property<int>("ShotsAgainst");
+
+                    b.Property<int>("Shutouts");
+
+                    b.Property<int>("Starts");
 
                     b.Property<int?>("SubtotalForId");
 
@@ -83,6 +107,8 @@ namespace BojoBox.EntityFramework.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GoalieId");
+
+                    b.HasIndex("LeagueId");
 
                     b.HasIndex("SubtotalForId");
 
@@ -118,8 +144,6 @@ namespace BojoBox.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LeagueId");
-
                     b.ToTable("Skaters");
                 });
 
@@ -131,11 +155,77 @@ namespace BojoBox.EntityFramework.Migrations
 
                     b.Property<int>("Assists");
 
+                    b.Property<int>("EmptyNetGoals");
+
+                    b.Property<int>("FaceoffWins");
+
+                    b.Property<int>("FaceoffsTotal");
+
+                    b.Property<int>("FightsDraw");
+
+                    b.Property<int>("FightsLost");
+
+                    b.Property<int>("FightsWon");
+
+                    b.Property<int>("GameTyingGoals");
+
+                    b.Property<int>("GameWinningGoals");
+
                     b.Property<int>("GamesPlayed");
 
                     b.Property<int>("Goals");
 
+                    b.Property<int>("HatTricks");
+
+                    b.Property<int>("Hits");
+
+                    b.Property<int>("HitsTaken");
+
+                    b.Property<int>("LeagueId");
+
+                    b.Property<int>("MinutesPlayed");
+
+                    b.Property<int>("OwnShotsBlocked");
+
+                    b.Property<int>("OwnShotsMissed");
+
+                    b.Property<int>("PKAssists");
+
+                    b.Property<int>("PKGoals");
+
+                    b.Property<int>("PKMinutes");
+
+                    b.Property<int>("PKPoints");
+
+                    b.Property<int>("PKShots");
+
+                    b.Property<int>("PPAssists");
+
+                    b.Property<int>("PPGoals");
+
+                    b.Property<int>("PPMinutes");
+
+                    b.Property<int>("PPPoints");
+
+                    b.Property<int>("PPShots");
+
+                    b.Property<int>("PenaltyMajors");
+
+                    b.Property<int>("PenaltyMinutes");
+
+                    b.Property<int>("PenaltyShotAttempts");
+
+                    b.Property<int>("PenaltyShotGoals");
+
+                    b.Property<int>("PlusMinus");
+
+                    b.Property<int>("Points");
+
                     b.Property<int>("Season");
+
+                    b.Property<int>("Shots");
+
+                    b.Property<int>("ShotsBlocked");
 
                     b.Property<int>("SkaterId");
 
@@ -146,6 +236,8 @@ namespace BojoBox.EntityFramework.Migrations
                     b.Property<bool>("isPlayoffs");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LeagueId");
 
                     b.HasIndex("SkaterId");
 
@@ -188,19 +280,16 @@ namespace BojoBox.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("BojoBox.EntityFramework.Entities.Goalie", b =>
-                {
-                    b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
-                        .WithMany("Goalies")
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("BojoBox.EntityFramework.Entities.GoalieSeason", b =>
                 {
                     b.HasOne("BojoBox.EntityFramework.Entities.Goalie", "Goalie")
                         .WithMany("Seasons")
                         .HasForeignKey("GoalieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
+                        .WithMany("GoalieSeasons")
+                        .HasForeignKey("LeagueId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BojoBox.EntityFramework.Entities.GoalieSeason", "SubtotalFor")
@@ -212,16 +301,13 @@ namespace BojoBox.EntityFramework.Migrations
                         .HasForeignKey("TeamId");
                 });
 
-            modelBuilder.Entity("BojoBox.EntityFramework.Entities.Skater", b =>
-                {
-                    b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
-                        .WithMany("Skaters")
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("BojoBox.EntityFramework.Entities.SkaterSeason", b =>
                 {
+                    b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
+                        .WithMany("SkaterSeasons")
+                        .HasForeignKey("LeagueId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("BojoBox.EntityFramework.Entities.Skater", "Skater")
                         .WithMany("Seasons")
                         .HasForeignKey("SkaterId")

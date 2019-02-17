@@ -8,6 +8,20 @@ namespace BojoBox.EntityFramework.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Goalies",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LeagueId = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Goalies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Leagues",
                 columns: table => new
                 {
@@ -22,26 +36,6 @@ namespace BojoBox.EntityFramework.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Goalies",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LeagueId = table.Column<int>(nullable: false),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Goalies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Goalies_Leagues_LeagueId",
-                        column: x => x.LeagueId,
-                        principalTable: "Leagues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Skaters",
                 columns: table => new
                 {
@@ -53,12 +47,6 @@ namespace BojoBox.EntityFramework.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Skaters", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Skaters_Leagues_LeagueId",
-                        column: x => x.LeagueId,
-                        principalTable: "Leagues",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,7 +55,7 @@ namespace BojoBox.EntityFramework.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FranchiseId = table.Column<int>(nullable: false),
+                    FranchiseId = table.Column<int>(nullable: true),
                     Name = table.Column<string>(nullable: true),
                     Acronym = table.Column<string>(nullable: true)
                 },
@@ -109,13 +97,26 @@ namespace BojoBox.EntityFramework.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     GoalieId = table.Column<int>(nullable: false),
+                    LeagueId = table.Column<int>(nullable: false),
                     TeamId = table.Column<int>(nullable: true),
                     SubtotalForId = table.Column<int>(nullable: true),
                     Season = table.Column<int>(nullable: false),
                     isPlayoffs = table.Column<bool>(nullable: false),
                     GamesPlayed = table.Column<int>(nullable: false),
                     Wins = table.Column<int>(nullable: false),
-                    Losses = table.Column<int>(nullable: false)
+                    Losses = table.Column<int>(nullable: false),
+                    OvertimeLosses = table.Column<int>(nullable: false),
+                    Minutes = table.Column<int>(nullable: false),
+                    PenaltyMinutes = table.Column<int>(nullable: false),
+                    Shutouts = table.Column<int>(nullable: false),
+                    GoalsAgainst = table.Column<int>(nullable: false),
+                    ShotsAgainst = table.Column<int>(nullable: false),
+                    Assists = table.Column<int>(nullable: false),
+                    EmptyGoalAgainst = table.Column<int>(nullable: false),
+                    PenaltyShotAttempts = table.Column<int>(nullable: false),
+                    Starts = table.Column<int>(nullable: false),
+                    Backups = table.Column<int>(nullable: false),
+                    PenaltyShotSaves = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -124,6 +125,12 @@ namespace BojoBox.EntityFramework.Migrations
                         name: "FK_GoalieSeasons_Goalies_GoalieId",
                         column: x => x.GoalieId,
                         principalTable: "Goalies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GoalieSeasons_Leagues_LeagueId",
+                        column: x => x.LeagueId,
+                        principalTable: "Leagues",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -147,17 +154,56 @@ namespace BojoBox.EntityFramework.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     SkaterId = table.Column<int>(nullable: false),
+                    LeagueId = table.Column<int>(nullable: false),
                     TeamId = table.Column<int>(nullable: true),
                     SubtotalForId = table.Column<int>(nullable: true),
                     Season = table.Column<int>(nullable: false),
                     isPlayoffs = table.Column<bool>(nullable: false),
                     GamesPlayed = table.Column<int>(nullable: false),
                     Goals = table.Column<int>(nullable: false),
-                    Assists = table.Column<int>(nullable: false)
+                    Assists = table.Column<int>(nullable: false),
+                    Points = table.Column<int>(nullable: false),
+                    PlusMinus = table.Column<int>(nullable: false),
+                    PenaltyMinutes = table.Column<int>(nullable: false),
+                    PenaltyMajors = table.Column<int>(nullable: false),
+                    Hits = table.Column<int>(nullable: false),
+                    HitsTaken = table.Column<int>(nullable: false),
+                    Shots = table.Column<int>(nullable: false),
+                    OwnShotsBlocked = table.Column<int>(nullable: false),
+                    OwnShotsMissed = table.Column<int>(nullable: false),
+                    ShotsBlocked = table.Column<int>(nullable: false),
+                    MinutesPlayed = table.Column<int>(nullable: false),
+                    PPGoals = table.Column<int>(nullable: false),
+                    PPAssists = table.Column<int>(nullable: false),
+                    PPPoints = table.Column<int>(nullable: false),
+                    PPShots = table.Column<int>(nullable: false),
+                    PPMinutes = table.Column<int>(nullable: false),
+                    PKGoals = table.Column<int>(nullable: false),
+                    PKAssists = table.Column<int>(nullable: false),
+                    PKPoints = table.Column<int>(nullable: false),
+                    PKShots = table.Column<int>(nullable: false),
+                    PKMinutes = table.Column<int>(nullable: false),
+                    GameWinningGoals = table.Column<int>(nullable: false),
+                    GameTyingGoals = table.Column<int>(nullable: false),
+                    FaceoffsTotal = table.Column<int>(nullable: false),
+                    EmptyNetGoals = table.Column<int>(nullable: false),
+                    HatTricks = table.Column<int>(nullable: false),
+                    PenaltyShotGoals = table.Column<int>(nullable: false),
+                    PenaltyShotAttempts = table.Column<int>(nullable: false),
+                    FightsWon = table.Column<int>(nullable: false),
+                    FightsLost = table.Column<int>(nullable: false),
+                    FightsDraw = table.Column<int>(nullable: false),
+                    FaceoffWins = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SkaterSeasons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SkaterSeasons_Leagues_LeagueId",
+                        column: x => x.LeagueId,
+                        principalTable: "Leagues",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SkaterSeasons_Skaters_SkaterId",
                         column: x => x.SkaterId,
@@ -190,14 +236,14 @@ namespace BojoBox.EntityFramework.Migrations
                 column: "LeagueId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Goalies_LeagueId",
-                table: "Goalies",
-                column: "LeagueId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GoalieSeasons_GoalieId",
                 table: "GoalieSeasons",
                 column: "GoalieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GoalieSeasons_LeagueId",
+                table: "GoalieSeasons",
+                column: "LeagueId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GoalieSeasons_SubtotalForId",
@@ -210,8 +256,8 @@ namespace BojoBox.EntityFramework.Migrations
                 column: "TeamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Skaters_LeagueId",
-                table: "Skaters",
+                name: "IX_SkaterSeasons_LeagueId",
+                table: "SkaterSeasons",
                 column: "LeagueId");
 
             migrationBuilder.CreateIndex(

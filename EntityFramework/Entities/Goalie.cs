@@ -8,8 +8,7 @@ namespace BojoBox.EntityFramework.Entities
         public int LeagueId { get; set; }
 
         public string Name { get; set; }
-
-        public League League { get; set; }
+        
         public IEnumerable<GoalieSeason> Seasons { get; set; }
     }
 }

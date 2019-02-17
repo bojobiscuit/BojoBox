@@ -22,6 +22,13 @@ namespace BojoBox.Service
                 cfg.CreateMap<Goalie, GoalieDto>();
                 cfg.CreateMap<SkaterSeason, SkaterSeasonDto>();
                 cfg.CreateMap<GoalieSeason, GoalieSeasonDto>();
+                cfg.CreateMap<League, LeagueFullDto>();
+                cfg.CreateMap<Franchise, FranchiseFullDto>();
+                cfg.CreateMap<Team, TeamFullDto>();
+                cfg.CreateMap<Skater, SkaterFullDto>();
+                cfg.CreateMap<Goalie, GoalieFullDto>();
+                cfg.CreateMap<SkaterSeason, SkaterSeasonFullDto>();
+                cfg.CreateMap<GoalieSeason, GoalieSeasonFullDto>();
             });
         }
     }

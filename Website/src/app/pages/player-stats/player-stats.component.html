@@ -1,10 +1,17 @@
 <ng-container *ngIf="statTable">
-    <h4>Bojo Biscuit</h4>
-    <player-table-nav displayType="player" [statParams]="statTable.statParameters"></player-table-nav>
+    <h4>{{statTable.headerText}}</h4>
+    <player-table-nav 
+        displayType="player" 
+        [playerType]="statTable.playerType"
+        [statParams]="statTable.statParameters"
+        [teams]="statTable.teams">
+    </player-table-nav>
     <player-table 
         displayType="player" 
-        [playerTypeId]="statTable.statParameters.playerType"
-        [rows]="statTable.playerRows" [totals]="statTable.playerTotals"
+        [playerType]="statTable.playerType"
+        [rows]="statTable.playerRows" 
+        [totals]="statTable.totals"
+        [isTeam]="statTable.statParameters.team > 0"
         [selectedColumnIndex]="statTable.statParameters.selectedColumnIndex">
     </player-table>
 </ng-container>

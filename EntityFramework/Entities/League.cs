@@ -11,7 +11,7 @@ namespace BojoBox.EntityFramework.Entities
         public string Acronym { get; set; }
 
         public IEnumerable<Franchise> Franchises { get; set; }
-        public IEnumerable<Skater> Skaters { get; set; }
-        public IEnumerable<Goalie> Goalies { get; set; }
+        public IEnumerable<SkaterSeason> SkaterSeasons { get; set; }
+        public IEnumerable<GoalieSeason> GoalieSeasons { get; set; }
     }
 }

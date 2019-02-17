@@ -9,7 +9,6 @@ namespace BojoBox.EntityFramework.Entities
 
         public string Name { get; set; }
 
-        public League League { get; set; }
         public IEnumerable<SkaterSeason> Seasons { get; set; }
     }
 }

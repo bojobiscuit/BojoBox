@@ -33,9 +33,11 @@ namespace BojoBox.SthsDataCollector.Moderno
         private void GetLeague()
         {
             if (!db.Leagues.Any(a => a.Acronym == "SHL"))
+            {
                 db.Leagues.Add(new League() { Acronym = "SHL", Name = "Simulated Hockey League" });
-            if (!db.Leagues.Any(a => a.Acronym == "SMJHL"))
                 db.Leagues.Add(new League() { Acronym = "SMJHL", Name = "Simulated Major Junior Hockey League" });
+                db.SaveChanges();
+            }
 
             league = db.Leagues.First(a => a.Acronym == season.LeagueAcronym);
 
@@ -45,13 +47,13 @@ namespace BojoBox.SthsDataCollector.Moderno
 
         private void DeleteExistingSeason()
         {
-            var skaterSeasons = db.SkaterSeasons.Where(a => a.Season == season.SeasonNumber);
-            var goalieSeasons = db.GoalieSeasons.Where(a => a.Season == season.SeasonNumber);
+            var skaterSeasons = db.SkaterSeasons.Where(a => a.Season == season.SeasonNumber).Where(a => a.isPlayoffs == season.IsPlayoffs).Where(a => a.LeagueId == league.Id);
+            var goalieSeasons = db.GoalieSeasons.Where(a => a.Season == season.SeasonNumber).Where(a => a.isPlayoffs == season.IsPlayoffs).Where(a => a.LeagueId == league.Id);
             db.SkaterSeasons.RemoveRange(skaterSeasons);
             db.GoalieSeasons.RemoveRange(goalieSeasons);
 
-            db.Skaters.RemoveRange(db.Skaters);
-            db.Goalies.RemoveRange(db.Goalies);
+            //db.Skaters.RemoveRange(db.Skaters);
+            //db.Goalies.RemoveRange(db.Goalies);
         }
 
         private void AddTeams()
@@ -83,6 +85,7 @@ namespace BojoBox.SthsDataCollector.Moderno
                 GoalieSeason dbGoalieSeason = new GoalieSeason()
                 {
                     Goalie = dbGoalie,
+                    League = league,
                     Season = season.SeasonNumber,
                     isPlayoffs = season.IsPlayoffs,
                     GamesPlayed = goalieRow.Stats[i++],
@@ -132,6 +135,7 @@ namespace BojoBox.SthsDataCollector.Moderno
                 SkaterSeason dbSkaterSeason = new SkaterSeason()
                 {
                     Skater = dbSkater,
+                    League = league,
                     Season = season.SeasonNumber,
                     isPlayoffs = season.IsPlayoffs,
                     GamesPlayed = skaterRow.Stats[i++],
@@ -201,7 +205,7 @@ namespace BojoBox.SthsDataCollector.Moderno
             }
             if (dbSkater == null)
             {
-                dbSkater = new Skater() { Name = skaterRow.Name, League = league };
+                dbSkater = new Skater() { Name = skaterRow.Name };
                 db.Skaters.Add(dbSkater);
             }
             return dbSkater;
@@ -220,7 +224,7 @@ namespace BojoBox.SthsDataCollector.Moderno
             }
             if (dbGoalie == null)
             {
-                dbGoalie = new Goalie() { Name = goalieRow.Name, League = league };
+                dbGoalie = new Goalie() { Name = goalieRow.Name };
                 db.Goalies.Add(dbGoalie);
             }
             return dbGoalie;

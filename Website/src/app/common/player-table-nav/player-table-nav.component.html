@@ -1,74 +1,57 @@
-<nav class="navbar navbar-expand-sm navbar-dark bg-secondary mb-3 p-0">
+<nav class="navbar navbar-expand-sm navbar-dark bg-secondary mb-3 p-0" *ngIf="statParams">
   <ul class="navbar-nav text-center mr-auto mr-sm-0">
-    <li class="nav-item dropdown" *ngIf="viewTeams">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedTeam}} </a>
-      <div class="dropdown-menu dropdown-height">
-        <a class="dropdown-item" href="#">All Teams</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">West Kendall Platoon</a>
-        <a class="dropdown-item" href="#">New England Wolfpack</a>
+    <li class="nav-item dropdown" *ngIf="viewLeagues">
+      <a class="nav-link dropdown-toggle px-3 text-left" href="#" role="button"
+        data-toggle="dropdown">{{getSelectedLeagueOutput()}} </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" (click)="getLink('league', 1)">SHL</a>
+        <a class="dropdown-item" (click)="getLink('league', 2)">SMJHL</a>
+        <a class="dropdown-item" (click)="getLink('league', 3)">IIHL</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown" *ngIf="viewSeasonTypes">
+      <a class="nav-link dropdown-toggle px-3 text-left" href="#" role="button"
+        data-toggle="dropdown">{{getSelectedSeasonTypeOutput()}} </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" (click)="getLink('seasonType', 1)">Regular Season</a>
+        <a class="dropdown-item" (click)="getLink('seasonType', 2)">Playoffs</a>
       </div>
     </li>
     <li class="nav-item dropdown" *ngIf="viewEras">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedEra}} </a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">All Eras</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Modern</a>
-        <a class="dropdown-item" href="#">Inflation</a>
-        <a class="dropdown-item" href="#">Legacy</a>
-      </div>
-    </li>
-    <li class="nav-item dropdown" *ngIf="viewSeasons">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedSeason}} </a>
+      <a class="nav-link dropdown-toggle px-3 text-left" href="#" role="button" data-toggle="dropdown">{{getSelectedEra()}} </a>
       <div class="dropdown-menu dropdown-height">
-        <a class="dropdown-item" href="#">All Seasons</a>
+        <a class="dropdown-item" (click)="getLink('era', 0)">All Time</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">45</a>
-        <a class="dropdown-item" href="#">44</a>
-        <a class="dropdown-item" href="#">43</a>
-        <a class="dropdown-item" href="#">45</a>
-        <a class="dropdown-item" href="#">44</a>
-        <a class="dropdown-item" href="#">43</a>
-        <a class="dropdown-item" href="#">45</a>
-        <a class="dropdown-item" href="#">44</a>
-        <a class="dropdown-item" href="#">43</a>
-        <a class="dropdown-item" href="#">45</a>
-        <a class="dropdown-item" href="#">44</a>
-        <a class="dropdown-item" href="#">43</a>
-        <a class="dropdown-item" href="#">45</a>
-        <a class="dropdown-item" href="#">44</a>
-        <a class="dropdown-item" href="#">43</a>
-        <a class="dropdown-item" href="#">45</a>
-        <a class="dropdown-item" href="#">44</a>
-        <a class="dropdown-item" href="#">43</a>
+        <a class="dropdown-item" (click)="getLink('era', 1)">Modern</a>
+        <a class="dropdown-item" (click)="getLink('era', 2)">Inflation</a>
+        <a class="dropdown-item" (click)="getLink('era', 3)">Legacy</a>
+        <div class="dropdown-divider"></div>
+        <ng-container *ngFor="let season of seasons">
+          <a class="dropdown-item" (click)="getLink('season', season)">{{season}}</a>
+        </ng-container>
       </div>
     </li>
   </ul>
   <ul class="navbar-nav text-center ml-auto ml-sm-0">
+    <!-- dropdown-menu-right -->
+    <li class="nav-item dropdown" *ngIf="viewTeams">
+      <a class="nav-link dropdown-toggle px-3 text-right" href="#" role="button" data-toggle="dropdown">{{getSelectedTeamOutput()}}
+      </a>
+      <div class="dropdown-menu dropdown-height dropdown-menu-right">
+        <a class="dropdown-item" (click)="getLink('team', 0)">All Teams</a>
+        <div class="dropdown-divider"></div>
+        <ng-container *ngFor="let team of teams">
+          <a class="dropdown-item" (click)="getLink('team', team.id)">{{team.name}}</a>
+        </ng-container>
+      </div>
+    </li>
+
     <li class="nav-item dropdown" *ngIf="viewPlayerTypes">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedPlayerType}} </a>
-      <div class="dropdown-menu dropdown-menu-right ">
+      <a class="nav-link dropdown-toggle px-3 text-right" href="#" role="button"
+        data-toggle="dropdown">{{getSelectedPlayerTypeOutput()}} </a>
+      <div class="dropdown-menu dropdown-menu-right">
         <a class="dropdown-item" href="#">Skaters</a>
         <a class="dropdown-item" href="#">Goalies</a>
-      </div>
-    </li>
-    <li class="nav-item dropdown" *ngIf="viewLeagues">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedLeague}} </a>
-      <div class="dropdown-menu dropdown-menu-right ">
-        <ng-container *ngIf="displayType == 'player'">
-          <a class="dropdown-item" href="#">All</a>
-          <div class="dropdown-divider"></div>
-        </ng-container>
-        <a class="dropdown-item" href="#">SHL</a>
-        <a class="dropdown-item" href="#">SMJHL</a>
-      </div>
-    </li>
-    <li class="nav-item dropdown" *ngIf="viewSeasonTypes">
-      <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-toggle="dropdown">{{selectedSeasonType}} </a>
-      <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="#">Regular Season</a>
-        <a class="dropdown-item" href="#">Playoffs</a>
       </div>
     </li>
   </ul>

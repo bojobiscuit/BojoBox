@@ -51,8 +51,6 @@ namespace BojoBox.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LeagueId");
-
                     b.ToTable("Goalies");
                 });
 
@@ -73,6 +71,8 @@ namespace BojoBox.EntityFramework.Migrations
                     b.Property<int>("GoalieId");
 
                     b.Property<int>("GoalsAgainst");
+
+                    b.Property<int>("LeagueId");
 
                     b.Property<int>("Losses");
 
@@ -105,6 +105,8 @@ namespace BojoBox.EntityFramework.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("GoalieId");
+
+                    b.HasIndex("LeagueId");
 
                     b.HasIndex("SubtotalForId");
 
@@ -139,8 +141,6 @@ namespace BojoBox.EntityFramework.Migrations
                     b.Property<string>("Name");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LeagueId");
 
                     b.ToTable("Skaters");
                 });
@@ -178,6 +178,8 @@ namespace BojoBox.EntityFramework.Migrations
                     b.Property<int>("Hits");
 
                     b.Property<int>("HitsTaken");
+
+                    b.Property<int>("LeagueId");
 
                     b.Property<int>("MinutesPlayed");
 
@@ -233,6 +235,8 @@ namespace BojoBox.EntityFramework.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LeagueId");
+
                     b.HasIndex("SkaterId");
 
                     b.HasIndex("SubtotalForId");
@@ -274,19 +278,16 @@ namespace BojoBox.EntityFramework.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("BojoBox.EntityFramework.Entities.Goalie", b =>
-                {
-                    b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
-                        .WithMany("Goalies")
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("BojoBox.EntityFramework.Entities.GoalieSeason", b =>
                 {
                     b.HasOne("BojoBox.EntityFramework.Entities.Goalie", "Goalie")
                         .WithMany("Seasons")
                         .HasForeignKey("GoalieId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
+                        .WithMany("GoalieSeasons")
+                        .HasForeignKey("LeagueId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("BojoBox.EntityFramework.Entities.GoalieSeason", "SubtotalFor")
@@ -298,16 +299,13 @@ namespace BojoBox.EntityFramework.Migrations
                         .HasForeignKey("TeamId");
                 });
 
-            modelBuilder.Entity("BojoBox.EntityFramework.Entities.Skater", b =>
-                {
-                    b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
-                        .WithMany("Skaters")
-                        .HasForeignKey("LeagueId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("BojoBox.EntityFramework.Entities.SkaterSeason", b =>
                 {
+                    b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
+                        .WithMany("SkaterSeasons")
+                        .HasForeignKey("LeagueId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("BojoBox.EntityFramework.Entities.Skater", "Skater")
                         .WithMany("Seasons")
                         .HasForeignKey("SkaterId")

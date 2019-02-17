@@ -6,6 +6,7 @@ namespace BojoBox.EntityFramework.Entities
     {
         public int Id { get; set; }
         public int SkaterId { get; set; }
+        public int LeagueId { get; set; }
         public int? TeamId { get; set; }
         public int? SubtotalForId { get; set; }
 
@@ -48,6 +49,7 @@ namespace BojoBox.EntityFramework.Entities
         public int FaceoffWins { get; set; }
 
         public Skater Skater { get; set; }
+        public League League { get; set; }
         public Team Team { get; set; }
         public SkaterSeason SubtotalFor { get; set; }
         public IEnumerable<SkaterSeason> SubTotals { get; set; }

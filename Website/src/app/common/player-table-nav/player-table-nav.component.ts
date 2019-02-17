@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { StatParameters } from 'src/app/dtos/stat-parameters';
+import { BasicData } from 'src/app/dtos/basic-data';
+import { Router, NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'player-table-nav',
@@ -9,7 +11,10 @@ import { StatParameters } from 'src/app/dtos/stat-parameters';
 export class PlayerTableNavComponent implements OnInit {
 
   @Input() displayType: string;
+  @Input() playerType: string;
   @Input() statParams: StatParameters;
+  @Input() seasons: number[];
+  @Input() teams: BasicData[];
 
   viewEras: boolean = false;
   viewSeasons: boolean = false;
@@ -18,14 +23,7 @@ export class PlayerTableNavComponent implements OnInit {
   viewPlayerTypes: boolean = false;
   viewSeasonTypes: boolean = false;
 
-  selectedTeam: string;
-  selectedEra: string;
-  selectedSeason: string;
-  selectedPlayerType: string;
-  selectedLeague: string;
-  selectedSeasonType: string;
-
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit() {
     switch (this.displayType) {
@@ -52,48 +50,96 @@ export class PlayerTableNavComponent implements OnInit {
         break;
       }
     }
+  }
 
-    // TODO: send request to get teams and seasons
+  getSelectedSeasonTypeOutput(): string {
+    switch (this.statParams.seasonType)
+    {
+      case 1: return "Reg. Season";
+      case 2: return "Playoffs";
+    }
+    return "error";
+  }
 
+  getSelectedLeagueOutput(): string {
+    switch (this.statParams.league)
+    {
+      case 1: return "SHL";
+      case 2: return "SMJHL";
+      case 3: return "IIHL";
+    }
+    return "error";
+  }
+
+  getSelectedPlayerTypeOutput(): string {
+    switch (this.playerType)
+    {
+      case "skater": return "Skaters";
+      case "goalie": return "Goalies";
+    }
+    return "error";
+  }
+
+  getSelectedEra(): string {
+    switch (this.statParams.era)
+    {
+      case 0: return "All Time";
+      case 1: return "Modern";
+      case 2: return "Inflation";
+      case 3: return "Legacy";
+    }
+    if(this.statParams.era == 0 && this.statParams.season > 0)
+    {
+      return "s" + this.statParams.season;
+    }
+
+    return "error";
+  }
+
+  getSelectedTeamOutput(): string {
     if (this.statParams.team == 0)
-      this.selectedTeam = "All Teams";
+      return "All Teams";
     else {
-      // TODO: set team from request
-      // else throw error and reset to default
+      return this.teams.find(x => x.id == this.statParams.team).acronym;
+    }
+  }
+
+  getLink(name: string, arg: number) {
+    var linkParams = this.statParams;
+
+    switch(name) {
+      case "team": linkParams.team = arg; break;
+      case "league": linkParams.league = arg; break;
+      case "seasonType": linkParams.seasonType = arg; break;
+      case "seasonType": linkParams.seasonType = arg; break;
+      case "era": {
+        linkParams.era = arg; 
+        linkParams.season = 0;
+        break;
+      }
+      case "season": {
+        linkParams.season = arg; 
+        linkParams.era = 0;
+        break;
+      }
     }
 
-    if (this.statParams.season == 0)
-      this.selectedSeason = "All Seasons";
-    else {
-      // TODO: set season from request
-      // else throw error and reset to default
-    }
+    var queryParmsNew = { };
+    if(linkParams.team > 0) queryParmsNew['team'] = linkParams.team;
+    if(linkParams.season > 0) queryParmsNew['season'] = linkParams.season;
+    if(linkParams.era > 0) queryParmsNew['era'] = linkParams.era;
+    if(linkParams.league > 1) queryParmsNew['league'] = linkParams.league;
+    if(linkParams.seasonType > 1) queryParmsNew['seasonType'] = linkParams.seasonType;
 
-    switch (this.statParams.era) {
-      case 1: this.selectedEra = "Modern"; break;
-      case 2: this.selectedEra = "Inflation"; break;
-      case 3: this.selectedEra = "Legacy"; break;
-      case 0:
-      default: this.selectedEra = "All Eras"; break;
-    }
-
-    switch (this.statParams.league) {
-      case 2: this.selectedLeague = "SMJHL"; break;
-      case 1:
-      default: this.selectedLeague = "SHL"; break;
-    }
-
-    switch (this.statParams.seasonType) {
-      case 2: this.selectedSeasonType = "Playoffs"; break;
-      case 1:
-      default: this.selectedSeasonType = "Reg. Season"; break;
-    }
-
-    switch (this.statParams.playerType) {
-      case 2: this.selectedPlayerType = "Goalies"; break;
-      case 1:
-      default: this.selectedPlayerType = "Skaters"; break;
-    }
+    let navigationExtras: NavigationExtras = {
+      queryParams: queryParmsNew
+    };
+    
+    var routerDirection = this.displayType;
+    if(this.displayType == "player")
+      routerDirection = this.playerType;
+      
+    this.router.navigate(['/' + routerDirection], navigationExtras);
   }
 
 }

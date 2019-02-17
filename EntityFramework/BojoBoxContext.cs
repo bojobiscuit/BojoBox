@@ -33,12 +33,12 @@ namespace BojoBox.EntityFramework
                 .HasForeignKey(b => b.LeagueId);
 
             modelBuilder.Entity<League>()
-                .HasMany(a => a.Skaters)
+                .HasMany(a => a.SkaterSeasons)
                 .WithOne(b => b.League)
                 .HasForeignKey(b => b.LeagueId);
 
             modelBuilder.Entity<League>()
-                .HasMany(a => a.Goalies)
+                .HasMany(a => a.GoalieSeasons)
                 .WithOne(b => b.League)
                 .HasForeignKey(b => b.LeagueId);
 

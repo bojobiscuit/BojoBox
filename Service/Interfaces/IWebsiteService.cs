@@ -10,5 +10,9 @@ namespace BojoBox.Service
         // Season
         // Career
         // Player
+
+        StatTableDto GetSkaterTable(int skaterId, StatParametersDto paramDto);
+        StatTableDto GetSeasonTable(StatParametersDto paramDto);
+        StatTableDto GetCareerTable(StatParametersDto paramDto);
     }
 }

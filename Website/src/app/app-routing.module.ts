@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'season', component: SeasonStatsComponent },
   { path: 'career', component: CareerStatsComponent },
-  { path: 'player', component: PlayerStatsComponent },
+  { path: 'skater/:id', component: PlayerStatsComponent },
+  { path: 'goalie/:id', component: PlayerStatsComponent },
 ];
 
 @NgModule({

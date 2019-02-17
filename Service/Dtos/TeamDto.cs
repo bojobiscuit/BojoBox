@@ -11,10 +11,6 @@ namespace BojoBox.Service.Dtos
         public string Name { get; set; }
         public string Acronym { get; set; }
 
-        public Franchise FranchiseDto { get; set; }
-        public IEnumerable<SkaterSeasonDto> SkaterSeasons { get; set; }
-        public IEnumerable<GoalieSeasonDto> GoalieSeasons { get; set; }
-
         public static TeamDto Create(Team source) => 
             AutoMapper.Mapper.Map<TeamDto>(source);
     }
