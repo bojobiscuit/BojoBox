@@ -1,4 +1,7 @@
 {
-    "appService.defaultWebAppToDeploy": "/subscriptions/e381439c-650c-4b46-9908-1a2a1247c9cd/resourceGroups/RayGroup/providers/Microsoft.Web/sites/BojoBox",
-    "appService.deploySubpath": ""
+    "appService.deploySubpath": "dist\\website",
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}"
+    ],
+    "appService.defaultWebAppToDeploy": "/subscriptions/e381439c-650c-4b46-9908-1a2a1247c9cd/resourceGroups/BojoResourceGroup/providers/Microsoft.Web/sites/BojoBox"
 }

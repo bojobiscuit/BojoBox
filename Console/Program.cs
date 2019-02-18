@@ -1,4 +1,5 @@
-﻿using BojoBox.SthsDataCollector.Moderno;
+﻿using BojoBox.EntityFramework;
+using BojoBox.SthsDataCollector.Moderno;
 using System;
 using System.Collections.Generic;
 

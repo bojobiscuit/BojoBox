@@ -1,28 +1,22 @@
-﻿using BojoBox.EntityFramework.Connection;
-using BojoBox.EntityFramework.Entities;
+﻿using BojoBox.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace BojoBox.EntityFramework
 {
     public class BojoBoxContext : DbContext
     {
-        private IConnectionString connectionString;
-
-        public BojoBoxContext() : base()
-        {
-            connectionString = new ConnectionString();
-        }
-
-        public BojoBoxContext(IConnectionString connection) : base()
-        {
-            connectionString = connection;
-        }
+        public static string ConnectionString;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString.GetConnectionString());
+            // Manually updating databases
+            ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            //ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
+
+            optionsBuilder.UseSqlServer(ConnectionString);
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
