@@ -46,6 +46,11 @@ namespace BojoBox.SthsDataCollector.Moderno
                     url = url.Replace("{seasonType}", season.IsPlayoffs ? "Playoff" : "Season");
 
                 htmlDocument = new HtmlWeb().Load(url);
+
+                var title = htmlDocument.DocumentNode.Descendants("title").FirstOrDefault();
+                if (title == null || !title.InnerText.ToLowerInvariant().Contains("Team Scoring"))
+                    throw new Exception("Page was not found online");
+
                 htmlDocument.Save(filePath);
             }
 

@@ -29,17 +29,24 @@ namespace BojoBox.DatabaseConsole
                 Console.WriteLine("Season " + season + ": ");
                 SeasonData seasonData = new SeasonData(season, leagueAcronym, isPlayoffs);
 
-                Console.Write("Downloading - ");
-                var loader = new FileLoader(seasonData);
-                var document = loader.DownloadFile(urlTemplate, false);
+                try
+                {
+                    Console.Write("Downloading - ");
+                    var loader = new FileLoader(seasonData);
+                    var document = loader.DownloadFile(urlTemplate, false);
 
-                Console.Write("Extracting - ");
-                var extractor = new Extractor(seasonData);
-                seasonData = extractor.Extract(document);
+                    Console.Write("Extracting - ");
+                    var extractor = new Extractor(seasonData);
+                    seasonData = extractor.Extract(document);
 
-                Console.Write("Uploading - ");
-                var uploader = new SeasonUploader(seasonData);
-                uploader.Upload();
+                    Console.Write("Uploading - ");
+                    var uploader = new SeasonUploader(seasonData);
+                    uploader.Upload();
+                }
+                catch (Exception e)
+                {
+                    Console.Write("Error: " + e.Message);
+                }
             }
         }
     }

@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/e381439c-650c-4b46-9908-1a2a1247c9cd/resourceGroups/RayGroup/providers/Microsoft.Web/sites/BojoBox",
+    "appService.deploySubpath": ""
+}
