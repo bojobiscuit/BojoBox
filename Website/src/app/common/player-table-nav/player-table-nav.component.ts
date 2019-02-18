@@ -78,14 +78,15 @@ export class PlayerTableNavComponent implements OnInit {
   }
 
   getSelectedEra(): string {
+    if (this.statParams.era == 0 && this.statParams.season > 0) {
+      return "s" + this.statParams.season;
+    }
+
     switch (this.statParams.era) {
       case 0: return "All Time";
       case 1: return "Modern";
       case 2: return "Inflation";
       case 3: return "Legacy";
-    }
-    if (this.statParams.era == 0 && this.statParams.season > 0) {
-      return "s" + this.statParams.season;
     }
 
     return "error";
@@ -111,9 +112,12 @@ export class PlayerTableNavComponent implements OnInit {
 
     switch (name) {
       case "team": linkParams.team = arg; break;
-      case "league": linkParams.league = arg; break;
       case "seasonType": linkParams.seasonType = arg; break;
-      case "seasonType": linkParams.seasonType = arg; break;
+      case "league": {
+        linkParams.league = arg;
+        linkParams.team = 0; 
+        break;
+      }
       case "era": {
         linkParams.era = arg;
         linkParams.season = 0;
@@ -141,7 +145,6 @@ export class PlayerTableNavComponent implements OnInit {
     var routeDirection = this.router.url;
     if (routeDirection.indexOf("?") > 0)
       routeDirection = routeDirection.substr(0, this.router.url.indexOf("?"));
-    console.log(routeDirection);
     this.router.navigate([routeDirection], navigationExtras);
   }
 
