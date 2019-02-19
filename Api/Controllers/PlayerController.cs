@@ -12,12 +12,12 @@ namespace BojoBox.Api.Controllers
         [HttpGet("test")]
         public JsonResult TestGet([FromQuery] StatParametersDto statParametersDto)
         {
-            //return GetSkaterSeason(statParametersDto);
+            return GetSkaterSeason(statParametersDto);
             //return GetSkater(825, statParametersDto);
             //return GetSkaterCareer(statParametersDto);
             //return GetGoalieSeason(statParametersDto);
             //return GetGoalieCareer(statParametersDto);
-            return GetGoalie(129, statParametersDto);
+            // return GetGoalie(129, statParametersDto);
         }
 
         // GET api/season

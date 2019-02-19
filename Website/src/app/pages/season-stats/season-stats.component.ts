@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationExtras } from '@angular/router';
 import { StatParameters } from 'src/app/dtos/stat-parameters';
 import { StatTable } from 'src/app/dtos/stat-table';
-import { PlayerDataService } from 'src/app/services/player-data-service';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
@@ -14,7 +13,7 @@ export class SeasonStatsComponent implements OnInit {
   
   statTable: StatTable;
 
-  constructor(private route: ActivatedRoute, private dataService: PlayerDataService, private apiService: ApiService) { }
+  constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit() {
     this.GetQueryParams();
@@ -33,5 +32,5 @@ export class SeasonStatsComponent implements OnInit {
       this.statTable = table;
     });
   }
-
+  
 }

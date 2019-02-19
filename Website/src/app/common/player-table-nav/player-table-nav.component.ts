@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { StatParameters } from 'src/app/dtos/stat-parameters';
 import { BasicData } from 'src/app/dtos/basic-data';
 import { Router, NavigationExtras } from '@angular/router';
+import { HelpService } from 'src/app/services/help.service';
 
 @Component({
   selector: 'player-table-nav',
@@ -23,7 +24,7 @@ export class PlayerTableNavComponent implements OnInit {
   viewPlayerTypes: boolean = false;
   viewSeasonTypes: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private help: HelpService) { }
 
   ngOnInit() {
     switch (this.displayType) {
@@ -108,44 +109,7 @@ export class PlayerTableNavComponent implements OnInit {
   }
 
   getLink(name: string, arg: number) {
-    var linkParams = this.statParams;
-
-    switch (name) {
-      case "team": linkParams.team = arg; break;
-      case "seasonType": linkParams.seasonType = arg; break;
-      case "league": {
-        linkParams.league = arg;
-        linkParams.team = 0; 
-        break;
-      }
-      case "era": {
-        linkParams.era = arg;
-        linkParams.season = 0;
-        break;
-      }
-      case "season": {
-        linkParams.season = arg;
-        linkParams.era = 0;
-        break;
-      }
-    }
-
-    var queryParmsNew = {};
-    if (linkParams.team > 0) queryParmsNew['team'] = linkParams.team;
-    if (linkParams.season > 0) queryParmsNew['season'] = linkParams.season;
-    if (linkParams.era > 0) queryParmsNew['era'] = linkParams.era;
-    if (linkParams.league > 1) queryParmsNew['league'] = linkParams.league;
-    if (linkParams.seasonType > 1) queryParmsNew['seasonType'] = linkParams.seasonType;
-
-    let navigationExtras: NavigationExtras = {
-      queryParams: queryParmsNew
-    };
-
-
-    var routeDirection = this.router.url;
-    if (routeDirection.indexOf("?") > 0)
-      routeDirection = routeDirection.substr(0, this.router.url.indexOf("?"));
-    this.router.navigate([routeDirection], navigationExtras);
+    this.help.getLink(this.statParams, name, arg);
   }
 
 }

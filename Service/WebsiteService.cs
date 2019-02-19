@@ -57,8 +57,48 @@ namespace BojoBox.Service
                     skaterSeasonQuery = skaterSeasonQuery.Where(a => a.Season == cleanParameters.Season);
                 }
 
-                cleanParameters.SelectedColumnIndex = 3;
-                var idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.Points));
+                IQueryable<IdStatPair> idStatPairs = null;
+                switch (cleanParameters.SelectedColumnIndex)
+                {
+                    case 0: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.GamesPlayed)); break;
+                    case 1: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.Goals)); break;
+                    case 2: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.Assists)); break;
+                    case null:
+                    case 3: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.Points)); break;
+                    case 4: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PlusMinus)); break;
+                    case 5: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PenaltyMinutes)); break;
+                    case 6: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PenaltyMajors)); break;
+                    case 7: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.Hits)); break;
+                    case 8: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.HitsTaken)); break;
+                    case 9: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.Shots)); break;
+                    case 10: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.OwnShotsBlocked)); break;
+                    case 11: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.OwnShotsMissed)); break;
+                    case 12: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.ShotsBlocked)); break;
+                    case 13: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.MinutesPlayed)); break;
+                    case 14: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PPGoals)); break;
+                    case 15: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PPAssists)); break;
+                    case 16: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PPPoints)); break;
+                    case 17: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PPShots)); break;
+                    case 18: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PPMinutes)); break;
+                    case 19: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PKGoals)); break;
+                    case 20: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PKAssists)); break;
+                    case 21: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PKPoints)); break;
+                    case 22: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PKShots)); break;
+                    case 23: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PKMinutes)); break;
+                    case 24: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.GameWinningGoals)); break;
+                    case 25: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.GameTyingGoals)); break;
+                    case 26: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.FaceoffWins)); break;
+                    case 27: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.FaceoffsTotal)); break;
+                    case 28: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.EmptyNetGoals)); break;
+                    case 29: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.HatTricks)); break;
+                    case 30: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PenaltyShotGoals)); break;
+                    case 31: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.PenaltyShotAttempts)); break;
+                    case 32: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.FightsWon)); break;
+                    case 33: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.FightsLost)); break;
+                    case 34: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.FightsDraw)); break;
+                    case 35: idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.FaceoffWins)); break;
+                }
+                // var idStatPairs = skaterSeasonQuery.Select(a => new IdStatPair(a.Id, a.Points));
                 // TODO: Do this for each stat. ugh.
 
                 idStatPairs = idStatPairs.OrderByDescending(a => a.Stat);
@@ -86,7 +126,9 @@ namespace BojoBox.Service
                     row.Stats = GetSkaterStats(dto);
                     rows.Add(row);
                 }
-                statTableDto.PlayerRows = rows.OrderByDescending(a => a.Stats.ElementAt(3));
+
+                int sortColumn = cleanParameters.SelectedColumnIndex ?? 3;
+                statTableDto.PlayerRows = rows.OrderByDescending(a => a.Stats.ElementAt(sortColumn));
                 AddRanks(statTableDto.PlayerRows);
             }
 
@@ -671,7 +713,7 @@ namespace BojoBox.Service
             cleanParameters.Team = paramDto.Team ?? 0;
             cleanParameters.League = paramDto.League ?? 1;
             cleanParameters.SeasonType = paramDto.SeasonType ?? 1;
-            // TODO: cleanParameters.SelectedColumnIndex = paramDto.SelectedColumnIndex ?? 0;
+            cleanParameters.SelectedColumnIndex = paramDto.SelectedColumnIndex ?? 3;
             return cleanParameters;
         }
 
@@ -683,7 +725,7 @@ namespace BojoBox.Service
             cleanParameters.Team = paramDto.Team ?? 0;
             cleanParameters.League = paramDto.League ?? 1;
             cleanParameters.SeasonType = paramDto.SeasonType ?? 1;
-            // TODO: cleanParameters.SelectedColumnIndex = paramDto.SelectedColumnIndex ?? 0;
+            cleanParameters.SelectedColumnIndex = paramDto.SelectedColumnIndex;
 
             if (cleanParameters.Era > 0)
                 cleanParameters.Season = 0;
@@ -699,7 +741,7 @@ namespace BojoBox.Service
             cleanParameters.Team = paramDto.Team ?? 0;
             cleanParameters.League = paramDto.League ?? 1;
             cleanParameters.SeasonType = paramDto.SeasonType ?? 1;
-            // TODO: cleanParameters.SelectedColumnIndex = paramDto.SelectedColumnIndex ?? 0;
+            cleanParameters.SelectedColumnIndex = paramDto.SelectedColumnIndex ?? 3;
             return cleanParameters;
         }
 

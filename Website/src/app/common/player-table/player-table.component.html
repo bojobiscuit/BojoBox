@@ -1,5 +1,4 @@
 <div class="outer mb-2" *ngIf="rows">
-  <!-- <div class="inner fixedMarginSeason"> -->
   <div [ngClass]="{
       'inner': true,
       'fixedMarginSeason': isPlayer,
@@ -15,7 +14,7 @@
           <th *ngIf="viewYears">Years</th>
           <th *ngIf="canViewTeamCount()">Teams</th>
           <ng-container *ngIf="viewSkater">
-            <th *ngFor="let header of skaterHeaders;let i = index" [class.selectedColumn]="checkIndex(i)">{{header}}
+            <th *ngFor="let header of skaterHeaders;let i = index" [class.selectedColumn]="checkIndex(i)" (click)="sortBy(i)">{{header}}
             </th>
           </ng-container>
           <ng-container *ngIf="viewGoalie">
