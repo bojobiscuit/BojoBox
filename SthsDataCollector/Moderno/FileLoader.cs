@@ -23,8 +23,8 @@ namespace BojoBox.SthsDataCollector.Moderno
                 "{1} - Pro Team Scoring {0}.html";
 
             var folderName = (isLegacy) ?
-                @"LegacyFiles\" :
-                @"SeasonFiles\";
+                @"LegacyFiles" :
+                @"SeasonFiles";
 
             string seasonNumberText = (season.SeasonNumber < 10 ? "0" : "") + season.SeasonNumber.ToString();
             string fileName = string.Format(nameFormat, seasonNumberText, season.LeagueAcronym);
@@ -48,7 +48,7 @@ namespace BojoBox.SthsDataCollector.Moderno
                 htmlDocument = new HtmlWeb().Load(url);
 
                 var title = htmlDocument.DocumentNode.Descendants("title").FirstOrDefault();
-                if (title == null || !title.InnerText.ToLowerInvariant().Contains("Team Scoring"))
+                if (title == null || !title.InnerText.ToLowerInvariant().Contains("team scoring"))
                     throw new Exception("Page was not found online");
 
                 htmlDocument.Save(filePath);

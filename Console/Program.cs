@@ -9,6 +9,10 @@ namespace BojoBox.DatabaseConsole
     {
         static void Main(string[] args)
         {
+            // Manually updating databases
+            //BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
+
             //http://simulationhockey.com/games/shl/S28/Season/SHL-ProTeamScoring.html
             //http://simulationhockey.com/games/shl/S31/Playoff/SHL-PLF-ProTeamScoring.html
             //http://simulationhockey.com/games/smjhl/S43/Season/SMJHL-ProTeamScoring.html
