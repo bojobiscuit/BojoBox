@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace SthsDataCollector.Legacy
+namespace BojoBox.SthsDataCollector.Legacy
 {
-    internal class TeamSection
+    internal class LegacyTeamSection
     {
         public string TeamInformationLine { get; set; }
         public IList<string> SkaterInformationLines { get; set; }
         public IList<string> GoalieInformationLines { get; set; }
 
-        public TeamSection(string teamSectionData)
+        public LegacyTeamSection(string teamSectionData)
         {
             teamSectionData = teamSectionData.Replace("\r", "").Trim();
             LineParseSection parseSection = LineParseSection.TeamInfo;

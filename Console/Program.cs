@@ -1,5 +1,7 @@
 ﻿using BojoBox.EntityFramework;
-using BojoBox.SthsDataCollector.Legaceee;
+using BojoBox.SthsDataCollector;
+using BojoBox.SthsDataCollector.Legacy;
+using BojoBox.SthsDataCollector.Model;
 using BojoBox.SthsDataCollector.Modern;
 using System;
 using System.Collections.Generic;
@@ -15,9 +17,14 @@ namespace BojoBox.DatabaseConsole
             BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
 
             //UploadData();
-            ConvertLegacyToModern();
+            // ConvertLegacyToModern();
 
             Console.ReadKey();
+        }
+
+        private static void CheckForLeagues() 
+        {
+            
         }
 
         private static void UploadData()

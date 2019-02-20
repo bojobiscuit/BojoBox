@@ -5,8 +5,9 @@ using System.Text;
 using System.Linq;
 using BojoBox.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
+using BojoBox.SthsDataCollector.Model;
 
-namespace BojoBox.SthsDataCollector.Modern
+namespace BojoBox.SthsDataCollector
 {
     public class SeasonUploader
     {
@@ -34,8 +35,9 @@ namespace BojoBox.SthsDataCollector.Modern
         {
             if (!db.Leagues.Any(a => a.Acronym == "SHL"))
             {
-                db.Leagues.Add(new League() { Acronym = "SHL", Name = "Simulated Hockey League" });
-                db.Leagues.Add(new League() { Acronym = "SMJHL", Name = "Simulated Major Junior Hockey League" });
+                db.Leagues.Add(new League() { Id = 1, Acronym = "SHL", Name = "Simulated Hockey League" });
+                db.Leagues.Add(new League() { Id = 2, Acronym = "SMJHL", Name = "Simulated Major Junior Hockey League" });
+                db.Leagues.Add(new League() { Id = 3, Acronym = "IIHF", Name = "International Ice Hockey Federation" });
                 db.SaveChanges();
             }
 

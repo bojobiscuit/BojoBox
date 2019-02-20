@@ -4,15 +4,68 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using BojoBox.SthsDataCollector.Model;
 
-namespace BojoBox.SthsDataCollector.Modern
+namespace BojoBox.SthsDataCollector
 {
-    public static class Helper
+    internal static class Helper
     {
+        public static string GetName(string nameValue)
+        {
+            var name = nameValue;
+            name = name.RemoveAcronyms();
+            name = name.Replace("_", "");
+            name = name.Trim();
+            return name;
+        }
+
+        public static void GetPlayerTeam(string teamAcronym, IEnumerable<string> nameAcronyms, PlayerRow playerRow)
+        {
+            if (playerRow.TeamAcronym == null)
+                playerRow.TeamAcronym = teamAcronym;
+
+            if (nameAcronyms.Contains("TOT"))
+                playerRow.TeamAcronym = null;
+
+            if (PreviousName == playerRow.Name)
+                playerRow.IsSubTotal = true;
+
+            PreviousName = playerRow.Name;
+        }
+
         public static int GetPercentageAmount(double percent, int total)
         {
             double factor = percent / 100;
             return (int)Math.Round(total * factor);
+        }
+
+        public static int GetPenaltyShotsSaved(string shotPercentage, int penaltyShotsTotal)
+        {
+            var shotsValue = shotPercentage.Replace("%", "");
+            var shotsDouble = double.Parse(shotsValue);
+            var shotsStopped = (int)Math.Round(shotsDouble * penaltyShotsTotal);
+            return shotsStopped;
+        }
+
+        public static int GetFaceoffsWon(string faceoffPercentage, int faceoffTotal)
+        {
+            var faceoffValue = faceoffPercentage.Replace("%", "");
+            var faceoffDouble = double.Parse(faceoffValue);
+            var faceoffsWon = Helper.GetPercentageAmount(faceoffDouble, faceoffTotal);
+            return faceoffsWon;
+        }
+
+        public static List<int> GetStats(IEnumerable<string> rowValues, int[] skipColumns)
+        {
+            List<int> stats = new List<int>();
+            for (int i = 0; i < rowValues.Count(); i++)
+            {
+                if (skipColumns.Contains(i))
+                    continue;
+
+                stats.Add(int.Parse(rowValues.ElementAt(i)));
+            }
+            return stats;
         }
 
         public static string RemoveAcronyms(this string text)
@@ -68,5 +121,6 @@ namespace BojoBox.SthsDataCollector.Modern
             return acronymList;
         }
 
+        public static string PreviousName = "";
     }
 }

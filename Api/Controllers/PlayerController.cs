@@ -12,7 +12,9 @@ namespace BojoBox.Api.Controllers
         [HttpGet("test")]
         public JsonResult TestGet([FromQuery] StatParametersDto statParametersDto)
         {
-            return GetSkaterSeason(statParametersDto);
+            WebsiteService service = new WebsiteService();
+            service.Test();
+            return new JsonResult(null);
             //return GetSkater(825, statParametersDto);
             //return GetSkaterCareer(statParametersDto);
             //return GetGoalieSeason(statParametersDto);

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BojoBox.SthsDataCollector.Modern
+namespace BojoBox.SthsDataCollector.Model
 {
-    public class GoalieRow
+    public abstract class PlayerRow
     {
-        public GoalieRow()
+        public PlayerRow()
         {
             Stats = new List<int>();
         }

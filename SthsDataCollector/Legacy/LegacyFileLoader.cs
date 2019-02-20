@@ -1,4 +1,5 @@
-﻿using BojoBox.SthsDataCollector.Modern;
+﻿using BojoBox.SthsDataCollector.Model;
+using BojoBox.SthsDataCollector.Modern;
 using HtmlAgilityPack;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace BojoBox.SthsDataCollector.Legaceee
+namespace BojoBox.SthsDataCollector.Legacy
 {
     public class LegacyFileLoader
     {

@@ -16,7 +16,7 @@ namespace BojoBox.EntityFramework
 
             // Manually updating databases
             //ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            // ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
+            ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
 
             optionsBuilder.UseSqlServer(ConnectionString);
         }
@@ -80,6 +80,12 @@ namespace BojoBox.EntityFramework
                 .HasMany(a => a.SubTotals)
                 .WithOne(b => b.SubtotalFor)
                 .HasForeignKey(b => b.SubtotalForId);
+
+            List<League> leagues = new List<League>();
+            leagues.Add(new League() { Id = 1, Acronym = "SHL", Name = "Simulated Hockey League" });
+            leagues.Add(new League() { Id = 2, Acronym = "SMJHL", Name = "Simulated Major Junior Hockey League" });
+            leagues.Add(new League() { Id = 3, Acronym = "IIHF", Name = "International Ice Hockey Federation" });
+            modelBuilder.Entity<League>().HasData(leagues);
         }
 
         public DbSet<League> Leagues { get; set; }

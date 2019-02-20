@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.IO;
+using BojoBox.SthsDataCollector.Model;
 
 namespace BojoBox.SthsDataCollector.Modern
 {

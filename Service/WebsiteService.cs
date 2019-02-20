@@ -11,6 +11,14 @@ namespace BojoBox.Service
 {
     public class WebsiteService : IWebsiteService
     {
+        public void Test()
+        {
+            using (db = new BojoBoxContext())
+            {
+                var leagues = db.Leagues.ToList();
+            }
+        }
+
         public StatTableDto GetSeasonSkaterTable(StatParametersDto paramDto)
         {
             StatTableDto statTableDto = new StatTableDto();
