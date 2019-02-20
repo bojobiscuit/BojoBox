@@ -18,7 +18,7 @@
             </th>
           </ng-container>
           <ng-container *ngIf="viewGoalie">
-            <th *ngFor="let header of goalieHeaders;let i = index" [class.selectedColumn]="checkIndex(i)">{{header}}
+            <th *ngFor="let header of goalieHeaders;let i = index" [class.selectedColumn]="checkIndex(i)" (click)="sortBy(i)">{{header}}
             </th>
           </ng-container>
         </tr>
@@ -40,7 +40,7 @@
         <ng-container *ngIf="isPlayer">
           <tr>
             <th *ngFor="let total of totals;let i = index" [class.fixedColumnSeason]="i == 0"
-              [class.selectedColumn]="checkIndex(i)">{{total}}</th>
+              [class.selectedColumn]="checkIndexTotal(i)">{{total}}</th>
           </tr>
         </ng-container>
       </tfoot>

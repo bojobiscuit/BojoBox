@@ -22,7 +22,7 @@ export class CareerGoalieStatsComponent implements OnInit {
   private GetQueryParams() {
     this.route.queryParamMap.subscribe((params) => {
       var statParameters = new StatParameters();
-      statParameters.setParams(params);
+      statParameters.setParams(params, false);
       this.GetGoalieTable(statParameters);
     });
   }

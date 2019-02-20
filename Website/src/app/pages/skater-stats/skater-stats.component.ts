@@ -29,7 +29,7 @@ export class SkaterStatsComponent implements OnInit {
   private GetQueryParams(id: number) {
     this.route.queryParamMap.subscribe((params) => {
       var statParameters = new StatParameters();
-      statParameters.setParams(params);
+      statParameters.setParams(params, true);
       this.GetSkaterTable(id, statParameters);
     });
   }

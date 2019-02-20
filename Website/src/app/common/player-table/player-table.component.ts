@@ -36,7 +36,7 @@ export class PlayerTableComponent implements OnInit {
   pages: number = 5;
 
   skaterHeaders = ["GP", "G", "A", "P", "+/-", "PIM", "PM5", "HIT", "HTT", "SHT", "OSB", "OSM", "SB", "MP", "PPG", "PPA", "PPP", "PPS", "PPM", "PKG", "PKA", "PKP", "PKS", "PKM", "GW", "GT", "FOW", "FOT", "EG", "HT", "PSG", "PSS", "FW", "FL", "FT"];
-  goalieHeaders = ['GP','W','L','OTL','MP','PIM','SO','GA','SA','A','EG','PSA','ST','BG','PSS'];
+  goalieHeaders = ['GP','W','L','OTL','MP','PIM','SO','GA','SA','A','EG','PSS','PSA','ST','BG'];
 
   constructor(private help: HelpService) { }
 
@@ -100,6 +100,10 @@ export class PlayerTableComponent implements OnInit {
 
   checkIndex(i: number) {
     return i == this.selectedColumnIndex;
+  }
+
+  checkIndexTotal(i: number) {
+    return i == this.selectedColumnIndex + 2;
   }
 
   sortBy(i: number) {

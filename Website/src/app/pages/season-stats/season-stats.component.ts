@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationExtras } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { StatParameters } from 'src/app/dtos/stat-parameters';
 import { StatTable } from 'src/app/dtos/stat-table';
 import { ApiService } from 'src/app/services/api.service';
@@ -22,7 +22,7 @@ export class SeasonStatsComponent implements OnInit {
   private GetQueryParams() {
     this.route.queryParamMap.subscribe((params) => {
       var statParameters = new StatParameters();
-      statParameters.setParams(params);
+      statParameters.setParams(params, true);
       this.GetSkaterTable(statParameters);
     });
   }
