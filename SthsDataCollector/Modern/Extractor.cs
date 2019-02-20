@@ -5,7 +5,7 @@ using System.Text;
 using System.Linq;
 using System.IO;
 
-namespace BojoBox.SthsDataCollector.Moderno
+namespace BojoBox.SthsDataCollector.Modern
 {
     public class Extractor
     {

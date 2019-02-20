@@ -6,7 +6,7 @@ using System.Linq;
 using BojoBox.EntityFramework.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace BojoBox.SthsDataCollector.Moderno
+namespace BojoBox.SthsDataCollector.Modern
 {
     public class SeasonUploader
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BojoBox.SthsDataCollector.Moderno
+namespace BojoBox.SthsDataCollector.Modern
 {
     public class SeasonData
     {

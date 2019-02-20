@@ -1,5 +1,6 @@
 ﻿using BojoBox.EntityFramework;
-using BojoBox.SthsDataCollector.Moderno;
+using BojoBox.SthsDataCollector.Legaceee;
+using BojoBox.SthsDataCollector.Modern;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +14,13 @@ namespace BojoBox.DatabaseConsole
             //BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
 
+            ConvertLegacyToModern();
+
+            Console.ReadKey();
+        }
+
+        private static void UploadData()
+        {
             //http://simulationhockey.com/games/shl/S28/Season/SHL-ProTeamScoring.html
             //http://simulationhockey.com/games/shl/S31/Playoff/SHL-PLF-ProTeamScoring.html
             //http://simulationhockey.com/games/smjhl/S43/Season/SMJHL-ProTeamScoring.html
@@ -42,6 +50,45 @@ namespace BojoBox.DatabaseConsole
 
                     Console.Write("Extracting - ");
                     var extractor = new Extractor(seasonData);
+                    seasonData = extractor.Extract(document);
+
+                    Console.Write("Uploading - ");
+                    var uploader = new SeasonUploader(seasonData);
+                    uploader.Upload();
+                }
+                catch (Exception e)
+                {
+                    Console.Write("Error: " + e.Message);
+                }
+            }
+        }
+
+        private static void ConvertLegacyToModern()
+        {
+            string leagueAcronym = "SHL";
+            leagueAcronym = "SMJHL";
+
+            bool isPlayoffs = false;
+            isPlayoffs = true;
+
+            List<int> seasonNumbers = new List<int>();
+            for (int i = 3; i <= 27; i++)
+                seasonNumbers.Add(i);
+
+            foreach (int season in seasonNumbers)
+            {
+                Console.WriteLine("");
+                Console.WriteLine("Season " + season + ": ");
+                SeasonData seasonData = new SeasonData(season, leagueAcronym, isPlayoffs);
+
+                try
+                {
+                    Console.Write("Loading - ");
+                    var loader = new LegacyFileLoader(seasonData);
+                    var document = loader.LoadFile();
+
+                    Console.Write("Extracting - ");
+                    var extractor = new LegacyExtractor(seasonData);
                     seasonData = extractor.Extract(document);
 
                     Console.Write("Uploading - ");

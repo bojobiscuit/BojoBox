@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace SthsDataCollector.Models
+namespace BojoBox.SthsDataCollector.Modern
 {
     public static class Helper
     {
