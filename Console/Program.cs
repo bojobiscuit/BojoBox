@@ -16,17 +16,8 @@ namespace BojoBox.DatabaseConsole
             //BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
 
-            //UploadData();
-
-            //try
-            {
-                ResetDatabase();
-                //RemoveSeason();
-            }
-            //catch (Exception e)
-            {
-                //Console.Write(" Error: " + e.Message);
-            }
+            ResetDatabase();
+            UploadData();
 
             Console.WriteLine("Press key to exit");
             Console.ReadKey();
@@ -55,30 +46,37 @@ namespace BojoBox.DatabaseConsole
             //http://simulationhockey.com/games/iihf/S45/roundrobin/IIHF-ProTeamScoring.html
             string urlTemplate = "http://simulationhockey.com/games/{leagueLow}/S{seasonNumber}/{seasonType}/{leagueUp}-{playoffAcro}ProTeamScoring.html";
 
-            string leagueAcronym;
-            //leagueAcronym = "SHL";
-            leagueAcronym = "SMJHL";
-            //leagueAcronym = "IIHF";
+            int lastSeason = 45;
 
-            bool isPlayoffs = false;
-            //isPlayoffs = true;
+            List<SeasonPack> seasonPacks = new List<SeasonPack>();
 
-            bool isLegacy = false;
-            //isLegacy = true;
+            for (int i = 3; i <= lastSeason; i++)
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = false, isLegacy = i <= 28 });
 
-            List<int> seasonNumbers = new List<int>();
-            for (int i = 22; i <= 42; i++)
-                seasonNumbers.Add(i);
+            for (int i = 17; i <= lastSeason; i++)
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = true, isLegacy = i <= 22 });
 
-            foreach (int season in seasonNumbers)
+            for (int i = 15; i <= lastSeason; i++)
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = false, isLegacy = i <= 22 });
+
+            for (int i = 17; i <= lastSeason; i++)
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = true, isLegacy = i <= 21 });
+
+            for (int i = 22; i <= lastSeason; i++)
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = false, isLegacy = i <= 22 });
+
+            for (int i = 22; i <= lastSeason; i++)
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = true, isLegacy = i <= 22 });
+
+            foreach (var season in seasonPacks)
             {
                 Console.WriteLine("");
-                Console.WriteLine("Season " + season + ": ");
-                SeasonData seasonData = new SeasonData(season, leagueAcronym, isPlayoffs);
+                Console.WriteLine(season.leagueAcro + ": " + season.number + ": " + (season.isPlayoffs ? "PLF" : "") + ": " + (season.isLegacy ? "LEG" : ""));
+                SeasonData seasonData = new SeasonData(season.number, season.leagueAcro, season.isPlayoffs);
 
                 try
                 {
-                    if (isLegacy)
+                    if (season.isLegacy)
                     {
                         Console.Write("Loading - ");
                         var loader = new LegacyFileLoader(seasonData);
@@ -108,6 +106,14 @@ namespace BojoBox.DatabaseConsole
                     Console.Write("Error: " + e.Message);
                 }
             }
+        }
+
+        private class SeasonPack
+        {
+            public int number;
+            public bool isPlayoffs;
+            public bool isLegacy;
+            public string leagueAcro;
         }
     }
 }

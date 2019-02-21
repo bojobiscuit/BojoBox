@@ -51,8 +51,11 @@ namespace BojoBox.SthsDataCollector
         private static void InitializeData(BojoBoxContext db)
         {
             db.Leagues.Add(new League() { Acronym = "SHL", Name = "Simulated Hockey League" });
+            db.SaveChanges();
             db.Leagues.Add(new League() { Acronym = "SMJHL", Name = "Simulated Major Junior Hockey League" });
+            db.SaveChanges();
             db.Leagues.Add(new League() { Acronym = "IIHF", Name = "International Ice Hockey Federation" });
+            db.SaveChanges();
 
             string[] shlNames = {
                     "Winnipeg Jets"            ,
