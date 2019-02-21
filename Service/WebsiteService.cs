@@ -39,7 +39,18 @@ namespace BojoBox.Service
 
                 if (teamDto != null)
                 {
-                    skaterSeasonQuery = skaterSeasonQuery.Where(a => a.TeamId == teamDto.Id);
+                    int? franchiseId = null;
+                    if (teamDto.FranchiseId.HasValue)
+                        franchiseId = db.Franchises.FirstOrDefault(a => a.Id == teamDto.FranchiseId).Id;
+
+                    if (franchiseId.HasValue)
+                    {
+                        skaterSeasonQuery = skaterSeasonQuery.Include(a => a.Team).Where(a => a.Team.FranchiseId == franchiseId);
+                    }
+                    else
+                    {
+                        skaterSeasonQuery = skaterSeasonQuery.Where(a => a.TeamId == teamDto.Id);
+                    }
                 }
                 else
                 {

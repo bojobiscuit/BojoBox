@@ -33,13 +33,14 @@ namespace BojoBox.SthsDataCollector
 
         private void GetLeague()
         {
-            if (!db.Leagues.Any(a => a.Acronym == "SHL"))
-            {
+            if (!db.Leagues.Any(a => a.Id == 1))
                 db.Leagues.Add(new League() { Id = 1, Acronym = "SHL", Name = "Simulated Hockey League" });
+            if (!db.Leagues.Any(a => a.Id == 2))
                 db.Leagues.Add(new League() { Id = 2, Acronym = "SMJHL", Name = "Simulated Major Junior Hockey League" });
+            if (!db.Leagues.Any(a => a.Id == 3))
                 db.Leagues.Add(new League() { Id = 3, Acronym = "IIHF", Name = "International Ice Hockey Federation" });
-                db.SaveChanges();
-            }
+
+            db.SaveChanges();
 
             league = db.Leagues.First(a => a.Acronym == season.LeagueAcronym);
 

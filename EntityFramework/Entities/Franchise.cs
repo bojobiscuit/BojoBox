@@ -6,7 +6,7 @@ namespace BojoBox.EntityFramework.Entities
     {
         public int Id { get; set; }
         public int LeagueId { get; set; }
-        public int CurrentTeamId { get; set; }
+        public int? CurrentTeamId { get; set; }
 
         public League League { get; set; }
         public Team CurrentTeam { get; set; }

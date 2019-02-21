@@ -4,14 +4,16 @@ using BojoBox.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BojoBox.EntityFramework.Migrations
 {
     [DbContext(typeof(BojoBoxContext))]
-    partial class BojoBoxContextModelSnapshot : ModelSnapshot
+    [Migration("20190221021042_mig2")]
+    partial class mig2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,15 +27,14 @@ namespace BojoBox.EntityFramework.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CurrentTeamId");
+                    b.Property<int>("CurrentTeamId");
 
                     b.Property<int>("LeagueId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CurrentTeamId")
-                        .IsUnique()
-                        .HasFilter("[CurrentTeamId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("LeagueId");
 
@@ -291,7 +292,7 @@ namespace BojoBox.EntityFramework.Migrations
                     b.HasOne("BojoBox.EntityFramework.Entities.Team", "CurrentTeam")
                         .WithOne()
                         .HasForeignKey("BojoBox.EntityFramework.Entities.Franchise", "CurrentTeamId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
                         .WithMany("Franchises")

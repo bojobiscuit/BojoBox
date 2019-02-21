@@ -4,14 +4,16 @@ using BojoBox.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BojoBox.EntityFramework.Migrations
 {
     [DbContext(typeof(BojoBoxContext))]
-    partial class BojoBoxContextModelSnapshot : ModelSnapshot
+    [Migration("20190221021323_mig4")]
+    partial class mig4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

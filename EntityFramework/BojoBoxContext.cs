@@ -42,13 +42,13 @@ namespace BojoBox.EntityFramework
                 .HasMany(a => a.Teams)
                 .WithOne(b => b.Franchise)
                 .HasForeignKey(b => b.FranchiseId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
 
             modelBuilder.Entity<Franchise>()
                 .HasOne(a => a.CurrentTeam)
                 .WithOne()
                 .HasForeignKey<Franchise>(a => a.CurrentTeamId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.SetNull);
 
 
             modelBuilder.Entity<Team>()

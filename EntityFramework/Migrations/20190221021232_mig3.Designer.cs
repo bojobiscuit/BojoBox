@@ -4,14 +4,16 @@ using BojoBox.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BojoBox.EntityFramework.Migrations
 {
     [DbContext(typeof(BojoBoxContext))]
-    partial class BojoBoxContextModelSnapshot : ModelSnapshot
+    [Migration("20190221021232_mig3")]
+    partial class mig3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -291,7 +293,7 @@ namespace BojoBox.EntityFramework.Migrations
                     b.HasOne("BojoBox.EntityFramework.Entities.Team", "CurrentTeam")
                         .WithOne()
                         .HasForeignKey("BojoBox.EntityFramework.Entities.Franchise", "CurrentTeamId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("BojoBox.EntityFramework.Entities.League", "League")
                         .WithMany("Franchises")

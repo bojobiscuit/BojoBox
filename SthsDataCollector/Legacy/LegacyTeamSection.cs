@@ -16,10 +16,10 @@ namespace BojoBox.SthsDataCollector.Legacy
             LineParseSection parseSection = LineParseSection.TeamInfo;
             IList<string> currentLineList = new List<string>();
 
-            string[] lines = teamSectionData.Split('\n');
+            string[] lines = teamSectionData.Split('\n').Select(a => a.Trim()).ToArray();
             foreach (var line in lines)
             {
-                if (line.Length < 10) continue;
+                if (line.Length < 5) continue;
                 if (line.StartsWith("---------")) continue;
                 if (line.Contains("Player Name"))
                 {

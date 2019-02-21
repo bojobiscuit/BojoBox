@@ -23,9 +23,7 @@ namespace BojoBox.SthsDataCollector.Modern
                 "{1} - PLF - Pro Team Scoring {0}.html" :
                 "{1} - Pro Team Scoring {0}.html";
 
-            var folderName = (isLegacy) ?
-                @"LegacyFiles" :
-                @"SeasonFiles";
+            var folderName = "SeasonFiles";
 
             string seasonNumberText = (season.SeasonNumber < 10 ? "0" : "") + season.SeasonNumber.ToString();
             string fileName = string.Format(nameFormat, seasonNumberText, season.LeagueAcronym);
@@ -41,10 +39,12 @@ namespace BojoBox.SthsDataCollector.Modern
                 url = url.Replace("{seasonNumber}", season.SeasonNumber.ToString());
                 url = url.Replace("{playoffAcro}", season.IsPlayoffs ? "PLF-" : "");
 
+                if (season.LeagueAcronym.ToLowerInvariant() == "shl")
+                    url = url.Replace("{seasonType}", season.IsPlayoffs ? "Playoff" : "Season");
                 if (season.LeagueAcronym.ToLowerInvariant() == "smjhl")
                     url = url.Replace("{seasonType}", season.IsPlayoffs ? "Playoffs" : "Season");
-                else
-                    url = url.Replace("{seasonType}", season.IsPlayoffs ? "Playoff" : "Season");
+                if (season.LeagueAcronym.ToLowerInvariant() == "iihf")
+                    url = url.Replace("{seasonType}", season.IsPlayoffs ? "medalround" : "roundrobin");
 
                 htmlDocument = new HtmlWeb().Load(url);
 
