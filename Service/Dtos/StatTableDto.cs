@@ -8,6 +8,7 @@ namespace BojoBox.Service.Dtos
         public string DisplayType { get; set; }
         public string PlayerType { get; set; }
         public string HeaderText { get; set; }
+        public int? PageCount { get; set; }
 
         public IEnumerable<int> Seasons { get; set; }
         public IEnumerable<TeamDto> Teams { get; set; }

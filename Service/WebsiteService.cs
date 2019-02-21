@@ -23,7 +23,7 @@ namespace BojoBox.Service
         {
             StatTableDto statTableDto = new StatTableDto();
             StatParametersDto cleanParameters = CleanSeasonParameters(paramDto);
-            cleanParameters.SelectedColumnIndex = cleanParameters.SelectedColumnIndex ?? 3;
+            cleanParameters.Col = cleanParameters.Col ?? 3;
 
             using (db = new BojoBoxContext())
             {
@@ -78,15 +78,14 @@ namespace BojoBox.Service
                     skaterSeasonQuery = skaterSeasonQuery.Where(a => a.Season == cleanParameters.Season);
                 }
 
-                IQueryable<IdStatPair> idStatPairs = GetIdStatPairs(cleanParameters.SelectedColumnIndex, skaterSeasonQuery);
+                IQueryable<IdStatPair> idStatPairs = GetIdStatPairs(cleanParameters.Col, skaterSeasonQuery);
 
                 idStatPairs = idStatPairs.OrderByDescending(a => a.Stat);
                 // TODO: Check if to sort ascending
 
-                int count = idStatPairs.Count();
-
-                int[] selectedIds = idStatPairs.Select(b => b.Id).Skip(0).Take(20).ToArray();
-                // TODO: Pagniation
+                int pageSize = 20;
+                statTableDto.PageCount = GetPageCount(cleanParameters, idStatPairs);
+                int[] selectedIds = idStatPairs.Select(b => b.Id).Skip(cleanParameters.Page.Value * pageSize).Take(pageSize).ToArray();
 
                 var skaterSeasonDtos = db.SkaterSeasons
                     .Include(a => a.Team)
@@ -106,7 +105,7 @@ namespace BojoBox.Service
                     rows.Add(row);
                 }
 
-                statTableDto.PlayerRows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.SelectedColumnIndex.Value)).ThenByDescending(a => a.Stats.ElementAt(13));
+                statTableDto.PlayerRows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(13));
                 AddRanks(statTableDto.PlayerRows);
             }
 
@@ -116,11 +115,25 @@ namespace BojoBox.Service
             return statTableDto;
         }
 
+        private static int GetPageCount(StatParametersDto cleanParameters, IQueryable<IdStatPair> idStatPairs)
+        {
+            int pageSize = 20;
+            int pageCount = (int)Math.Ceiling((double)idStatPairs.Count() / (double)pageSize);
+            pageCount = Math.Min(pageCount, 10);
+
+            if (cleanParameters.Page.Value > pageCount)
+                cleanParameters.Page = pageCount;
+            if (cleanParameters.Page.Value < 0)
+                cleanParameters.Page = 0;
+
+            return pageCount;
+        }
+
         public StatTableDto GetCareerSkaterTable(StatParametersDto paramDto)
         {
             StatTableDto statTableDto = new StatTableDto();
             StatParametersDto cleanParameters = CleanCareerParameters(paramDto);
-            cleanParameters.SelectedColumnIndex = cleanParameters.SelectedColumnIndex ?? 3;
+            cleanParameters.Col = cleanParameters.Col ?? 3;
 
             using (db = new BojoBoxContext())
             {
@@ -145,17 +158,16 @@ namespace BojoBox.Service
                 bool isPlayoffs = CheckIfPlayoffs(cleanParameters.SeasonType.Value);
                 skaterCareerQuery = skaterCareerQuery.Where(a => a.isPlayoffs == isPlayoffs);
 
-                var idStatPairs = GetIdStatPairsCareer(cleanParameters.SelectedColumnIndex, skaterCareerQuery);
+                var idStatPairs = GetIdStatPairsCareer(cleanParameters.Col, skaterCareerQuery);
 
                 idStatPairs = idStatPairs.GroupBy(a => a.Id, b => b.Stat, (x, y) => new IdStatPair(x, y.Sum()));
 
                 idStatPairs = idStatPairs.OrderByDescending(a => a.Stat);
                 // TODO: Check if to sort ascending
 
-                var selectedSkaterIds = idStatPairs.Select(b => b.Id).Skip(0).Take(20).ToArray();
-
-                var count = idStatPairs.Count();
-                // TODO: Pagniation
+                int pageSize = 20;
+                statTableDto.PageCount = GetPageCount(cleanParameters, idStatPairs);
+                var selectedSkaterIds = idStatPairs.Select(b => b.Id).Skip(cleanParameters.Page.Value * pageSize).Take(pageSize).ToArray();
 
                 var skaterRows = db.SkaterSeasons
                     .Include(a => a.Skater)
@@ -215,7 +227,7 @@ namespace BojoBox.Service
                 })
                 .ToList();
 
-                statTableDto.PlayerRows = statTableDto.PlayerRows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.SelectedColumnIndex.Value)).ThenByDescending(a => a.Stats.ElementAt(13));
+                statTableDto.PlayerRows = statTableDto.PlayerRows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(13));
                 AddRanks(statTableDto.PlayerRows);
             }
 
@@ -280,10 +292,10 @@ namespace BojoBox.Service
                     rows.Add(row);
                 }
 
-                if (cleanParameters.SelectedColumnIndex == null)
+                if (cleanParameters.Col == null)
                     rows = rows.OrderByDescending(a => a.Season).ToList();
                 else
-                    rows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.SelectedColumnIndex.Value)).ThenByDescending(a => a.Stats.ElementAt(13)).ToList();
+                    rows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(13)).ToList();
 
                 statTableDto.PlayerRows = rows;
 
@@ -308,7 +320,7 @@ namespace BojoBox.Service
         {
             StatTableDto statTableDto = new StatTableDto();
             StatParametersDto cleanParameters = CleanSeasonParameters(paramDto);
-            cleanParameters.SelectedColumnIndex = cleanParameters.SelectedColumnIndex ?? 1;
+            cleanParameters.Col = cleanParameters.Col ?? 1;
 
             using (db = new BojoBoxContext())
             {
@@ -352,15 +364,14 @@ namespace BojoBox.Service
                     goalieSeasonQuery = goalieSeasonQuery.Where(a => a.Season == cleanParameters.Season);
                 }
 
-                var idStatPairs = GetIdStatPairs(cleanParameters.SelectedColumnIndex, goalieSeasonQuery);
+                var idStatPairs = GetIdStatPairs(cleanParameters.Col, goalieSeasonQuery);
 
                 idStatPairs = idStatPairs.OrderByDescending(a => a.Stat);
                 // TODO: Check if to sort ascending
 
-                int count = idStatPairs.Count();
-
-                int[] selectedIds = idStatPairs.Select(b => b.Id).Skip(0).Take(20).ToArray();
-                // TODO: Pagniation
+                int pageSize = 20;
+                statTableDto.PageCount = GetPageCount(cleanParameters, idStatPairs);
+                int[] selectedIds = idStatPairs.Select(b => b.Id).Skip(cleanParameters.Page.Value * pageSize).Take(pageSize).ToArray();
 
                 var goalieSeasonDtos = db.GoalieSeasons
                     .Include(a => a.Team)
@@ -379,7 +390,7 @@ namespace BojoBox.Service
                     row.Stats = GetGoalieStats(dto);
                     rows.Add(row);
                 }
-                statTableDto.PlayerRows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.SelectedColumnIndex.Value)).ThenByDescending(a => a.Stats.ElementAt(4));
+                statTableDto.PlayerRows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(4));
                 AddRanks(statTableDto.PlayerRows);
             }
 
@@ -393,7 +404,7 @@ namespace BojoBox.Service
         {
             StatTableDto statTableDto = new StatTableDto();
             StatParametersDto cleanParameters = CleanCareerParameters(paramDto);
-            cleanParameters.SelectedColumnIndex = cleanParameters.SelectedColumnIndex ?? 1;
+            cleanParameters.Col = cleanParameters.Col ?? 1;
 
             using (db = new BojoBoxContext())
             {
@@ -418,20 +429,15 @@ namespace BojoBox.Service
                 bool isPlayoffs = CheckIfPlayoffs(cleanParameters.SeasonType.Value);
                 goalieCareerQuery = goalieCareerQuery.Where(a => a.isPlayoffs == isPlayoffs);
 
-                var idStatPairs = GetIdStatPairsCareer(cleanParameters.SelectedColumnIndex, goalieCareerQuery);
-                // TODO: Do this for each stat. ugh.
-
+                var idStatPairs = GetIdStatPairsCareer(cleanParameters.Col, goalieCareerQuery);
                 idStatPairs = idStatPairs.GroupBy(a => a.Id, b => b.Stat, (x, y) => new IdStatPair(x, y.Sum()));
 
                 idStatPairs = idStatPairs.OrderByDescending(a => a.Stat);
                 // TODO: Check if to sort ascending
 
-                var test = idStatPairs.ToList();
-
-                var selectedGoalieIds = idStatPairs.Select(b => b.Id).Skip(0).Take(20).ToArray();
-
-                var count = idStatPairs.Count();
-                // TODO: Pagniation
+                int pageSize = 20;
+                statTableDto.PageCount = GetPageCount(cleanParameters, idStatPairs);
+                var selectedGoalieIds = idStatPairs.Select(b => b.Id).Skip(cleanParameters.Page.Value * pageSize).Take(pageSize).ToArray();
 
                 var goalieRows = db.GoalieSeasons
                     .Include(a => a.Goalie)
@@ -471,7 +477,7 @@ namespace BojoBox.Service
                 })
                 .ToList();
 
-                statTableDto.PlayerRows = statTableDto.PlayerRows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.SelectedColumnIndex.Value)).ThenByDescending(a => a.Stats.ElementAt(4));
+                statTableDto.PlayerRows = statTableDto.PlayerRows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(4));
                 AddRanks(statTableDto.PlayerRows);
             }
 
@@ -536,10 +542,10 @@ namespace BojoBox.Service
                     rows.Add(row);
                 }
 
-                if (cleanParameters.SelectedColumnIndex == null)
+                if (cleanParameters.Col == null)
                     rows = rows.OrderByDescending(a => a.Season).ToList();
                 else
-                    rows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.SelectedColumnIndex.Value)).ThenByDescending(a => a.Stats.ElementAt(13)).ToList();
+                    rows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(13)).ToList();
 
                 statTableDto.PlayerRows = rows;
 
@@ -854,7 +860,8 @@ namespace BojoBox.Service
             cleanParameters.Team = paramDto.Team ?? 0;
             cleanParameters.League = paramDto.League ?? 1;
             cleanParameters.SeasonType = paramDto.SeasonType ?? 1;
-            cleanParameters.SelectedColumnIndex = paramDto.SelectedColumnIndex;
+            cleanParameters.Col = paramDto.Col;
+            cleanParameters.Page = paramDto.Page ?? 0;
             return cleanParameters;
         }
 
@@ -866,7 +873,8 @@ namespace BojoBox.Service
             cleanParameters.Team = paramDto.Team ?? 0;
             cleanParameters.League = paramDto.League ?? 1;
             cleanParameters.SeasonType = paramDto.SeasonType ?? 1;
-            cleanParameters.SelectedColumnIndex = paramDto.SelectedColumnIndex;
+            cleanParameters.Col = paramDto.Col;
+            cleanParameters.Page = paramDto.Page ?? 0;
 
             if (cleanParameters.Era > 0)
                 cleanParameters.Season = 0;
@@ -882,7 +890,9 @@ namespace BojoBox.Service
             cleanParameters.Team = paramDto.Team ?? 0;
             cleanParameters.League = paramDto.League ?? 1;
             cleanParameters.SeasonType = paramDto.SeasonType ?? 1;
-            cleanParameters.SelectedColumnIndex = paramDto.SelectedColumnIndex;
+            cleanParameters.Col = paramDto.Col;
+            cleanParameters.Page = paramDto.Page ?? 0;
+
             return cleanParameters;
         }
 
