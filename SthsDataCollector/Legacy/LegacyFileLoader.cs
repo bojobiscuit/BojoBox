@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace BojoBox.SthsDataCollector.Legacy
@@ -28,7 +29,12 @@ namespace BojoBox.SthsDataCollector.Legacy
 
             string seasonNumberText = (season.SeasonNumber < 10 ? "0" : "") + season.SeasonNumber.ToString();
             string fileName = string.Format(nameFormat, seasonNumberText, season.LeagueAcronym);
+
             string directory = Path.Combine(Environment.CurrentDirectory, folderName);
+
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                directory = Path.Combine(Environment.CurrentDirectory, "bin/debug/netcoreapp2.2", folderName);
+
             string filePath = Path.Combine(directory, fileName);
 
             Directory.CreateDirectory(directory);

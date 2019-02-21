@@ -30,8 +30,8 @@ namespace BojoBox.Service
                 LeagueDto leagueDto = GetLeague(cleanParameters.League.Value);
                 TeamDto teamDto = GetTeam(cleanParameters.Team.Value);
 
-                statTableDto.Teams = GetTeamParameters();
-                statTableDto.Seasons = GetSeasonParameters();
+                statTableDto.Teams = GetTeamParameters(leagueDto.Id);
+                statTableDto.Seasons = GetSeasonParameters(leagueDto.Id, cleanParameters.SeasonType == 2);
                 statTableDto.HeaderText = leagueDto.Acronym + " - Season Stats";
 
                 var skaterSeasonQuery = db.SkaterSeasons
@@ -127,7 +127,7 @@ namespace BojoBox.Service
                 LeagueDto leagueDto = GetLeague(cleanParameters.League.Value);
                 TeamDto teamDto = GetTeam(cleanParameters.Team.Value);
 
-                statTableDto.Teams = GetTeamParameters();
+                statTableDto.Teams = GetTeamParameters(leagueDto.Id);
 
                 statTableDto.HeaderText = leagueDto.Acronym + " - Career Stats";
 
@@ -163,6 +163,9 @@ namespace BojoBox.Service
                     .Where(a => a.TeamId.HasValue)
                     .Where(a => a.LeagueId == leagueDto.Id)
                     .Where(a => a.isPlayoffs == isPlayoffs);
+
+                if (teamDto != null)
+                    skaterRows = skaterRows.Where(a => a.TeamId == teamDto.Id);
 
                 statTableDto.PlayerRows = skaterRows.GroupBy(a => a.Skater, b => b, (skater, rows) => new PlayerTableRow()
                 {
@@ -312,8 +315,8 @@ namespace BojoBox.Service
                 LeagueDto leagueDto = GetLeague(cleanParameters.League.Value);
                 TeamDto teamDto = GetTeam(cleanParameters.Team.Value);
 
-                statTableDto.Teams = GetTeamParameters();
-                statTableDto.Seasons = GetSeasonParameters();
+                statTableDto.Teams = GetTeamParameters(leagueDto.Id);
+                statTableDto.Seasons = GetSeasonParameters(leagueDto.Id, cleanParameters.SeasonType == 2);
                 statTableDto.HeaderText = leagueDto.Acronym + " - Season Stats";
 
                 var goalieSeasonQuery = db.GoalieSeasons
@@ -397,7 +400,7 @@ namespace BojoBox.Service
                 LeagueDto leagueDto = GetLeague(cleanParameters.League.Value);
                 TeamDto teamDto = GetTeam(cleanParameters.Team.Value);
 
-                statTableDto.Teams = GetTeamParameters();
+                statTableDto.Teams = GetTeamParameters(leagueDto.Id);
 
                 statTableDto.HeaderText = leagueDto.Acronym + " - Career Stats";
 
@@ -423,6 +426,8 @@ namespace BojoBox.Service
                 idStatPairs = idStatPairs.OrderByDescending(a => a.Stat);
                 // TODO: Check if to sort ascending
 
+                var test = idStatPairs.ToList();
+
                 var selectedGoalieIds = idStatPairs.Select(b => b.Id).Skip(0).Take(20).ToArray();
 
                 var count = idStatPairs.Count();
@@ -434,6 +439,9 @@ namespace BojoBox.Service
                     .Where(a => a.TeamId.HasValue)
                     .Where(a => a.LeagueId == leagueDto.Id)
                     .Where(a => a.isPlayoffs == isPlayoffs);
+
+                if (teamDto != null)
+                    goalieRows = goalieRows.Where(a => a.TeamId == teamDto.Id);
 
                 statTableDto.PlayerRows = goalieRows.GroupBy(a => a.Goalie, b => b, (skater, rows) => new PlayerTableRow()
                 {
@@ -812,9 +820,14 @@ namespace BojoBox.Service
             };
         }
 
-        private List<int> GetSeasonParameters()
+        private List<int> GetSeasonParameters(int leagueId, bool isPlayoffs)
         {
-            return db.SkaterSeasons.Select(a => a.Season).Distinct().OrderByDescending(a => a).ToList();
+            return db.SkaterSeasons
+                .Where(a => a.LeagueId == leagueId && a.isPlayoffs == isPlayoffs)
+                .Select(a => a.Season)
+                .Distinct()
+                .OrderByDescending(a => a)
+                .ToList();
         }
 
         private static void AddRanks(IEnumerable<PlayerTableRow> rows)
@@ -824,9 +837,13 @@ namespace BojoBox.Service
                 row.Rank = i++;
         }
 
-        private List<TeamDto> GetTeamParameters()
+        private List<TeamDto> GetTeamParameters(int leagueId)
         {
-            return db.Teams.Select(a => TeamDto.Create(a)).OrderBy(a => a.Name).ToList();
+            return db.Franchises
+                .Where(a => a.LeagueId == leagueId)
+                .Select(a => TeamDto.Create(a.CurrentTeam))
+                .OrderBy(a => a.Name)
+                .ToList();
         }
 
         private static StatParametersDto CleanPlayerParameters(StatParametersDto paramDto)

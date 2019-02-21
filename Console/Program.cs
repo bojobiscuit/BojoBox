@@ -30,6 +30,7 @@ namespace BojoBox.DatabaseConsole
             Console.WriteLine("Are you sure? (y)");
 
             var key = Console.ReadKey();
+
             if (key.KeyChar == 'y')
             {
                 DatabaseHelper.ResetDatabase();
