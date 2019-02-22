@@ -59,9 +59,9 @@ namespace BojoBox.Service
                 {
                     switch (cleanParameters.Era)
                     {
-                        case 1: skaterSeasonQuery = skaterSeasonQuery.Where(a => a.Season >= 20); break;
-                        case 2: skaterSeasonQuery = skaterSeasonQuery.Where(a => a.Season < 20 && a.Season > 10); break;
-                        case 3: skaterSeasonQuery = skaterSeasonQuery.Where(a => a.Season <= 10); break;
+                        case 1: skaterSeasonQuery = skaterSeasonQuery.Where(a => a.Season >= 12); break;
+                        case 2: skaterSeasonQuery = skaterSeasonQuery.Where(a => a.Season <= 11 && a.Season >= 9); break;
+                        case 3: skaterSeasonQuery = skaterSeasonQuery.Where(a => a.Season <= 8); break;
                     }
                 }
 
@@ -330,9 +330,9 @@ namespace BojoBox.Service
                 {
                     switch (cleanParameters.Era)
                     {
-                        case 1: goalieSeasonQuery = goalieSeasonQuery.Where(a => a.Season >= 20); break;
-                        case 2: goalieSeasonQuery = goalieSeasonQuery.Where(a => a.Season < 20 && a.Season > 10); break;
-                        case 3: goalieSeasonQuery = goalieSeasonQuery.Where(a => a.Season <= 10); break;
+                        case 1: goalieSeasonQuery = goalieSeasonQuery.Where(a => a.Season >= 12); break;
+                        case 2: goalieSeasonQuery = goalieSeasonQuery.Where(a => a.Season <= 11 && a.Season >= 9); break;
+                        case 3: goalieSeasonQuery = goalieSeasonQuery.Where(a => a.Season <= 8); break;
                     }
                 }
 
