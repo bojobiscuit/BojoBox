@@ -11,14 +11,6 @@ namespace BojoBox.Service
 {
     public class WebsiteService : IWebsiteService
     {
-        public void Test()
-        {
-            using (db = new BojoBoxContext())
-            {
-                var leagues = db.Leagues.ToList();
-            }
-        }
-
         public StatTableDto GetSeasonSkaterTable(StatParametersDto paramDto)
         {
             StatTableDto statTableDto = new StatTableDto();
@@ -113,20 +105,6 @@ namespace BojoBox.Service
             statTableDto.PlayerType = "skater";
             statTableDto.StatParameters = cleanParameters;
             return statTableDto;
-        }
-
-        private static int GetPageCount(StatParametersDto cleanParameters, IQueryable<IdStatPair> idStatPairs)
-        {
-            int pageSize = 20;
-            int pageCount = (int)Math.Ceiling((double)idStatPairs.Count() / (double)pageSize);
-            pageCount = Math.Min(pageCount, 10);
-
-            if (cleanParameters.Page.Value > pageCount)
-                cleanParameters.Page = pageCount;
-            if (cleanParameters.Page.Value < 0)
-                cleanParameters.Page = 0;
-
-            return pageCount;
         }
 
         public StatTableDto GetCareerSkaterTable(StatParametersDto paramDto)
@@ -314,7 +292,6 @@ namespace BojoBox.Service
             statTableDto.StatParameters = cleanParameters;
             return statTableDto;
         }
-
 
         public StatTableDto GetSeasonGoalieTable(StatParametersDto paramDto)
         {
@@ -565,6 +542,42 @@ namespace BojoBox.Service
             return statTableDto;
         }
 
+        public SearchResults GetSearchResults(string rawSearchInput)
+        {
+            string search = rawSearchInput.ToLowerInvariant().Trim();
+            SearchResults results = new SearchResults() { SearchInput = search, Results = null };
+
+            using (db = new BojoBoxContext())
+            {
+                List<PlayerDto> playerDtos = new List<PlayerDto>();
+
+                var skaters = db.Skaters
+                    .Where(a => a.Name.ToLowerInvariant()
+                    .Contains(search))
+                    .Select(a => PlayerDto.Create(a))
+                    .ToArray();
+
+                var goalies = db.Goalies
+                    .Where(a => a.Name.ToLowerInvariant()
+                    .Contains(search))
+                    .Select(a => PlayerDto.Create(a))
+                    .ToArray();
+
+                foreach (var skater in skaters)
+                    skater.Acronym = "skater";
+
+                foreach (var goalie in goalies)
+                    goalie.Acronym = "goalie";
+
+                playerDtos.AddRange(skaters);
+                playerDtos.AddRange(goalies);
+
+                results.Results = playerDtos.OrderBy(a => a.Name).ToArray();
+            }
+
+            return results;
+        }
+
 
         private static IQueryable<IdStatPair> GetIdStatPairs(int? columnIndex, IQueryable<SkaterSeason> skaterSeasonQuery)
         {
@@ -710,6 +723,20 @@ namespace BojoBox.Service
                 default: idStatPairs = goalieQuery.Select(a => new IdStatPair(a.GoalieId, a.Wins)); break;
             }
             return idStatPairs;
+        }
+
+        private static int GetPageCount(StatParametersDto cleanParameters, IQueryable<IdStatPair> idStatPairs)
+        {
+            int pageSize = 20;
+            int pageCount = (int)Math.Ceiling((double)idStatPairs.Count() / (double)pageSize);
+            pageCount = Math.Min(pageCount, 10);
+
+            if (cleanParameters.Page.Value > pageCount)
+                cleanParameters.Page = pageCount;
+            if (cleanParameters.Page.Value < 0)
+                cleanParameters.Page = 0;
+
+            return pageCount;
         }
 
         private static bool CheckIfPlayoffs(int seasonType)

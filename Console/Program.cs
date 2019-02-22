@@ -16,8 +16,15 @@ namespace BojoBox.DatabaseConsole
             //BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
 
-            ResetDatabase();
-            UploadData();
+            //ResetDatabase();
+
+            //UploadSeason(new SeasonPack()
+            //{
+            //    isLegacy = false,
+            //    isPlayoffs = false,
+            //    leagueAcro = "IIHF",
+            //    number = 23
+            //});
 
             Console.WriteLine("Press key to exit");
             Console.ReadKey();
@@ -34,6 +41,7 @@ namespace BojoBox.DatabaseConsole
             if (key.KeyChar == 'y')
             {
                 DatabaseHelper.ResetDatabase();
+                UploadData();
                 Console.WriteLine("\nDone");
             }
         }
@@ -52,7 +60,7 @@ namespace BojoBox.DatabaseConsole
             List<SeasonPack> seasonPacks = new List<SeasonPack>();
 
             for (int i = 3; i <= lastSeason; i++)
-                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = false, isLegacy = i <= 28 });
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = false, isLegacy = i <= 27 });
 
             for (int i = 17; i <= lastSeason; i++)
                 seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = true, isLegacy = i <= 22 });
@@ -71,41 +79,48 @@ namespace BojoBox.DatabaseConsole
 
             foreach (var season in seasonPacks)
             {
-                Console.WriteLine("");
-                Console.WriteLine(season.leagueAcro + ": " + season.number + ": " + (season.isPlayoffs ? "PLF" : "") + ": " + (season.isLegacy ? "LEG" : ""));
-                SeasonData seasonData = new SeasonData(season.number, season.leagueAcro, season.isPlayoffs);
+                UploadSeason(season);
+            }
+        }
 
-                try
+        private static void UploadSeason(SeasonPack season)
+        {
+            string urlTemplate = "http://simulationhockey.com/games/{leagueLow}/S{seasonNumber}/{seasonType}/{leagueUp}-{playoffAcro}ProTeamScoring.html";
+
+            Console.WriteLine("");
+            Console.WriteLine(season.leagueAcro + ": " + season.number + ": " + (season.isPlayoffs ? "PLF" : "") + ": " + (season.isLegacy ? "LEG" : ""));
+            SeasonData seasonData = new SeasonData(season.number, season.leagueAcro, season.isPlayoffs);
+
+            try
+            {
+                if (season.isLegacy)
                 {
-                    if (season.isLegacy)
-                    {
-                        Console.Write("Loading - ");
-                        var loader = new LegacyFileLoader(seasonData);
-                        var document = loader.LoadFile();
+                    Console.Write("Loading - ");
+                    var loader = new LegacyFileLoader(seasonData);
+                    var document = loader.LoadFile();
 
-                        Console.Write("Extracting - ");
-                        var extractor = new LegacyExtractor(seasonData);
-                        seasonData = extractor.Extract(document);
-                    }
-                    else
-                    {
-                        Console.Write("Downloading - ");
-                        var loader = new FileLoader(seasonData);
-                        var document = loader.DownloadFile(urlTemplate, false);
-
-                        Console.Write("Extracting - ");
-                        var extractor = new Extractor(seasonData);
-                        seasonData = extractor.Extract(document);
-                    }
-
-                    Console.Write("Uploading - ");
-                    var uploader = new SeasonUploader(seasonData);
-                    uploader.Upload();
+                    Console.Write("Extracting - ");
+                    var extractor = new LegacyExtractor(seasonData);
+                    seasonData = extractor.Extract(document);
                 }
-                catch (Exception e)
+                else
                 {
-                    Console.Write("Error: " + e.Message);
+                    Console.Write("Downloading - ");
+                    var loader = new FileLoader(seasonData);
+                    var document = loader.DownloadFile(urlTemplate, false);
+
+                    Console.Write("Extracting - ");
+                    var extractor = new Extractor(seasonData);
+                    seasonData = extractor.Extract(document);
                 }
+
+                Console.Write("Uploading - ");
+                var uploader = new SeasonUploader(seasonData);
+                uploader.Upload();
+            }
+            catch (Exception e)
+            {
+                Console.Write("Error: " + e.Message);
             }
         }
 

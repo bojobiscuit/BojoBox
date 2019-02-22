@@ -8,21 +8,14 @@ namespace BojoBox.Api.Controllers
     [ApiController]
     public class PlayerController : ControllerBase
     {
-        // GET api/player/skater
-        [HttpGet("test")]
-        public JsonResult TestGet([FromQuery] StatParametersDto statParametersDto)
+        [HttpGet("search/{input}")]
+        public JsonResult GetSearchResults(string input)
         {
             WebsiteService service = new WebsiteService();
-            service.Test();
-            return new JsonResult(null);
-            //return GetSkater(825, statParametersDto);
-            //return GetSkaterCareer(statParametersDto);
-            //return GetGoalieSeason(statParametersDto);
-            //return GetGoalieCareer(statParametersDto);
-            // return GetGoalie(129, statParametersDto);
+            var dto = service.GetSearchResults(input);
+            return new JsonResult(dto);
         }
 
-        // GET api/season
         [HttpGet("season/skater")]
         public JsonResult GetSkaterSeason([FromQuery] StatParametersDto statParametersDto)
         {
@@ -31,7 +24,6 @@ namespace BojoBox.Api.Controllers
             return new JsonResult(dto);
         }
 
-        // GET api/season
         [HttpGet("season/goalie")]
         public JsonResult GetGoalieSeason([FromQuery] StatParametersDto statParametersDto)
         {
@@ -40,7 +32,6 @@ namespace BojoBox.Api.Controllers
             return new JsonResult(dto);
         }
 
-        // GET api/career
         [HttpGet("career/skater")]
         public JsonResult GetSkaterCareer([FromQuery] StatParametersDto statParametersDto)
         {
@@ -49,7 +40,6 @@ namespace BojoBox.Api.Controllers
             return new JsonResult(dto);
         }
 
-        // GET api/career
         [HttpGet("career/goalie")]
         public JsonResult GetGoalieCareer([FromQuery] StatParametersDto statParametersDto)
         {
@@ -58,7 +48,6 @@ namespace BojoBox.Api.Controllers
             return new JsonResult(dto);
         }
 
-        // GET api/skater
         [HttpGet("skater/{id}")]
         public JsonResult GetSkater(int id, [FromQuery] StatParametersDto statParametersDto)
         {
@@ -67,7 +56,6 @@ namespace BojoBox.Api.Controllers
             return new JsonResult(dto);
         }
 
-        // GET api/goalie
         [HttpGet("goalie/{id}")]
         public JsonResult GetGoalie(int id, [FromQuery] StatParametersDto statParametersDto)
         {

@@ -9,6 +9,8 @@ namespace BojoBox.Service.Dtos
 
         public string Name { get; set; }
 
+        public string Acronym { get; set; }
+
         public static PlayerDto Create(Skater source) =>
             AutoMapper.Mapper.Map<PlayerDto>(source);
 
