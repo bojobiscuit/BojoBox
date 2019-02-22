@@ -53,7 +53,7 @@ namespace BojoBox.DatabaseConsole
             //http://simulationhockey.com/games/smjhl/S43/Season/SMJHL-ProTeamScoring.html
             //http://simulationhockey.com/games/smjhl/S43/Playoffs/SMJHL-PLF-ProTeamScoring.html
             //http://simulationhockey.com/games/iihf/S45/roundrobin/IIHF-ProTeamScoring.html
-            string urlTemplate = "http://simulationhockey.com/games/{leagueLow}/S{seasonNumber}/{seasonType}/{leagueUp}-{playoffAcro}ProTeamScoring.html";
+            //string urlTemplate = "http://simulationhockey.com/games/{leagueLow}/S{seasonNumber}/{seasonType}/{leagueUp}-{playoffAcro}ProTeamScoring.html";
 
             int lastSeason = 45;
 

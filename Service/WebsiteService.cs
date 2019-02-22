@@ -98,7 +98,7 @@ namespace BojoBox.Service
                 }
 
                 statTableDto.PlayerRows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(13));
-                AddRanks(statTableDto.PlayerRows);
+                AddRanks(statTableDto.PlayerRows, 1 + (cleanParameters.Page.Value * pageSize));
             }
 
             statTableDto.DisplayType = "season";
@@ -206,7 +206,7 @@ namespace BojoBox.Service
                 .ToList();
 
                 statTableDto.PlayerRows = statTableDto.PlayerRows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(13));
-                AddRanks(statTableDto.PlayerRows);
+                AddRanks(statTableDto.PlayerRows, 1 + (cleanParameters.Page.Value * pageSize));
             }
 
             statTableDto.DisplayType = "career";
@@ -368,7 +368,7 @@ namespace BojoBox.Service
                     rows.Add(row);
                 }
                 statTableDto.PlayerRows = rows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(4));
-                AddRanks(statTableDto.PlayerRows);
+                AddRanks(statTableDto.PlayerRows, 1 + (cleanParameters.Page.Value * pageSize));
             }
 
             statTableDto.DisplayType = "season";
@@ -455,7 +455,7 @@ namespace BojoBox.Service
                 .ToList();
 
                 statTableDto.PlayerRows = statTableDto.PlayerRows.OrderByDescending(a => a.Stats.ElementAt(cleanParameters.Col.Value)).ThenByDescending(a => a.Stats.ElementAt(4));
-                AddRanks(statTableDto.PlayerRows);
+                AddRanks(statTableDto.PlayerRows, 1 + (cleanParameters.Page.Value * pageSize));
             }
 
             statTableDto.DisplayType = "career";
@@ -863,9 +863,9 @@ namespace BojoBox.Service
                 .ToList();
         }
 
-        private static void AddRanks(IEnumerable<PlayerTableRow> rows)
+        private static void AddRanks(IEnumerable<PlayerTableRow> rows, int start)
         {
-            int i = 1;
+            int i = start;
             foreach (var row in rows)
                 row.Rank = i++;
         }
