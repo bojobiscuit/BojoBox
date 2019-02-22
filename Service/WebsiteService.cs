@@ -551,15 +551,16 @@ namespace BojoBox.Service
             {
                 List<PlayerDto> playerDtos = new List<PlayerDto>();
 
+                var skaterNulls = db.Skaters.Where(a => a.Name == null).ToList();
+                db.Skaters.RemoveRange(skaterNulls);
+
                 var skaters = db.Skaters
-                    .Where(a => a.Name.ToLowerInvariant()
-                    .Contains(search))
+                    .Where(a => a.Name != null && a.Name.ToLowerInvariant().Contains(search))
                     .Select(a => PlayerDto.Create(a))
                     .ToArray();
 
                 var goalies = db.Goalies
-                    .Where(a => a.Name.ToLowerInvariant()
-                    .Contains(search))
+                    .Where(a => a.Name != null && a.Name.ToLowerInvariant().Contains(search))
                     .Select(a => PlayerDto.Create(a))
                     .ToArray();
 

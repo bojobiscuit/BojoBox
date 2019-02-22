@@ -18,17 +18,65 @@ namespace BojoBox.DatabaseConsole
 
             //ResetDatabase();
 
-            //UploadSeason(new SeasonPack()
-            //{
-            //    isLegacy = false,
+            // UploadSeason(new SeasonPack()
+            // {
+            //    isLegacy = true,
             //    isPlayoffs = false,
-            //    leagueAcro = "IIHF",
-            //    number = 23
-            //});
+            //    leagueAcro = "SHL",
+            //    number = 8
+            // });
+
+            // MergeSkaters(1361, 486);
+
+            SplitSkater(619, 12, "I", "II");
+
+            // RenameSkater(619, "John Langabeer");
 
             Console.WriteLine("Press key to exit");
             Console.ReadKey();
             Console.WriteLine("Eat a diiiiiick");
+        }
+
+        private static void MergeSkaters(int idKeep, int idJoin)
+        {
+            Console.WriteLine("### Merging Skaters ###");
+            Console.WriteLine("Are you sure? (y)");
+
+            var key = Console.ReadKey();
+
+            if (key.KeyChar == 'y')
+            {
+                DatabaseHelper.MergePlayers(idKeep, idJoin);
+                Console.WriteLine("\nDone");
+            }
+        }
+
+        private static void SplitSkater(int skaterId, int lastSeason, string suffixA, string suffixB)
+        {
+            Console.WriteLine("### Splitting Skaters ###");
+            Console.WriteLine("Are you sure? (y)");
+
+            var key = Console.ReadKey();
+
+            if (key.KeyChar == 'y')
+            {
+                DatabaseHelper.SplitPlayer(skaterId, lastSeason, suffixA, suffixB);
+                Console.WriteLine("\nDone");
+            }
+        }
+
+        private static void RenameSkater(int skaterId, string name)
+        {
+            Console.WriteLine("### Renaming Skater ###");
+            Console.WriteLine("Are you sure? (y)");
+
+            var key = Console.ReadKey();
+
+            if (key.KeyChar == 'y')
+            {
+                DatabaseHelper.RenamePlayer(skaterId, name);
+                Console.WriteLine("\nDone");
+            }
         }
 
         private static void ResetDatabase()

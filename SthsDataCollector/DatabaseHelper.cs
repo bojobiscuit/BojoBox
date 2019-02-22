@@ -21,6 +21,66 @@ namespace BojoBox.SthsDataCollector
             }
         }
 
+        public static void MergePlayers(int skaterToKeepId, int skaterToJoinId)
+        {
+            using (var db = new BojoBoxContext())
+            {
+                var skaterKeep = db.Skaters.First(a => a.Id == skaterToKeepId);
+                var skaterJoin = db.Skaters.First(a => a.Id == skaterToJoinId);
+
+                var skaterKeepSeasons = db.SkaterSeasons.Where(a => a.SkaterId == skaterKeep.Id).ToList();
+                var skaterJoinSeasons = db.SkaterSeasons.Where(a => a.SkaterId == skaterJoin.Id).ToList();
+
+                var mergeSeasons = new List<SkaterSeason>();
+                mergeSeasons.AddRange(skaterKeepSeasons);
+                mergeSeasons.AddRange(skaterJoinSeasons);
+
+                foreach (var season in mergeSeasons)
+                {
+                    season.Skater = skaterKeep;
+                    season.SkaterId = skaterKeep.Id;
+                }
+
+                db.SaveChanges();
+
+                db.Skaters.Remove(skaterJoin);
+                db.SaveChanges();
+            }
+        }
+
+        public static void RenamePlayer(int skaterId, string name)
+        {
+            using (var db = new BojoBoxContext())
+            {
+                var skaterA = db.Skaters.First(a => a.Id == skaterId);
+                skaterA.Name = name;
+                db.SaveChanges();
+            }
+        }
+
+        public static void SplitPlayer(int skaterId, int firstPlayerLasstSeason, string suffixA, string suffixB)
+        {
+            using (var db = new BojoBoxContext())
+            {
+                var skaterA = db.Skaters.First(a => a.Id == skaterId);
+                var skaterName = skaterA.Name;
+
+                var skaterSeasonsA = db.SkaterSeasons.Where(a => a.SkaterId == skaterA.Id && a.Season <= firstPlayerLasstSeason).ToList();
+                var skaterSeasonsB = db.SkaterSeasons.Where(a => a.SkaterId == skaterA.Id && a.Season > firstPlayerLasstSeason).ToList();
+
+                skaterA.Name = skaterName + " " + suffixA;
+                skaterA.Seasons = skaterSeasonsA;
+
+                var skaterB = new Skater();
+                skaterB.Name = skaterName + " " + suffixB;
+                skaterB.Seasons = skaterSeasonsB;
+                skaterB.LeagueId = skaterA.LeagueId;
+                db.Skaters.Add(skaterB);
+
+                db.SaveChanges();
+            }
+        }
+
         private static void DeleteData(BojoBoxContext db)
         {
 
