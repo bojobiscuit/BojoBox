@@ -13,22 +13,26 @@ namespace BojoBox.DatabaseConsole
         static void Main(string[] args)
         {
             // Manually updating databases
-            //BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
+            BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            //BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
 
             //ResetDatabase();
 
-            // UploadSeason(new SeasonPack()
-            // {
+            //UploadData();
+
+            //RemoveExtraSkaters();
+
+            //UploadSeason(new SeasonPack()
+            //{
             //    isLegacy = true,
             //    isPlayoffs = false,
             //    leagueAcro = "SHL",
-            //    number = 8
-            // });
+            //    number = 4
+            //});
 
-            // MergeSkaters(1361, 486);
+            MergeSkaters(1360, 485);
 
-            SplitSkater(619, 12, "I", "II");
+            //SplitSkater(618, 25, "I", "II");
 
             // RenameSkater(619, "John Langabeer");
 
@@ -94,6 +98,13 @@ namespace BojoBox.DatabaseConsole
             }
         }
 
+        private static void RemoveExtraSkaters()
+        {
+            Console.WriteLine("### Removing extra players ###");
+            DatabaseHelper.RemoveExtraPlayers();
+            Console.WriteLine("\nDone");
+        }
+
         private static void UploadData()
         {
             //http://simulationhockey.com/games/shl/S28/Season/SHL-ProTeamScoring.html
@@ -110,24 +121,25 @@ namespace BojoBox.DatabaseConsole
             for (int i = 3; i <= lastSeason; i++)
                 seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = false, isLegacy = i <= 27 });
 
-            for (int i = 17; i <= lastSeason; i++)
-                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = true, isLegacy = i <= 22 });
+            //for (int i = 17; i <= lastSeason; i++)
+            //    seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = true, isLegacy = i <= 22 });
 
             for (int i = 15; i <= lastSeason; i++)
                 seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = false, isLegacy = i <= 22 });
 
-            for (int i = 17; i <= lastSeason; i++)
-                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = true, isLegacy = i <= 21 });
+            //for (int i = 17; i <= lastSeason; i++)
+            //    seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = true, isLegacy = i <= 21 });
 
-            for (int i = 22; i <= lastSeason; i++)
-                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = false, isLegacy = i <= 22 });
+            //for (int i = 22; i <= lastSeason; i++)
+            //    seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = false, isLegacy = i <= 22 });
 
-            for (int i = 22; i <= lastSeason; i++)
-                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = true, isLegacy = i <= 22 });
+            //for (int i = 22; i <= lastSeason; i++)
+            //    seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = true, isLegacy = i <= 22 });
 
             foreach (var season in seasonPacks)
             {
-                UploadSeason(season);
+                if (season.isLegacy)
+                    UploadSeason(season);
             }
         }
 

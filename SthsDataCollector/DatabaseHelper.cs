@@ -21,6 +21,16 @@ namespace BojoBox.SthsDataCollector
             }
         }
 
+        public static void RemoveExtraPlayers()
+        {
+            using (var db = new BojoBoxContext())
+            {
+                var skatersToRemove = db.Skaters.Include(a => a.Seasons).Where(a => !a.Seasons.Any()).ToList();
+                db.Skaters.RemoveRange(skatersToRemove);
+                db.SaveChanges();
+            }
+        }
+
         public static void MergePlayers(int skaterToKeepId, int skaterToJoinId)
         {
             using (var db = new BojoBoxContext())
