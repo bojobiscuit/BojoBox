@@ -30,7 +30,7 @@ namespace BojoBox.DatabaseConsole
             //    number = 4
             //});
 
-            MergeSkaters(1360, 485);
+            //MergeSkaters(1879, 3048);
 
             //SplitSkater(618, 25, "I", "II");
 
