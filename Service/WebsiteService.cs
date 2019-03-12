@@ -117,6 +117,9 @@ namespace BojoBox.Service
             {
                 LeagueDto leagueDto = GetLeague(cleanParameters.League.Value);
                 TeamDto teamDto = GetTeam(cleanParameters.Team.Value);
+                List<int> teamIds = null;
+                if (teamDto != null)
+                    teamIds = GetFranchiseTeamIds(teamDto.Id);
 
                 statTableDto.Teams = GetTeamParameters(leagueDto.Id);
 
@@ -126,7 +129,7 @@ namespace BojoBox.Service
 
                 if (teamDto != null)
                 {
-                    skaterCareerQuery = skaterCareerQuery.Where(a => a.TeamId == teamDto.Id);
+                    skaterCareerQuery = skaterCareerQuery.Where(a => a.TeamId.HasValue && teamIds.Contains(a.TeamId.Value));
                 }
                 else
                 {
@@ -155,7 +158,7 @@ namespace BojoBox.Service
                     .Where(a => a.isPlayoffs == isPlayoffs);
 
                 if (teamDto != null)
-                    skaterRows = skaterRows.Where(a => a.TeamId == teamDto.Id);
+                    skaterRows = skaterRows.Where(a => a.TeamId.HasValue && teamIds.Contains(a.TeamId.Value));
 
                 statTableDto.PlayerRows = skaterRows.GroupBy(a => a.Skater, b => b, (skater, rows) => new PlayerTableRow()
                 {
@@ -387,6 +390,9 @@ namespace BojoBox.Service
             {
                 LeagueDto leagueDto = GetLeague(cleanParameters.League.Value);
                 TeamDto teamDto = GetTeam(cleanParameters.Team.Value);
+                List<int> teamIds = null;
+                if (teamDto != null)
+                    teamIds = GetFranchiseTeamIds(teamDto.Id);
 
                 statTableDto.Teams = GetTeamParameters(leagueDto.Id);
 
@@ -396,7 +402,7 @@ namespace BojoBox.Service
 
                 if (teamDto != null)
                 {
-                    goalieCareerQuery = goalieCareerQuery.Where(a => a.TeamId == teamDto.Id);
+                    goalieCareerQuery = goalieCareerQuery.Where(a => a.TeamId.HasValue && teamIds.Contains(a.TeamId.Value));
                 }
                 else
                 {
@@ -424,7 +430,7 @@ namespace BojoBox.Service
                     .Where(a => a.isPlayoffs == isPlayoffs);
 
                 if (teamDto != null)
-                    goalieRows = goalieRows.Where(a => a.TeamId == teamDto.Id);
+                    goalieRows = goalieRows.Where(a => a.TeamId.HasValue && teamIds.Contains(a.TeamId.Value));
 
                 statTableDto.PlayerRows = goalieRows.GroupBy(a => a.Goalie, b => b, (skater, rows) => new PlayerTableRow()
                 {
@@ -579,6 +585,17 @@ namespace BojoBox.Service
             return results;
         }
 
+
+
+        private List<int> GetFranchiseTeamIds(int teamId)
+        {
+            var franchise = db.Franchises.Include(a => a.Teams).Where(a => a.CurrentTeamId == teamId).FirstOrDefault();
+            if (franchise == null)
+                throw new Exception("no franchise found");
+
+            var teamIds = franchise.Teams.Select(a => a.Id).ToList();
+            return teamIds;
+        }
 
         private static IQueryable<IdStatPair> GetIdStatPairs(int? columnIndex, IQueryable<SkaterSeason> skaterSeasonQuery)
         {

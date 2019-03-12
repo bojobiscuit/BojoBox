@@ -14,7 +14,7 @@ namespace BojoBox.DatabaseConsole
         {
             // Manually updating databases
             BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            //BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
+            // BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
 
             //ResetDatabase();
 
@@ -35,6 +35,10 @@ namespace BojoBox.DatabaseConsole
             //SplitSkater(618, 25, "I", "II");
 
             // RenameSkater(619, "John Langabeer");
+
+            ListTeamsInFranchise("SFP");
+
+            // AddTeamToFranchise("POR", "SFP");
 
             Console.WriteLine("Press key to exit");
             Console.ReadKey();
@@ -102,6 +106,21 @@ namespace BojoBox.DatabaseConsole
         {
             Console.WriteLine("### Removing extra players ###");
             DatabaseHelper.RemoveExtraPlayers();
+            Console.WriteLine("\nDone");
+        }
+
+        private static void ListTeamsInFranchise(string acronym)
+        {
+            Console.WriteLine("### Listing teams in franchise: " + acronym + " ###");
+            foreach (var team in DatabaseHelper.GetTeamsFromFranchise(acronym))
+                Console.WriteLine(team);
+            Console.WriteLine("\nDone");
+        }
+        private static void AddTeamToFranchise(string teamAcro, string franchiseAcro)
+        {
+            Console.WriteLine("### Adding team to franchise: " + teamAcro + " ###");
+            DatabaseHelper.AddTeamToFranchise(teamAcro, franchiseAcro);
+            ListTeamsInFranchise(franchiseAcro);
             Console.WriteLine("\nDone");
         }
 

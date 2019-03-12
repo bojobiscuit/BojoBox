@@ -21,6 +21,40 @@ namespace BojoBox.SthsDataCollector
             }
         }
 
+        public static IEnumerable<string> GetTeamsFromFranchise(string teamAcronym)
+        {
+            using (var db = new BojoBoxContext())
+            {
+                var franchise = db.Franchises.Include(a => a.CurrentTeam).Include(a => a.Teams)
+                    .FirstOrDefault(a => a.CurrentTeam.Acronym == teamAcronym);
+
+                if (franchise == null)
+                    return null;
+
+                return franchise.Teams.Select(a => a.Name);
+            }
+        }
+
+        public static void AddTeamToFranchise(string teamAcronym, string franchiseAcro)
+        {
+            using (var db = new BojoBoxContext())
+            {
+                var franchise = db.Franchises.Include(a => a.CurrentTeam).Include(a => a.Teams)
+                    .FirstOrDefault(a => a.CurrentTeam.Acronym == franchiseAcro);
+
+                var team = db.Teams.FirstOrDefault(a => a.Acronym == teamAcronym);
+
+                if (franchise == null || team == null)
+                    return;
+
+                var teams = franchise.Teams.ToList();
+                teams.Add(team);
+                franchise.Teams = teams;
+
+                db.SaveChanges();
+            }
+        }
+
         public static void RemoveExtraPlayers()
         {
             using (var db = new BojoBoxContext())
