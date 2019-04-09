@@ -13,8 +13,8 @@ namespace BojoBox.DatabaseConsole
         static void Main(string[] args)
         {
             // Manually updating databases
-            BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-            // BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
+            //BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            //BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
 
             //ResetDatabase();
 
@@ -22,21 +22,19 @@ namespace BojoBox.DatabaseConsole
 
             //RemoveExtraSkaters();
 
-            //UploadSeason(new SeasonPack()
-            //{
-            //    isLegacy = true,
-            //    isPlayoffs = false,
-            //    leagueAcro = "SHL",
-            //    number = 4
-            //});
+            //int seasonNumber = 46;
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = true });
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
 
-            //MergeSkaters(1879, 3048);
+            //MergeSkaters(3047, 1804);
 
             //SplitSkater(618, 25, "I", "II");
 
             // RenameSkater(619, "John Langabeer");
 
-            ListTeamsInFranchise("SFP");
+            //ListTeamsInFranchise("SFP");
 
             // AddTeamToFranchise("POR", "SFP");
 
