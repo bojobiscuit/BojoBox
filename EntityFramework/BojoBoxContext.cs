@@ -17,6 +17,7 @@ namespace BojoBox.EntityFramework
             // Manually updating databases
             //ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             // ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
+            ConnectionString = "Server=209.182.219.138,1433;Initial Catalog=startnetdb;User ID=sa;Password=Passw0rd123;Connection Timeout=30;";
 
             optionsBuilder.UseSqlServer(ConnectionString);
         }

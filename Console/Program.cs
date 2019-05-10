@@ -15,15 +15,16 @@ namespace BojoBox.DatabaseConsole
             // Manually updating databases
             //BojoBoxContext.ConnectionString = "Server=tcp:bojoboxdbserver.database.windows.net,1433;Initial Catalog=BojoBoxDb;Persist Security Info=False;User ID=bojobiscuit;Password=omgCAT123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
             //BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
+            BojoBoxContext.ConnectionString = "Server=209.182.219.138,1433;Initial Catalog=startnetdb;User ID=sa;Password=Passw0rd123;Connection Timeout=30;";
 
-            //ResetDatabase();
+            // ResetDatabase();
 
             //UploadData();
 
             //RemoveExtraSkaters();
 
-            //int seasonNumber = 46;
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
+            int seasonNumber = 46;
+            UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
             //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = true });
             //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
             //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
@@ -95,7 +96,7 @@ namespace BojoBox.DatabaseConsole
             if (key.KeyChar == 'y')
             {
                 DatabaseHelper.ResetDatabase();
-                UploadData();
+                // UploadData();
                 Console.WriteLine("\nDone");
             }
         }
