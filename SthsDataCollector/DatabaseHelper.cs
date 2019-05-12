@@ -92,6 +92,48 @@ namespace BojoBox.SthsDataCollector
             }
         }
 
+        public static void MergeTeams(int idKeep, int[] idsjoin)
+        {
+            using (var db = new BojoBoxContext())
+            {
+                var teamKeep = db.Teams.First(a => a.Id == idKeep);
+                var teamsJoin = db.Teams.Where(a => idsjoin.Contains(a.Id));
+
+                if (teamKeep == null || teamsJoin.Count() != idsjoin.Count())
+                    throw new Exception("Team not found");
+
+                var teamKeepSeasons = db.SkaterSeasons.Where(a => a.TeamId == teamKeep.Id).ToList();
+                var teamJoinSeasons = db.SkaterSeasons.Where(a => a.TeamId.HasValue && idsjoin.Contains(a.TeamId.Value)).ToList();
+                var teamKeepSeasonsGoalies = db.GoalieSeasons.Where(a => a.TeamId == teamKeep.Id).ToList();
+                var teamJoinSeasonsGoalies = db.GoalieSeasons.Where(a => a.TeamId.HasValue && idsjoin.Contains(a.TeamId.Value)).ToList();
+
+                var mergeSeasons = new List<SkaterSeason>();
+                mergeSeasons.AddRange(teamKeepSeasons);
+                mergeSeasons.AddRange(teamJoinSeasons);
+                foreach (var season in mergeSeasons)
+                {
+                    season.Team = teamKeep;
+                    season.TeamId = teamKeep.Id;
+                }
+
+                var mergeSeasonsGoalies = new List<GoalieSeason>();
+                mergeSeasonsGoalies.AddRange(teamKeepSeasonsGoalies);
+                mergeSeasonsGoalies.AddRange(teamJoinSeasonsGoalies);
+                foreach (var season in mergeSeasonsGoalies)
+                {
+                    season.Team = teamKeep;
+                    season.TeamId = teamKeep.Id;
+                }
+
+                db.SaveChanges();
+
+                foreach (var team in teamsJoin)
+                    db.Teams.Remove(team);
+
+                db.SaveChanges();
+            }
+        }
+
         public static void RenamePlayer(int skaterId, string name)
         {
             using (var db = new BojoBoxContext())
@@ -127,7 +169,6 @@ namespace BojoBox.SthsDataCollector
 
         private static void DeleteData(BojoBoxContext db)
         {
-
             db.SkaterSeasons.RemoveRange(db.SkaterSeasons);
             db.GoalieSeasons.RemoveRange(db.GoalieSeasons);
             db.Goalies.RemoveRange(db.Goalies);

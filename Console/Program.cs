@@ -17,21 +17,21 @@ namespace BojoBox.DatabaseConsole
             //BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
             BojoBoxContext.ConnectionString = "Server=209.182.219.138,1433;Initial Catalog=startnetdb;User ID=sa;Password=Passw0rd123;Connection Timeout=30;";
 
-            // ResetDatabase();
+            ResetDatabase();
 
-            //UploadData();
+            UploadData();
 
             //RemoveExtraSkaters();
 
-            int seasonNumber = 46;
-            UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
+            // int seasonNumber = 46;
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
             //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = true });
             //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
             //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
 
-            //MergeSkaters(3047, 1804);
+            // MergeSkaters(1239, 642);
 
-            //SplitSkater(618, 25, "I", "II");
+            // SplitSkater(737, 25, "I", "II");
 
             // RenameSkater(619, "John Langabeer");
 
@@ -39,9 +39,25 @@ namespace BojoBox.DatabaseConsole
 
             // AddTeamToFranchise("POR", "SFP");
 
+            // MergeTeams(109, 110,11,112,113,114,115,116,117);
+
             Console.WriteLine("Press key to exit");
             Console.ReadKey();
             Console.WriteLine("Eat a diiiiiick");
+        }
+
+        private static void MergeTeams(int idKeep, params int[] idsjoin)
+        {
+            Console.WriteLine("### Merging Teams ###");
+            Console.WriteLine("Are you sure? (y)");
+
+            var key = Console.ReadKey();
+
+            if (key.KeyChar == 'y')
+            {
+                DatabaseHelper.MergeTeams(idKeep, idsjoin);
+                Console.WriteLine("\nDone");
+            }            
         }
 
         private static void MergeSkaters(int idKeep, int idJoin)
@@ -132,31 +148,31 @@ namespace BojoBox.DatabaseConsole
             //http://simulationhockey.com/games/iihf/S45/roundrobin/IIHF-ProTeamScoring.html
             //string urlTemplate = "http://simulationhockey.com/games/{leagueLow}/S{seasonNumber}/{seasonType}/{leagueUp}-{playoffAcro}ProTeamScoring.html";
 
-            int lastSeason = 45;
+            int lastSeason = 47;
 
             List<SeasonPack> seasonPacks = new List<SeasonPack>();
 
             for (int i = 3; i <= lastSeason; i++)
                 seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = false, isLegacy = i <= 27 });
 
-            //for (int i = 17; i <= lastSeason; i++)
-            //    seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = true, isLegacy = i <= 22 });
+            for (int i = 17; i <= lastSeason; i++)
+               seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = true, isLegacy = i <= 22 });
 
             for (int i = 15; i <= lastSeason; i++)
                 seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = false, isLegacy = i <= 22 });
 
-            //for (int i = 17; i <= lastSeason; i++)
-            //    seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = true, isLegacy = i <= 21 });
+            for (int i = 17; i <= lastSeason; i++)
+               seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = true, isLegacy = i <= 21 });
 
-            //for (int i = 22; i <= lastSeason; i++)
-            //    seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = false, isLegacy = i <= 22 });
+            for (int i = 22; i <= lastSeason; i++)
+               seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = false, isLegacy = i <= 22 });
 
-            //for (int i = 22; i <= lastSeason; i++)
-            //    seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = true, isLegacy = i <= 22 });
+            for (int i = 22; i <= lastSeason; i++)
+               seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = true, isLegacy = i <= 22 });
 
             foreach (var season in seasonPacks)
             {
-                if (season.isLegacy)
+                // if (!season.isLegacy)
                     UploadSeason(season);
             }
         }

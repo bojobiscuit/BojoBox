@@ -63,9 +63,8 @@ namespace BojoBox.SthsDataCollector
         {
             foreach (var team in season.Teams)
             {
-                var dbTeam = db.Teams.Include(a => a.Franchise)
-                                        .Where(a => a.Franchise.LeagueId == league.Id)
-                                        .FirstOrDefault(a => a.Acronym == team.Acronym);
+                var dbTeam = db.Teams
+                    .FirstOrDefault(a => a.Name == team.Name && a.Acronym == team.Acronym);
 
                 if (dbTeam == null)
                 {
