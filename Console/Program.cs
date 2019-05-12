@@ -17,9 +17,9 @@ namespace BojoBox.DatabaseConsole
             //BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
             BojoBoxContext.ConnectionString = "Server=209.182.219.138,1433;Initial Catalog=startnetdb;User ID=sa;Password=Passw0rd123;Connection Timeout=30;";
 
-            ResetDatabase();
+            // ResetDatabase();
 
-            UploadData();
+            // UploadData();
 
             //RemoveExtraSkaters();
 
@@ -29,17 +29,50 @@ namespace BojoBox.DatabaseConsole
             //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
             //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
 
-            // MergeSkaters(1239, 642);
+            // MergeSkaters(942, 343);
 
-            // SplitSkater(737, 25, "I", "II");
+            // SplitSkater(441, 26, "I", "II");
 
             // RenameSkater(619, "John Langabeer");
 
             //ListTeamsInFranchise("SFP");
 
-            // AddTeamToFranchise("POR", "SFP");
+            // // NEW
+            // AddTeamToFranchise(41, 12);
 
-            // MergeTeams(109, 110,11,112,113,114,115,116,117);
+            // // TBB
+            // AddTeamToFranchise(37, 5);
+            // AddTeamToFranchise(39, 5);
+            // AddTeamToFranchise(40, 5);
+            // AddTeamToFranchise(44, 5);
+            SetFranchiseTeam(5, 44);
+
+            // // EDM
+            // AddTeamToFranchise(38, 3);
+
+            // // SFP
+            // AddTeamToFranchise(42, 8);
+
+            // // CHI, NOR
+            // AddFranchise(43, 1);
+            // AddFranchise(45, 1);
+
+            // // MTL, ANC, COL
+            // AddTeamToFranchise(48, 17);
+            // AddTeamToFranchise(46, 24);
+            // AddTeamToFranchise(49, 24);
+            // AddTeamToFranchise(51, 23);            
+
+            // // STL
+            // MergeTeams(50, 19, 47);
+            // SetFranchiseTeam(19, 50);
+
+            // // Japan, Switzerland
+            // AddFranchise(52, 3);
+            // AddFranchise(53, 3);
+
+            // // CZE
+            // MergeTeams(28, 54);
 
             Console.WriteLine("Press key to exit");
             Console.ReadKey();
@@ -57,7 +90,21 @@ namespace BojoBox.DatabaseConsole
             {
                 DatabaseHelper.MergeTeams(idKeep, idsjoin);
                 Console.WriteLine("\nDone");
-            }            
+            }
+        }
+
+        private static void SetFranchiseTeam(int franchiseId, int teamId)
+        {
+            Console.WriteLine("### Setting Franchise Team ###");
+            Console.WriteLine("Are you sure? (y)");
+
+            var key = Console.ReadKey();
+
+            if (key.KeyChar == 'y')
+            {
+                DatabaseHelper.SetFranchiseTeam(franchiseId, teamId);
+                Console.WriteLine("\nDone");
+            }
         }
 
         private static void MergeSkaters(int idKeep, int idJoin)
@@ -102,6 +149,20 @@ namespace BojoBox.DatabaseConsole
             }
         }
 
+        private static void AddFranchise(int currentTeamId, int leagueId)
+        {
+            Console.WriteLine("### Adding Franchise ###");
+            Console.WriteLine("Are you sure? (y)");
+
+            var key = Console.ReadKey();
+
+            if (key.KeyChar == 'y')
+            {
+                DatabaseHelper.AddFranchise(currentTeamId, leagueId);
+                Console.WriteLine("\nDone");
+            }
+        }
+
         private static void ResetDatabase()
         {
             Console.WriteLine("### Resetting Database ###");
@@ -124,18 +185,18 @@ namespace BojoBox.DatabaseConsole
             Console.WriteLine("\nDone");
         }
 
-        private static void ListTeamsInFranchise(string acronym)
+        private static void ListTeamsInFranchise(int franchiseId)
         {
-            Console.WriteLine("### Listing teams in franchise: " + acronym + " ###");
-            foreach (var team in DatabaseHelper.GetTeamsFromFranchise(acronym))
+            Console.WriteLine("### Listing teams in franchise: " + franchiseId + " ###");
+            foreach (var team in DatabaseHelper.GetTeamsFromFranchise(franchiseId))
                 Console.WriteLine(team);
             Console.WriteLine("\nDone");
         }
-        private static void AddTeamToFranchise(string teamAcro, string franchiseAcro)
+        private static void AddTeamToFranchise(int teamId, int franchiseId)
         {
-            Console.WriteLine("### Adding team to franchise: " + teamAcro + " ###");
-            DatabaseHelper.AddTeamToFranchise(teamAcro, franchiseAcro);
-            ListTeamsInFranchise(franchiseAcro);
+            Console.WriteLine("### Adding team to franchise: " + teamId + " ###");
+            DatabaseHelper.AddTeamToFranchise(teamId, franchiseId);
+            ListTeamsInFranchise(franchiseId);
             Console.WriteLine("\nDone");
         }
 
@@ -156,24 +217,24 @@ namespace BojoBox.DatabaseConsole
                 seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = false, isLegacy = i <= 27 });
 
             for (int i = 17; i <= lastSeason; i++)
-               seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = true, isLegacy = i <= 22 });
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SHL", isPlayoffs = true, isLegacy = i <= 22 });
 
             for (int i = 15; i <= lastSeason; i++)
                 seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = false, isLegacy = i <= 22 });
 
             for (int i = 17; i <= lastSeason; i++)
-               seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = true, isLegacy = i <= 21 });
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "SMJHL", isPlayoffs = true, isLegacy = i <= 21 });
 
             for (int i = 22; i <= lastSeason; i++)
-               seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = false, isLegacy = i <= 22 });
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = false, isLegacy = i <= 22 });
 
             for (int i = 22; i <= lastSeason; i++)
-               seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = true, isLegacy = i <= 22 });
+                seasonPacks.Add(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = true, isLegacy = i <= 22 });
 
             foreach (var season in seasonPacks)
             {
                 // if (!season.isLegacy)
-                    UploadSeason(season);
+                UploadSeason(season);
             }
         }
 

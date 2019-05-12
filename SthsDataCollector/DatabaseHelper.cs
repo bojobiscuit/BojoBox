@@ -21,12 +21,13 @@ namespace BojoBox.SthsDataCollector
             }
         }
 
-        public static IEnumerable<string> GetTeamsFromFranchise(string teamAcronym)
+        public static IEnumerable<string> GetTeamsFromFranchise(int franchiseId)
         {
             using (var db = new BojoBoxContext())
             {
-                var franchise = db.Franchises.Include(a => a.CurrentTeam).Include(a => a.Teams)
-                    .FirstOrDefault(a => a.CurrentTeam.Acronym == teamAcronym);
+                var franchise = db.Franchises
+                    .Include(a => a.Teams)
+                    .FirstOrDefault(a => a.Id == franchiseId);
 
                 if (franchise == null)
                     return null;
@@ -35,14 +36,12 @@ namespace BojoBox.SthsDataCollector
             }
         }
 
-        public static void AddTeamToFranchise(string teamAcronym, string franchiseAcro)
+        public static void AddTeamToFranchise(int teamId, int franchiseId)
         {
             using (var db = new BojoBoxContext())
             {
-                var franchise = db.Franchises.Include(a => a.CurrentTeam).Include(a => a.Teams)
-                    .FirstOrDefault(a => a.CurrentTeam.Acronym == franchiseAcro);
-
-                var team = db.Teams.FirstOrDefault(a => a.Acronym == teamAcronym);
+                var team = db.Teams.FirstOrDefault(a => a.Id == teamId);
+                var franchise = db.Franchises.Include(a => a.Teams).FirstOrDefault(a => a.Id == franchiseId);
 
                 if (franchise == null || team == null)
                     return;
@@ -52,6 +51,48 @@ namespace BojoBox.SthsDataCollector
                 franchise.Teams = teams;
 
                 db.SaveChanges();
+            }
+        }
+
+        public static void AddFranchise(int currentTeamId, int leagueId)
+        {
+            using (var db = new BojoBoxContext())
+            {
+                var team = db.Teams.FirstOrDefault(a => a.Id == currentTeamId);
+
+                if (team == null)
+                    throw new Exception("No team found");
+
+                Franchise franchise = new Franchise()
+                {
+                    CurrentTeam = team,
+                    CurrentTeamId = currentTeamId,
+                    LeagueId = leagueId
+                };
+
+                var teams = new List<Team>();
+                teams.Add(team);
+                franchise.Teams = teams;
+
+                db.Franchises.Add(franchise);
+                db.SaveChanges();
+            }
+        }
+
+        public static void SetFranchiseTeam(int franchiseId, int currentTeamId)
+        {
+            using (var db = new BojoBoxContext())
+            {
+                var team = db.Teams.FirstOrDefault(a => a.Id == currentTeamId);
+                var franchise = db.Franchises.FirstOrDefault(a => a.Id == franchiseId);
+
+                if (team == null || franchise == null)
+                    throw new Exception("No team/franchise found");
+
+                franchise.CurrentTeamId = team.Id;
+                db.SaveChanges();
+
+                AddTeamToFranchise(currentTeamId, franchiseId);
             }
         }
 
