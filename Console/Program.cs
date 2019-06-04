@@ -23,13 +23,13 @@ namespace BojoBox.DatabaseConsole
 
             //RemoveExtraSkaters();
 
-            // int seasonNumber = 46;
+            // int seasonNumber = 47;
             // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = true });
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = true });
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
 
-            // MergeSkaters(942, 343);
+            // MergeSkaters(944, 1540);
 
             // SplitSkater(441, 26, "I", "II");
 
@@ -45,7 +45,7 @@ namespace BojoBox.DatabaseConsole
             // AddTeamToFranchise(39, 5);
             // AddTeamToFranchise(40, 5);
             // AddTeamToFranchise(44, 5);
-            SetFranchiseTeam(5, 44);
+            // SetFranchiseTeam(5, 44);
 
             // // EDM
             // AddTeamToFranchise(38, 3);
