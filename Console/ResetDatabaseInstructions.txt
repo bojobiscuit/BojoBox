@@ -1,15 +1,15 @@
-New England Wolfpack
-- Hartford Hydras
-
 Tampa Bay Barracuda
 - Vancouver Ice Wolves
 - Vancouver Nightmare
 - Las Vegas Kings
 - Seattle Riot
 
-Add New Orleans Spectors
+New England Wolfpack
+- Hartford Hydras
 
-Add Chicago Syndicate
+Add Franchises
+- Add New Orleans Spectors
+- Add Chicago Syndicate
 
 Montreal Militia
 - Montreal Impact
@@ -21,18 +21,34 @@ Anchorage Armada
 Colorado Raptors
 - Colorado Mammoths
 
-Merge STL variations
+Edmonton Blizzard
+- Edmonton Comets
 
-Add Japan
+San Francisco Pride
+- Portland Admirals
 
-Add Switzerland
+St. Louis Scarecrows
+- Merge variations
+- Set Remaining as Franchise
 
-Merge CZE variations
+Add Franchises
+- Japan
+- Switzerland
 
+Czech
+- Merge variations
 
-Split John Langabeer
+Halifax
+- Merge variations
 
-Merge Jordan Hall into Taylor McDavid
-Merge Oliver Konig
-Merge Oliver Clearly
-Merge Big Manious
+Great Britain
+- Merge with UK
+
+Players
+- Split John Langabeer
+- Merge Jordan Hall into Taylor McDavid
+- Merge Oliver Konig
+- Merge Oliver Clearly
+- Merge Big Manius and Rename
+
+Check SMJHL s47 season

@@ -17,62 +17,84 @@ namespace BojoBox.DatabaseConsole
             //BojoBoxContext.ConnectionString = "Data Source=localhost;Database=bojoboxdb;Initial Catalog=bojoboxdb;User ID=sa;Password=Passw0rd123;";
             BojoBoxContext.ConnectionString = "Server=209.182.219.138,1433;Initial Catalog=startnetdb;User ID=sa;Password=Passw0rd123;Connection Timeout=30;";
 
-            // ResetDatabase();
-
-            // UploadData();
-
+            //ResetDatabase();
+            //UploadData();
             //RemoveExtraSkaters();
 
-            // int seasonNumber = 47;
-            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
-            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = true });
-            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
-            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
+            int seasonNumber = 47;
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = true });            
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "IIHF", isPlayoffs = false }); 
+            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "IIHF", isPlayoffs = true });
 
-            // MergeSkaters(944, 1540);
 
-            // SplitSkater(441, 26, "I", "II");
+            // TBB
+            //AddTeamToFranchise(37, 5);
+            //AddTeamToFranchise(39, 5);
+            //AddTeamToFranchise(40, 5);
+            //AddTeamToFranchise(44, 5);
+            //SetFranchiseTeam(5, 44);
 
-            // RenameSkater(619, "John Langabeer");
+            // NEW
+            //AddTeamToFranchise(41, 12);
 
-            //ListTeamsInFranchise("SFP");
+            // CHI, NOR
+            //AddFranchise(43, 1);
+            //AddFranchise(45, 1);
 
-            // // NEW
-            // AddTeamToFranchise(41, 12);
+            // MTL
+            //AddTeamToFranchise(48, 22);
 
-            // // TBB
-            // AddTeamToFranchise(37, 5);
-            // AddTeamToFranchise(39, 5);
-            // AddTeamToFranchise(40, 5);
-            // AddTeamToFranchise(44, 5);
-            // SetFranchiseTeam(5, 44);
+            // ANC
+            //AddTeamToFranchise(46, 15);
+            //AddTeamToFranchise(49, 15);
 
-            // // EDM
-            // AddTeamToFranchise(38, 3);
+            // COL
+            //AddTeamToFranchise(51, 16);
 
-            // // SFP
-            // AddTeamToFranchise(42, 8);
+            // EDM
+            //AddTeamToFranchise(38, 3);
 
-            // // CHI, NOR
-            // AddFranchise(43, 1);
-            // AddFranchise(45, 1);
+            // SFP
+            //AddTeamToFranchise(42, 8);
 
-            // // MTL, ANC, COL
-            // AddTeamToFranchise(48, 17);
-            // AddTeamToFranchise(46, 24);
-            // AddTeamToFranchise(49, 24);
-            // AddTeamToFranchise(51, 23);            
+            // STL
+            //MergeTeams(50, 20, 47);
+            //SetFranchiseTeam(20, 50);
 
-            // // STL
-            // MergeTeams(50, 19, 47);
-            // SetFranchiseTeam(19, 50);
+            // Japan, Switzerland
+            //AddFranchise(53, 3);
+            //AddFranchise(54, 3);
 
-            // // Japan, Switzerland
-            // AddFranchise(52, 3);
-            // AddFranchise(53, 3);
+            // CZE
+            //MergeTeams(33, 55);
 
-            // // CZE
-            // MergeTeams(28, 54);
+            // Halifax
+            //MergeTeams(52, 16);
+            //SetFranchiseTeam(18, 52);
+
+            // Great Britain
+            //MergeTeams(56, 27);
+            //SetFranchiseTeam(27, 56);
+
+            // John Langabeer
+            //SplitSkater(440, 26, "I", "II");
+
+            // Merge Jordan Hall -> Taylor McDavid
+            //MergeSkaters(941, 342);
+
+            // Merge Oliver Konig
+            //MergeSkaters(1638, 1385);
+
+            // Merge Oliver Cleary
+            //MergeSkaters(1746, 2744);
+
+            // Merge Big Manious
+            //MergeSkaters(943, 1539);
+            //RenameSkater(943, "Big Manius");
+
 
             Console.WriteLine("Press key to exit");
             Console.ReadKey();
@@ -209,7 +231,7 @@ namespace BojoBox.DatabaseConsole
             //http://simulationhockey.com/games/iihf/S45/roundrobin/IIHF-ProTeamScoring.html
             //string urlTemplate = "http://simulationhockey.com/games/{leagueLow}/S{seasonNumber}/{seasonType}/{leagueUp}-{playoffAcro}ProTeamScoring.html";
 
-            int lastSeason = 47;
+            int lastSeason = 48;
 
             List<SeasonPack> seasonPacks = new List<SeasonPack>();
 
@@ -262,7 +284,10 @@ namespace BojoBox.DatabaseConsole
                 {
                     Console.Write("Downloading - ");
                     var loader = new FileLoader(seasonData);
-                    var document = loader.DownloadFile(urlTemplate, false);
+
+                    var document = loader.LoadFile();
+                    if (document == null)
+                        document = loader.DownloadFile(urlTemplate, false);
 
                     Console.Write("Extracting - ");
                     var extractor = new Extractor(seasonData);

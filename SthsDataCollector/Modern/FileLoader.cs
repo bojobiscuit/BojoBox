@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq;
 using System.IO;
 using BojoBox.SthsDataCollector.Model;
+using System.Runtime.InteropServices;
 
 namespace BojoBox.SthsDataCollector.Modern
 {
@@ -13,6 +14,38 @@ namespace BojoBox.SthsDataCollector.Modern
         public FileLoader(SeasonData season)
         {
             this.season = season;
+        }
+
+        public HtmlDocument LoadFile()
+        {
+            HtmlDocument htmlDocument;
+
+            var nameFormat = (season.IsPlayoffs) ?
+                "{1} - PLF - Pro Team Scoring {0}.html" :
+                "{1} - Pro Team Scoring {0}.html";
+
+            var folderName = @"LegacyFiles";
+
+            string seasonNumberText = (season.SeasonNumber < 10 ? "0" : "") + season.SeasonNumber.ToString();
+            string fileName = string.Format(nameFormat, seasonNumberText, season.LeagueAcronym);
+
+            string directory = Path.Combine(Environment.CurrentDirectory, folderName);
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                directory = Path.Combine(Environment.CurrentDirectory, "bin/debug/netcoreapp2.2", folderName);
+
+            string filePath = Path.Combine(directory, fileName);
+
+            Directory.CreateDirectory(directory);
+            if (!File.Exists(filePath))
+            {
+                return null;
+            }
+
+            htmlDocument = new HtmlDocument();
+            htmlDocument.Load(filePath);
+
+            return htmlDocument;
         }
 
         public HtmlDocument DownloadFile(string urlTemplate, bool isLegacy)
