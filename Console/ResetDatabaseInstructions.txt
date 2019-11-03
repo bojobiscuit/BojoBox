@@ -1,3 +1,8 @@
+TODO
+- Missing IIHF Seasons
+
+---------------
+
 Tampa Bay Barracuda
 - Vancouver Ice Wolves
 - Vancouver Nightmare
@@ -50,5 +55,6 @@ Players
 - Merge Oliver Konig
 - Merge Oliver Clearly
 - Merge Big Manius and Rename
+- Split Willy Mack
 
 Check SMJHL s47 season
