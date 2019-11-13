@@ -21,13 +21,13 @@ namespace BojoBox.DatabaseConsole
             //UploadData();
             //RemoveExtraSkaters();
 
-            //int seasonNumber = 49;
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = true });
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "IIHF", isPlayoffs = false });
-            //UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "IIHF", isPlayoffs = true });
+            int seasonNumber = 50;
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = false });
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SHL", isPlayoffs = true });
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = false });
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "SMJHL", isPlayoffs = true });
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "IIHF", isPlayoffs = false });
+            // UploadSeason(new SeasonPack() { number = seasonNumber, leagueAcro = "IIHF", isPlayoffs = true });
 
             //for (int i = 23; i <= 36; i++)
             //    UploadSeason(new SeasonPack() { number = i, leagueAcro = "IIHF", isPlayoffs = true });
@@ -108,10 +108,10 @@ namespace BojoBox.DatabaseConsole
             //MergeSkaters(1658, 1460);
 
             // Isak Odgard
-            MergeSkaters(1680, 1371);
+            // MergeSkaters(1680, 1371);
 
             // Nathan Russell
-            MergeSkaters(840, 800);
+            // MergeSkaters(840, 800);
 
 
             Console.WriteLine("Press key to exit");
